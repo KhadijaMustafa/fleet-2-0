@@ -20,22 +20,24 @@ class _FileAttachmentState extends State<FileAttachment> {
       appBar: AppBar(
         backgroundColor: MyColors.yellow,
       ),
-      body: Container(
-          child: Column(
-        children: [
-          Center(
-            child: Container(
-              height: height - 200,
-              width: width - 100,
-              margin: EdgeInsets.symmetric(vertical: 100),
-              child: Image.network(
-                'https://fleet.xtremessoft.com/UploadFile/' + '${widget.image}',
-                fit: BoxFit.contain,
+      body: SingleChildScrollView(
+        child: Container(
+            child: Column(
+          children: [
+            Center(
+              child: Container(
+                height: height - 200,
+                width: width - 100,
+                margin: EdgeInsets.symmetric(vertical: 100),
+                child: Image.network(
+                  'https://fleet.xtremessoft.com/UploadFile/' + '${widget.image}',
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-          )
-        ],
-      )),
+            )
+          ],
+        )),
+      ),
     );
   }
 }

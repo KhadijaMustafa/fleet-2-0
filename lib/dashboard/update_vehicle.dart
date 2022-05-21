@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class UpdateVehicle extends StatefulWidget {
   final item;
   final String? driver;
-  UpdateVehicle({Key? key, this.item,this.driver}) : super(key: key);
+  UpdateVehicle({Key? key, this.item, this.driver}) : super(key: key);
 
   @override
   State<UpdateVehicle> createState() => _UpdateVehicleState();
@@ -29,8 +29,49 @@ class _UpdateVehicleState extends State<UpdateVehicle> {
   List vehicltypelist = [];
   List driverlist = [];
   List vehicleList = [];
-
+  List valuesList = [];
+var valuesLists;
+var platenumberr;
+var vehicletypee;
+var vehiclesupplierr;
+var driverr;
   OneContext _context = OneContext.instance;
+  getValue() async {
+    try {
+      var response = await http.post(
+          Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            "type": "Vehicle_GetById",
+            "value": {
+              "Language": "en-US",
+              "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
+            }
+          }));
+
+      var decode = json.decode(response.body);
+      print('Successssssssssssssss');
+      print(decode['Value']);
+      print(response.body);
+      valuesLists = json.decode(decode['Value']);
+      // driver = json.decode(decode['Value']['employeeName']);
+      // vehicletype = json.decode(decode['Value']['vehicleSupplierNameEng']);
+      print('//////////////////////////////////');
+       print(valuesLists);
+      // print(vehicletype);
+       print('//////////////////////////////////');
+
+      return valuesLists;
+    } catch (e) {
+      print(e);
+    }
+  }
+  getValueList() async{
+valuesList=await getValue();
+  }
+
+
+
   getDropDownValues(String valueType) async {
     try {
       var response = await http.post(
@@ -40,6 +81,7 @@ class _UpdateVehicleState extends State<UpdateVehicle> {
             "type": "$valueType",
             "value": {"Language": "en-US"}
           }));
+
       print(response.body);
       print(response.statusCode);
 
@@ -66,9 +108,6 @@ class _UpdateVehicleState extends State<UpdateVehicle> {
 
   updateVeh() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    
-
-    
 
     print('starttttt..................');
     if (platenumber.text.isEmpty) {
@@ -133,28 +172,33 @@ class _UpdateVehicleState extends State<UpdateVehicle> {
   @override
   void initState() {
     getListCall();
-    platenumber.text = widget.item['platNumber'];
-    // vehiclesupplier={'value':widget.item['vehicleSupplierId']};
+  // getValue();
+   print('////////////////////////employeeid');
+   
+    
 
-    vehiclesupplier = {
-      'value': widget.item['vehicleSupplierId'],
-      'text': widget.item['vehicleSupplierName']
-    };
-    vehicletype = {
-      'value': widget.item['setupVehicleTypeId'],
-      'text': widget.item['vehicleTypeName']
-    };
-    // driver=widget.item['employeeName'];
-    driver = {
-      'value': widget.item['id'],
-      'text': widget.item['employeeName']
-    };
-    print('////////////////////////employeeid');
+   // platenumber.text =;
+    // vehiclesupplier = vehiclesupplierr;
 
-    print({
-      'value': widget.item['id'],
-      'text': widget.item['employeeName']
-    });
+    // vehiclesupplier = {
+    //   'value': valuesLists['vehicleSupplierId'],
+    //   'text': valuesLists['vehicleSupplierName']
+    // };
+    // vehicletype =  {
+    //   'value': valuesLists['setupVehicleTypeId'],
+    //   'text': valuesLists['vehicleTypeName']
+    // };
+    // // driver=widget.item['employeeName'];
+    // driver =  {
+    //   'value': valuesLists['employeeId'],
+    //   'text': valuesLists['employeeName']
+    // };
+   
+
+    // print({
+    //   'value': valuesLists['vehicleSupplierId'],
+    //   'text': valuesLists['vehicleSupplierName']
+    // });
 
     super.initState();
   }
@@ -184,7 +228,7 @@ class _UpdateVehicleState extends State<UpdateVehicle> {
               pltnumber ? validationCont() : Container(),
               dropdownComp(
                   vehiclesupplier == null
-                      ? "--select--"
+                      ? "Vehicle Supplier Name"
                       : vehiclesupplier["text"],
                   suppliername ? Colors.red : Colors.black, onchanged: (value) {
                 setState(() {
@@ -195,7 +239,7 @@ class _UpdateVehicleState extends State<UpdateVehicle> {
               }, list: supplierList, dropdowntext: "text"),
               suppliername ? validationCont() : Container(),
               dropdownComp(
-                  vehicletype == null ? "--select--" : vehicletype["text"],
+                  vehicletype == null ? "Vehicle Type" : vehicletype["text"],
                   vehicle ? Colors.red : Colors.black, onchanged: (value) {
                 setState(() {
                   vehicletype = value;
@@ -205,7 +249,7 @@ class _UpdateVehicleState extends State<UpdateVehicle> {
                 });
               }, list: vehicltypelist, dropdowntext: "text"),
               vehicle ? validationCont() : Container(),
-              dropdownComp(driver == null ? "--select--" : driver["text"],
+              dropdownComp(driver == null ? "Driver Name" : driver["text"],
                   drivername ? Colors.red : Colors.black, onchanged: (value) {
                 setState(() {
                   driver = value;

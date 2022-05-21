@@ -139,10 +139,7 @@ class _DashboardState extends State<Dashboard> {
               )
             : Container(
                 padding: EdgeInsets.only(top: 10, bottom: 20),
-                // decoration: BoxDecoration(
-                //     image: DecorationImage(
-                //         image: AssetImage(MyAssets.dashboardbg),
-                //         fit: BoxFit.fill)),
+              
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,

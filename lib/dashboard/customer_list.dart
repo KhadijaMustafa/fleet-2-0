@@ -2,38 +2,33 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xtreme_fleet/components/get_list.dart';
-import 'package:xtreme_fleet/dashboard/add_vehicle_list.dart';
-import 'package:xtreme_fleet/dashboard/update_vehicle.dart';
-import 'package:xtreme_fleet/utilities/my_colors.dart';
-import 'package:xtreme_fleet/utilities/my_navigation.dart';
 import 'package:http/http.dart' as http;
-
-class VehicleList extends StatefulWidget {
-  VehicleList({Key? key}) : super(key: key);
+import 'package:xtreme_fleet/utilities/my_colors.dart';
+class CustomerList extends StatefulWidget {
+  CustomerList({Key? key}) : super(key: key);
 
   @override
-  State<VehicleList> createState() => _VehicleListState();
+  State<CustomerList> createState() => _CustomerListState();
 }
 
-class _VehicleListState extends State<VehicleList> {
-  TextEditingController searchController = TextEditingController();
-  List supplierList = [];
+class _CustomerListState extends State<CustomerList> {
+    TextEditingController searchController = TextEditingController();
+  
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
   var selectedItem;
   int itemIndex = 0;
-  List vehicleList = [];
+  List customerList = [];
 
-  deleteVehicle() async {
+  deleteCustomer() async {
     print('Delete');
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-        "type": "Vehicle_Delete",
+        "type": "Customer_Delete",
         "value": {"Id": "${selectedItem['id']}"}
       });
       request.headers.addAll(headers);
@@ -47,7 +42,7 @@ class _VehicleListState extends State<VehicleList> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
             content: Text('Record succesfully deleted.')));
-        vehicleList.removeAt(itemIndex);
+        customerList.removeAt(itemIndex);
 
         setState(() {
           selectedItem = null;
@@ -58,13 +53,13 @@ class _VehicleListState extends State<VehicleList> {
     } catch (e) {}
   }
 
-  getVehicleList() async {
+  getCustomerList() async {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-         "type": "Vehicle_GetAll",
+         "type": "Customer_GetAll",
   "value": {
     "Language": "en-US",
     "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
@@ -87,9 +82,9 @@ class _VehicleListState extends State<VehicleList> {
     }
   }
 
-  vehicleApiCall() async {
-    vehicleList =
-     await getVehicleList();
+  CustomerApiCall() async {
+    customerList =
+     await getCustomerList();
     loading = false;
 
     setState(() {});
@@ -97,7 +92,7 @@ class _VehicleListState extends State<VehicleList> {
 
   @override
   void initState() {
-    vehicleApiCall();
+    CustomerApiCall();
 
     super.initState();
   }
@@ -107,7 +102,7 @@ class _VehicleListState extends State<VehicleList> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          MyNavigation().push(context, AddVehicleList());
+         // MyNavigation().push(context, AddVehicleList());
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -115,7 +110,7 @@ class _VehicleListState extends State<VehicleList> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
-        title: selectedItem == null ? Text('Vehicle List') : Container(),
+        title: selectedItem == null ? Text('Customer List') : Container(),
         actions: [
           selectedItem == null
               ? Container()
@@ -143,7 +138,7 @@ class _VehicleListState extends State<VehicleList> {
                                     TextButton(
                                         onPressed: () {
                                           Navigator.pop(
-                                              context, deleteVehicle());
+                                              context, deleteCustomer());
                                           setState(() => selectedItem = null);
                                         },
                                         child: Text(
@@ -161,11 +156,11 @@ class _VehicleListState extends State<VehicleList> {
                       onTap: () {
                        
                       
-                        MyNavigation().push(
-                            context,
-                            UpdateVehicle(
-                              item: selectedItem,
-                            ));
+                        // MyNavigation().push(
+                        //     context,
+                        //     UpdateVehicle(
+                        //       item: selectedItem,
+                        //     ));
                       },
                       child: actionIcon(FontAwesomeIcons.penToSquare),
                     ),
@@ -218,19 +213,19 @@ class _VehicleListState extends State<VehicleList> {
                                           filterList.clear();
                                         });
 
-                                        List filtered = vehicleList
+                                        List filtered = customerList
                                             .where((item) =>
-                                                '${item['platNumber']}'
+                                                '${item['name']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
                                                         .toLowerCase()) ||
-                                                '${item['vehicleSupplierName']}'
+                                                '${item['contact']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
                                                         .toLowerCase()) ||
-                                                '${item['employeeName']}'
+                                                '${item['customerType']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
@@ -253,8 +248,8 @@ class _VehicleListState extends State<VehicleList> {
                   Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('Plate Number', 'Supplier Name',
-                        'Vehicle Type', 'Driver', 14, FontWeight.bold),
+                    child: vehicleListCont('Name', 'Contact',
+                        'Address', 'Cus Type', 14, FontWeight.bold),
                   ),
 
                  
@@ -263,16 +258,16 @@ class _VehicleListState extends State<VehicleList> {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount:
-                          isSearching ? filterList.length : vehicleList.length,
+                          isSearching ? filterList.length : customerList.length,
                       itemBuilder: (BuildContext context, int index) {
                         var item = isSearching
                             ? filterList[index]
-                            : vehicleList[index];
+                            : customerList[index];
                         return vehicleListCont(
-                          '${item['platNumber']}',
-                          '${item['vehicleSupplierName']}',
-                          '${item['vehicleTypeNameEng']}',
-                          '${item['employeeName']}',
+                          '${item['name']}',
+                          '${item['contact']}',
+                          '${item['address']}',
+                          '${item['customerType']}',
                           12,
                           FontWeight.w400,
                           onLongPress: () {
@@ -298,8 +293,7 @@ class _VehicleListState extends State<VehicleList> {
             )),
     );
   }
-
-  actionIcon(IconData) {
+    actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -311,10 +305,10 @@ class _VehicleListState extends State<VehicleList> {
   }
 
   vehicleListCont(
-    String platenumber,
-    String suppliername,
-    String vehicletype,
-    String driver,
+    String name,
+    String contact,
+    String customertype,
+    String address,
     double size,
     FontWeight fontWeight, {
     // String? project,
@@ -333,28 +327,28 @@ class _VehicleListState extends State<VehicleList> {
           Expanded(
             child: Container(
               child: Text(
-                platenumber,
+                name,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight),
               ),
             ),
           ),
           Expanded(
             child: Container(
-              child: Text(suppliername,
+              child: Text(contact,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: 5),
-              child: Text(vehicletype,
+              child: Text(address,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: 5),
-              child: Text(driver,
+              child: Text(customertype,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),

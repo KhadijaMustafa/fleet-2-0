@@ -105,6 +105,7 @@ class _EmloyeeDocumentState extends State<EmloyeeDocument> {
                     //margin: EdgeInsets.all(10),
                     // height: 50,
                     child: Container(
+                      height: 45,
                       padding: EdgeInsets.only(
                           left: 20, top: 4, bottom: 4, right: 20),
                       decoration: BoxDecoration(

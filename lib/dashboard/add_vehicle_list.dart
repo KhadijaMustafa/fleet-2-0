@@ -159,7 +159,7 @@ class _AddVehicleListState extends State<AddVehicleList> {
 
               dropdownComp(
                   vehiclesupplier == null
-                      ? "--select--"
+                      ? "Vehicle Supplier Name"
                       : vehiclesupplier["text"],
                   suppliername ? Colors.red : Colors.black, onchanged: (value) {
                 setState(() {
@@ -171,7 +171,7 @@ class _AddVehicleListState extends State<AddVehicleList> {
               }, list: supplierList, dropdowntext: "text"),
               suppliername ? validationCont() : Container(),
               dropdownComp(
-                  vehicletype == null ? "--select--" : vehicletype["text"],
+                  vehicletype == null ? "Vehicle Type" : vehicletype["text"],
                   vehicle ? Colors.red : Colors.black, onchanged: (value) {
                 setState(() {
                   vehicletype = value;
@@ -183,7 +183,7 @@ class _AddVehicleListState extends State<AddVehicleList> {
               }, list: vehicltypelist, dropdowntext: "text"),
               vehicle ? validationCont() : Container(),
               dropdownComp(
-                  driver == null ? "--select--" : driver["text"], drivername ? Colors.red : Colors.black,
+                  driver == null ? "Driver Name" : driver["text"], drivername ? Colors.red : Colors.black,
                   onchanged: (value) {
                 setState(() {
                   driver = value;
