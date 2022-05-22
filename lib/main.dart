@@ -2,6 +2,8 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:one_context/one_context.dart';
 import 'package:xtreme_fleet/auth/splash_screenn.dart';
+import 'package:xtreme_fleet/components/test_component.dart';
+import 'package:xtreme_fleet/dashboard/vehicle.dart';
 
 import 'package:xtreme_fleet/login.dart';
 
@@ -46,7 +48,7 @@ class MyApp extends StatelessWidget {
         //primarySwatch: Colors.blue;
         backgroundColor: MyColors.yellow,
       ),
-      home: SplashScreen(),
+      home: Vehicle(),
     );
   }
 }

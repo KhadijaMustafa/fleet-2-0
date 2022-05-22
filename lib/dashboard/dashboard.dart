@@ -391,85 +391,93 @@ class _DashboardState extends State<Dashboard> {
   listCont(String text, String count, {IconData, Function? onTap}) {
     return GestureDetector(
       onTap: () => onTap!(),
-      child: Card(
-        shadowColor: Colors.white.withOpacity(0.2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(13.0),
-        ),
-        elevation: 50,
-        child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(2)),
-          child: Column(
-            children: [
+      child: Stack(
+        //alignment: Alignment.center,
+        children: [
               Container(
-                padding: EdgeInsets.only(top: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Card(
-                            elevation: 2,
-                            shadowColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                              // side: BorderSide(color: MyColors.yellow),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
+                alignment: Alignment.center,
+                            height: 40,
+                            width: 40,
+                           // padding: EdgeInsets.all(6),
+
+                            decoration: BoxDecoration(
                                 shape: BoxShape.circle,
+                                color: MyColors.yellow2),
+                            child: Icon(
+                              IconData,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+          Card(
+            margin: EdgeInsets.only(top: 30),
+
+          shadowColor: Colors.white.withOpacity(0.2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(13.0),
+          ),
+          elevation: 50,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(2)),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Card(
+                             elevation: 0,
+                              // shadowColor: Colors.white,
+                              // shape: RoundedRectangleBorder(
+                              //   borderRadius: BorderRadius.circular(15.0),
+                              //   // side: BorderSide(color: MyColors.yellow),
+                              // ),
+                              child: Container(
+                               // padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  text,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: MyColors.yellow,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                              alignment: Alignment.topLeft,
+                            ),
+                        
+                            Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(top: 10),
+                              width: 140,
                               child: Text(
-                                text,
+                                count,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                    color: MyColors.yellow,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
+                                    color: MyColors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
-                          ),
-                          // Container(
-                          //   // height: 20,
-                          //   // width: 20,
-                          //   padding: EdgeInsets.all(6),
-
-                          //   decoration: BoxDecoration(
-                          //       shape: BoxShape.circle,
-                          //       color: MyColors.yellow2),
-                          //   child: Icon(
-                          //     IconData,
-                          //     color: Colors.white,
-                          //     size: 16,
-                          //   ),
-                          // ),
-                          Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 10),
-                            width: 140,
-                            child: Text(
-                              count,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color: MyColors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ),]
       ),
     );
   }

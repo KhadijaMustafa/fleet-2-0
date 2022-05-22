@@ -15,20 +15,31 @@ class AddVehicleSupplier extends StatefulWidget {
 
 class _AddVehicleSupplierState extends State<AddVehicleSupplier> {
   TextEditingController username = TextEditingController();
+  TextEditingController userurduname = TextEditingController();
+
   TextEditingController address = TextEditingController();
   TextEditingController contact = TextEditingController();
   TextEditingController contactperson = TextEditingController();
+  TextEditingController contactpersonurdu = TextEditingController();
+
   OneContext _context = OneContext.instance;
   bool name = false;
   bool addressfield = false;
   bool contactnumber = false;
   bool contactper = false;
+  bool contactperurdu = false;
+
+  bool urduname=false;
 
   addVehSupplier() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (username.text.isEmpty) {
       setState(() {
         name = true;
+      });
+    } else if(userurduname.text.isEmpty){
+      setState(() {
+        urduname=true;
       });
     } else if (address.text.isEmpty) {
       setState(() {
@@ -42,6 +53,10 @@ class _AddVehicleSupplierState extends State<AddVehicleSupplier> {
       setState(() {
         contactper = true;
       });
+    } else if(contactpersonurdu.text.isEmpty){
+      setState(() {
+        contactperurdu=true;
+      });
     } else {
       try {
         var request = http.MultipartRequest(
@@ -53,10 +68,10 @@ class _AddVehicleSupplierState extends State<AddVehicleSupplier> {
           'Id': '00000000-0000-0000-0000-000000000000',
           'UserId': '00000000-0000-0000-0000-000000000000',
           'NameEng': username.text,
-          'NameUrd': 'Name Urd',
+          'NameUrd': userurduname.text,
           'ContactNumber': contact.text,
           'ContactPersonEng': contactperson.text,
-          'ContactPersonUrd': 'Contact Person Urd',
+          'ContactPersonUrd': contactpersonurdu.text,
           'AddressEng': address.text,
           'AddressUrd': 'Address Urd',
           'AddToKhata': 'No',
@@ -113,6 +128,16 @@ class _AddVehicleSupplierState extends State<AddVehicleSupplier> {
                 })),
               ),
               name ? validationCont() : Container(),
+               Container(
+                child: textFieldCont(
+                    'Name Urdu', userurduname, urduname ? Colors.red : Colors.black,
+                    onChanged: ((value) {
+                  setState(() {
+                    urduname = false;
+                  });
+                })),
+              ),
+              urduname ? validationCont() : Container(),
              // addExpCont('Address', '*', ':', Colors.red),
               Container(
                 child: textFieldCont('Address', address,
@@ -146,6 +171,16 @@ class _AddVehicleSupplierState extends State<AddVehicleSupplier> {
                 })),
               ),
               contactper ? validationCont() : Container(),
+               Container(
+                child: textFieldCont('Contact Person Urdu', contactpersonurdu,
+                    contactperurdu ? Colors.red : Colors.black,
+                    onChanged: ((value) {
+                  setState(() {
+                    contactperurdu = false;
+                  });
+                })),
+              ),
+              contactperurdu ? validationCont() : Container(),
               InkWell(
                 onTap: () {
                   addVehSupplier();
