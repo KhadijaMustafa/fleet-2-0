@@ -30,13 +30,15 @@ class _UpdateVehicleState extends State<UpdateVehicle> {
   List driverlist = [];
   List vehicleList = [];
   List valuesList = [];
-var valuesLists;
-var platenumberr;
-var vehicletypee;
-var vehiclesupplierr;
-var driverr;
+  var listvalues;
+  var platenumberr;
+  var vehicletypee;
+  var vehiclesupplierr;
+  var driverr;
   OneContext _context = OneContext.instance;
   getValue() async {
+      print('//////////////////////////////////11111111111');
+
     try {
       var response = await http.post(
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
@@ -45,7 +47,7 @@ var driverr;
             "type": "Vehicle_GetById",
             "value": {
               "Language": "en-US",
-              "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
+              "Id": '${widget.item['id']}'
             }
           }));
 
@@ -53,24 +55,42 @@ var driverr;
       print('Successssssssssssssss');
       print(decode['Value']);
       print(response.body);
-      valuesLists = json.decode(decode['Value']);
-      // driver = json.decode(decode['Value']['employeeName']);
-      // vehicletype = json.decode(decode['Value']['vehicleSupplierNameEng']);
-      print('//////////////////////////////////');
-       print(valuesLists);
-      // print(vehicletype);
-       print('//////////////////////////////////');
+     
+       listvalues = json.decode(decode['Value']);
+     platenumber.text = listvalues["platNumber"];
+     vehiclesupplier = {
+      'value': listvalues['vehicleSupplierId'],
+      'text': listvalues['vehicleSupplierName']
+    };
+     vehicletype = {
+      'value': listvalues['setupVehicleTypeId'],
+      'text': listvalues['vehicleTypeName']
+    };
+     driver = {
+      'value': listvalues['employeeId'],
+      'text': listvalues['employeeName']
+    };
+   //  vehicletype=listvalues["vehicleSupplierName"];
 
-      return valuesLists;
+
+      // driver=(json.decode(listvalues))['employeeName'];
+      print('dribver');
+      print(driver);
+   
+      print('//////////////////////////////////');
+      print(listvalues);
+      // print(vehicletype);
+      print('//////////////////////////////////');
+setState(() {
+  
+});
+      
     } catch (e) {
       print(e);
     }
   }
-  getValueList() async{
-valuesList=await getValue();
-  }
 
-
+ 
 
   getDropDownValues(String valueType) async {
     try {
@@ -171,34 +191,12 @@ valuesList=await getValue();
 
   @override
   void initState() {
-    getListCall();
-  // getValue();
-   print('////////////////////////employeeid');
+   // getListCall();
+    // getValue();
+    getValue();
+    print('////////////////////////employeeid');
    
-    
-
-   // platenumber.text =;
-    // vehiclesupplier = vehiclesupplierr;
-
-    // vehiclesupplier = {
-    //   'value': valuesLists['vehicleSupplierId'],
-    //   'text': valuesLists['vehicleSupplierName']
-    // };
-    // vehicletype =  {
-    //   'value': valuesLists['setupVehicleTypeId'],
-    //   'text': valuesLists['vehicleTypeName']
-    // };
-    // // driver=widget.item['employeeName'];
-    // driver =  {
-    //   'value': valuesLists['employeeId'],
-    //   'text': valuesLists['employeeName']
-    // };
-   
-
-    // print({
-    //   'value': valuesLists['vehicleSupplierId'],
-    //   'text': valuesLists['vehicleSupplierName']
-    // });
+  
 
     super.initState();
   }

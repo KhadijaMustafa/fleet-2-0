@@ -3,67 +3,70 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:xtreme_fleet/dashboard/add_employee_list.dart';
-import 'package:xtreme_fleet/dashboard/update_employee_list.dart';
+import 'package:xtreme_fleet/dashboard/add_khata.dart';
+import 'package:xtreme_fleet/dashboard/update_khata.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
-
-class EmployeeList extends StatefulWidget {
-  EmployeeList({Key? key}) : super(key: key);
+class NewKhataList extends StatefulWidget {
+  NewKhataList({Key? key}) : super(key: key);
 
   @override
-  State<EmployeeList> createState() => _EmployeeListState();
+  State<NewKhataList> createState() => _NewKhataListState();
 }
 
-class _EmployeeListState extends State<EmployeeList> {
-  TextEditingController searchController = TextEditingController();
+class _NewKhataListState extends State<NewKhataList> {
+   TextEditingController searchController = TextEditingController();
   List supplierList = [];
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
   var selectedItem;
   int itemIndex = 0;
-  List employeeList = [];
+  List customerKhataList = [];
 
-  deleteEmployee() async {
-    print('Delete');
+  deleteCustomerKhata() async {
+  
     try {
+        print('Delete');
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-        "type": "Employee_Delete",
+        "type": "KhataCustomer_Delete",
         "value": {"Id": "${selectedItem['id']}"}
       });
       request.headers.addAll(headers);
 
       http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
+        print('???????????????????');
 
-      if (response.statusCode == 200) {
+     
         print('???????????????????');
         var decode = json.decode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
             content: Text('Record succesfully deleted.')));
-        employeeList.removeAt(itemIndex);
+        customerKhataList.removeAt(itemIndex);
 
         setState(() {
           selectedItem = null;
         });
         print('Deleted');
         print(decode);
-      }
-    } catch (e) {}
+      
+    } catch (e) {
+      print(e);
+    }
   }
 
-  getEmployeeList() async {
+  getCustometKhata() async {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-        "type": "Employee_GetAll",
+        "type": "KhataCustomer_GetAll",
         "value": {
           "Language": "en-US",
           "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
@@ -86,8 +89,8 @@ class _EmployeeListState extends State<EmployeeList> {
     }
   }
 
-  employeeApiCall() async {
-    employeeList = await getEmployeeList();
+  customerKhataApiCall() async {
+    customerKhataList = await getCustometKhata();
     loading = false;
 
     setState(() {});
@@ -95,17 +98,16 @@ class _EmployeeListState extends State<EmployeeList> {
 
   @override
   void initState() {
-    employeeApiCall();
+    customerKhataApiCall();
 
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+          floatingActionButton: FloatingActionButton(
         onPressed: () {
-           MyNavigation().push(context, AddEmployeeList());
+           MyNavigation().push(context, AddKhata());
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -113,7 +115,7 @@ class _EmployeeListState extends State<EmployeeList> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
-        title: selectedItem == null ? Text('Employee List') : Container(),
+        title: selectedItem == null ? Text('Khata List') : Container(),
         actions: [
           selectedItem == null
               ? Container()
@@ -141,7 +143,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                     TextButton(
                                         onPressed: () {
                                           Navigator.pop(
-                                              context, deleteEmployee());
+                                              context, deleteCustomerKhata());
                                           setState(() => selectedItem = null);
                                         },
                                         child: Text(
@@ -160,7 +162,7 @@ class _EmployeeListState extends State<EmployeeList> {
                     
                         MyNavigation().push(
                             context,
-                            UpdateEmployeeList(
+                            UpdateKhata(
                               item: selectedItem,
                             ));
                       },
@@ -215,19 +217,19 @@ class _EmployeeListState extends State<EmployeeList> {
                                           filterList.clear();
                                         });
 
-                                        List filtered = employeeList
+                                        List filtered = customerKhataList
                                             .where((item) =>
-                                                '${item['empNumber']}'
+                                                '${item['khataNumber']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
                                                         .toLowerCase()) ||
-                                                '${item['name']}'
+                                                '${item['nameEng']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
                                                         .toLowerCase()) ||
-                                                '${item['contact']}'
+                                                '${item['contactNumber']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
@@ -250,24 +252,24 @@ class _EmployeeListState extends State<EmployeeList> {
                   Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('Employee#', ' Name',
-                        'Contact', 'Position', 14, FontWeight.bold),
+                    child: vehicleListCont('Khata #', ' Name',
+                        'Contact', 'Address', 14, FontWeight.bold),
                   ),
                   Container(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount:
-                          isSearching ? filterList.length : employeeList.length,
+                          isSearching ? filterList.length : customerKhataList.length,
                       itemBuilder: (BuildContext context, int index) {
                         var item = isSearching
                             ? filterList[index]
-                            : employeeList[index];
+                            : customerKhataList[index];
                         return vehicleListCont(
-                          '${item['empNumber']}',
-                          '${item['name']}',
-                          '${item['contact']}',
-                          '${item['positionName']}',
+                          '${item['khataNumber']}',
+                          '${item['nameEng']}',
+                          '${item['contactNumber']}',
+                          '${item['address']}',
                           12,
                           FontWeight.w400,
                           onLongPress: () {
@@ -293,8 +295,7 @@ class _EmployeeListState extends State<EmployeeList> {
             )),
     );
   }
-
-  actionIcon(IconData) {
+    actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -306,10 +307,10 @@ class _EmployeeListState extends State<EmployeeList> {
   }
 
   vehicleListCont(
-    String empnumber,
+    String khataNum,
     String name,
     String contact,
-    String position,
+    String address,
     double size,
     FontWeight fontWeight, {
     // String? project,
@@ -328,7 +329,7 @@ class _EmployeeListState extends State<EmployeeList> {
           Expanded(
             child: Container(
               child: Text(
-                empnumber,
+                khataNum,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight),
               ),
             ),
@@ -349,7 +350,7 @@ class _EmployeeListState extends State<EmployeeList> {
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: 5),
-              child: Text(position,
+              child: Text(address,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
