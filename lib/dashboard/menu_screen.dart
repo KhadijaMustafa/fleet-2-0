@@ -7,6 +7,7 @@ import 'package:xtreme_fleet/dashboard/customer_list.dart';
 import 'package:xtreme_fleet/dashboard/emp_exp_report.dart';
 import 'package:xtreme_fleet/dashboard/employee_expense.dart';
 import 'package:xtreme_fleet/dashboard/employee_list.dart';
+import 'package:xtreme_fleet/dashboard/khata_transaction_list.dart';
 import 'package:xtreme_fleet/dashboard/monthly_rent.dart';
 import 'package:xtreme_fleet/dashboard/new_khata_list.dart';
 import 'package:xtreme_fleet/dashboard/project_list.dart';
@@ -71,26 +72,26 @@ class _MenuScreenState extends State<MenuScreen> {
                 ],
               ),
             ),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  indexcolor = 0;
-                });
-                MyNavigation().push(context, CompanyDocument());
-              },
-              child: Container(
-                child: menuCont(
-                  FontAwesomeIcons.file,
-                  'Company Document',
-                  EdgeInsets.only(left: 12, top: 20),
-                  FontWeight.bold,
-                  16,
-                  20,
-                  iconcolor: indexcolor == 0 ? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 0 ? MyColors.yellow : MyColors.black,
-                ),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () {
+            //     setState(() {
+            //       indexcolor = 0;
+            //     });
+            //     MyNavigation().push(context, CompanyDocument());
+            //   },
+            //   child: Container(
+            //     child: menuCont(
+            //       FontAwesomeIcons.file,
+            //       'Company Document',
+            //       EdgeInsets.only(left: 12, top: 20),
+            //       FontWeight.bold,
+            //       16,
+            //       20,
+            //       iconcolor: indexcolor == 0 ? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 0 ? MyColors.yellow : MyColors.black,
+            //     ),
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                 setState(() {
@@ -105,19 +106,19 @@ class _MenuScreenState extends State<MenuScreen> {
                   textcolor: indexcolor == 1 ? MyColors.yellow : MyColors.black,),
               ),
             ),
-            InkWell(
-              onTap: () {
-                  setState(() {
-                  indexcolor = 2;
-                });
-                MyNavigation().push(context, CustomerList());
-              },
-              child: Container(
-                child: menuCont(FontAwesomeIcons.userLarge, 'Customer',
-                    EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 18,    iconcolor: indexcolor == 2? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 2 ? MyColors.yellow : MyColors.black,),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () {
+            //       setState(() {
+            //       indexcolor = 2;
+            //     });
+            //     MyNavigation().push(context, CustomerList());
+            //   },
+            //   child: Container(
+            //     child: menuCont(FontAwesomeIcons.userLarge, 'Customer',
+            //         EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 18,    iconcolor: indexcolor == 2? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 2 ? MyColors.yellow : MyColors.black,),
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                   setState(() {
@@ -147,87 +148,87 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
               ),
             ),
-            InkWell(
-              onTap: () {
-                  setState(() {
-                  indexcolor = 5;
-                });
-                MyNavigation().push(context, ProjectList());
-              },
-              child: Container(
-                child: menuCont(FontAwesomeIcons.productHunt, 'Project',
-                    EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 20,
-                        iconcolor: indexcolor == 5? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 5 ? MyColors.yellow : MyColors.black,
-                    ),
-              ),
-            ),
-            Theme(
-              data: ThemeData().copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                  iconColor: MyColors.yellow,
-                  collapsedIconColor: MyColors.black,
-                  expandedAlignment: Alignment.center,
-                  title: menuCont(
-                      FontAwesomeIcons.barsProgress,
-                      'Trip Management ',
-                      EdgeInsets.only(top: 20),
-                      FontWeight.bold,
-                      16,
-                      20,    iconcolor: indexcolor == 6 || indexcolor==7? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 6 || indexcolor==7 ? MyColors.yellow : MyColors.black,),
-                  children: [
-                    InkWell(
-                      onTap: () {
-                          setState(() {
-                  indexcolor = 6;
-                });
-                        MyNavigation().push(context, VehicleExpense());
-                      },
-                      child: Container(
-                        child: menuCont(
-                            FontAwesomeIcons.carSide,
-                            'Trip',
-                            EdgeInsets.only(left: 50, top: 10),
-                            FontWeight.w400,
-                            14,
-                            16,    iconcolor: indexcolor == 6? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 6? MyColors.yellow : MyColors.black,),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          indexcolor=7;
-                        });
-                        MyNavigation().push(context, EmployeeExpense());
-                      },
-                      child: Container(
-                        child: menuCont(
-                            FontAwesomeIcons.userGroup,
-                            'Trip Report',
-                            EdgeInsets.only(left: 50, top: 10),
-                            FontWeight.w400,
-                            14,
-                            16,iconcolor: indexcolor == 7? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 7? MyColors.yellow : MyColors.black,),
-                      ),
-                    ),
-                  ]),
-            ),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  indexcolor=8;
-                });
-                MyNavigation().push(context, MonthlyRent());
-              },
-              child: Container(
-                child: menuCont(FontAwesomeIcons.truck, 'Monthly Rent',
-                    EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 20,iconcolor: indexcolor == 8? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 8? MyColors.yellow : MyColors.black,),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () {
+            //       setState(() {
+            //       indexcolor = 5;
+            //     });
+            //     MyNavigation().push(context, ProjectList());
+            //   },
+            //   child: Container(
+            //     child: menuCont(FontAwesomeIcons.productHunt, 'Project',
+            //         EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 20,
+            //             iconcolor: indexcolor == 5? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 5 ? MyColors.yellow : MyColors.black,
+            //         ),
+            //   ),
+            // ),
+            // Theme(
+            //   data: ThemeData().copyWith(dividerColor: Colors.transparent),
+            //   child: ExpansionTile(
+            //       iconColor: MyColors.yellow,
+            //       collapsedIconColor: MyColors.black,
+            //       expandedAlignment: Alignment.center,
+            //       title: menuCont(
+            //           FontAwesomeIcons.barsProgress,
+            //           'Trip Management ',
+            //           EdgeInsets.only(top: 20),
+            //           FontWeight.bold,
+            //           16,
+            //           20,    iconcolor: indexcolor == 6 || indexcolor==7? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 6 || indexcolor==7 ? MyColors.yellow : MyColors.black,),
+            //       children: [
+            //         InkWell(
+            //           onTap: () {
+            //               setState(() {
+            //       indexcolor = 6;
+            //     });
+            //             MyNavigation().push(context, VehicleExpense());
+            //           },
+            //           child: Container(
+            //             child: menuCont(
+            //                 FontAwesomeIcons.carSide,
+            //                 'Trip',
+            //                 EdgeInsets.only(left: 50, top: 10),
+            //                 FontWeight.w400,
+            //                 14,
+            //                 16,    iconcolor: indexcolor == 6? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 6? MyColors.yellow : MyColors.black,),
+            //           ),
+            //         ),
+            //         InkWell(
+            //           onTap: () {
+            //             setState(() {
+            //               indexcolor=7;
+            //             });
+            //             MyNavigation().push(context, EmployeeExpense());
+            //           },
+            //           child: Container(
+            //             child: menuCont(
+            //                 FontAwesomeIcons.userGroup,
+            //                 'Trip Report',
+            //                 EdgeInsets.only(left: 50, top: 10),
+            //                 FontWeight.w400,
+            //                 14,
+            //                 16,iconcolor: indexcolor == 7? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 7? MyColors.yellow : MyColors.black,),
+            //           ),
+            //         ),
+            //       ]),
+            // ),
+            // InkWell(
+            //   onTap: () {
+            //     setState(() {
+            //       indexcolor=8;
+            //     });
+            //     MyNavigation().push(context, MonthlyRent());
+            //   },
+            //   child: Container(
+            //     child: menuCont(FontAwesomeIcons.truck, 'Monthly Rent',
+            //         EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 20,iconcolor: indexcolor == 8? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 8? MyColors.yellow : MyColors.black,),
+            //   ),
+            // ),
             Theme(
               data: ThemeData().copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
@@ -263,7 +264,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         setState(() {
                           indexcolor=10;
                         });
-                        MyNavigation().push(context, EmployeeExpense());
+                        MyNavigation().push(context, KhataTransactionList());
                       },
                       child: Container(
                         child: menuCont(
@@ -365,54 +366,54 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ]),
             ),
-            Theme(
-              data: ThemeData().copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                  iconColor: MyColors.yellow,
-                  collapsedIconColor: MyColors.black,
-                  expandedAlignment: Alignment.center,
-                  title: menuCont(FontAwesomeIcons.gear, 'SetUps ',
-                      EdgeInsets.only(top: 20), FontWeight.bold, 16, 20,   iconcolor: indexcolor == 15 || indexcolor==16 ? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 15 || indexcolor==16?  MyColors.yellow : MyColors.black,),
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          indexcolor=15;
-                        });
-                        MyNavigation().push(context, VehicleExpense());
-                      },
-                      child: Container(
-                        child: menuCont(
-                            FontAwesomeIcons.carSide,
-                            'Site',
-                            EdgeInsets.only(left: 50, top: 10),
-                            FontWeight.w400,
-                            14,
-                            16,iconcolor: indexcolor == 15? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 15? MyColors.yellow : MyColors.black,),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                         setState(() {
-                          indexcolor=16;
-                        });
-                        MyNavigation().push(context, EmployeeExpense());
-                      },
-                      child: Container(
-                        child: menuCont(
-                            FontAwesomeIcons.userGroup,
-                            'Vahicle Type',
-                            EdgeInsets.only(left: 50, top: 10),
-                            FontWeight.w400,
-                            14,
-                            16,iconcolor: indexcolor == 16? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 16? MyColors.yellow : MyColors.black,),
-                      ),
-                    ),
-                  ]),
-            ),
+            // Theme(
+            //   data: ThemeData().copyWith(dividerColor: Colors.transparent),
+            //   child: ExpansionTile(
+            //       iconColor: MyColors.yellow,
+            //       collapsedIconColor: MyColors.black,
+            //       expandedAlignment: Alignment.center,
+            //       title: menuCont(FontAwesomeIcons.gear, 'SetUps ',
+            //           EdgeInsets.only(top: 20), FontWeight.bold, 16, 20,   iconcolor: indexcolor == 15 || indexcolor==16 ? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 15 || indexcolor==16?  MyColors.yellow : MyColors.black,),
+            //       children: [
+            //         InkWell(
+            //           onTap: () {
+            //             setState(() {
+            //               indexcolor=15;
+            //             });
+            //             MyNavigation().push(context, VehicleExpense());
+            //           },
+            //           child: Container(
+            //             child: menuCont(
+            //                 FontAwesomeIcons.carSide,
+            //                 'Site',
+            //                 EdgeInsets.only(left: 50, top: 10),
+            //                 FontWeight.w400,
+            //                 14,
+            //                 16,iconcolor: indexcolor == 15? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 15? MyColors.yellow : MyColors.black,),
+            //           ),
+            //         ),
+            //         InkWell(
+            //           onTap: () {
+            //              setState(() {
+            //               indexcolor=16;
+            //             });
+            //             MyNavigation().push(context, EmployeeExpense());
+            //           },
+            //           child: Container(
+            //             child: menuCont(
+            //                 FontAwesomeIcons.userGroup,
+            //                 'Vahicle Type',
+            //                 EdgeInsets.only(left: 50, top: 10),
+            //                 FontWeight.w400,
+            //                 14,
+            //                 16,iconcolor: indexcolor == 16? MyColors.yellow : MyColors.black,
+            //       textcolor: indexcolor == 16? MyColors.yellow : MyColors.black,),
+            //           ),
+            //         ),
+            //       ]),
+            // ),
           ],
               ),
             ),

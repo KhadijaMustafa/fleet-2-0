@@ -175,10 +175,10 @@ class _EmloyeeDocumentState extends State<EmloyeeDocument> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(10),
-                    //margin: EdgeInsets.all(10),
+                 
                     color: Color.fromARGB(255, 234, 227, 227),
                     child: empDocCont(
+                      '#',
                       '${widget.entityName == 'Vehicle' ? "Plat #" : widget.entityName == 'Project' ? "Code" : "Name"}',
                       'Document',
                       'Expiry Date',
@@ -194,11 +194,13 @@ class _EmloyeeDocumentState extends State<EmloyeeDocument> {
                           ? filterList.length
                           : empDetailList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        int indexx=index+1;
                         var item = isSearching
                             ? filterList[index]
                             : empDetailList[index];
                         return empDocCont(
-                            '${widget.entityName == 'Vehicle' ? item['platNumber'] : item['employeeName']}',
+                          '$indexx',
+                            '${widget.entityName == 'Vehicle' ? item['platNumber']:widget.entityName=='Project'? item['projectCode'] : item['employeeName']}',
                             '${item['documentType']}',
                             '${item['expiryDate']}',
                             '${item['expired']}',
@@ -218,12 +220,20 @@ class _EmloyeeDocumentState extends State<EmloyeeDocument> {
     );
   }
 
-  empDocCont(String title, String document, String expiryDate, String status,
+  empDocCont(String serial,String title, String document, String expiryDate, String status,
       double size, FontWeight fontWeight,
       {String? project, double? height, double? width}) {
     return Container(
       margin: EdgeInsets.only(left: 10, top: 10),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
         Expanded(
           child: Container(
             child: Text(

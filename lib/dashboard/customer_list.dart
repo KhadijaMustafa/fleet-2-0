@@ -130,21 +130,50 @@ class _CustomerListState extends State<CustomerList> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                    InkWell(
+                                     Container(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                             InkWell(
                                         onTap: () {
                                           Navigator.pop(context, false);
                                         },
-                                        child: Text('Cancel')),
-                                    TextButton(
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: MyColors.bgred
+                                        ),
+                                      margin: EdgeInsets.only(left: 5,right: 5),
+                                 
+                                          child: Text('No',
+                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
+
+                                            TextButton(
                                         onPressed: () {
                                           Navigator.pop(
                                               context, deleteCustomer());
                                           setState(() => selectedItem = null);
                                         },
-                                        child: Text(
-                                          'Ok',
-                                          style: TextStyle(color: Colors.black),
+                                        child: Container(
+                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: MyColors.bggreen
+                                        ),
+                                
+                                      margin: EdgeInsets.only(left: 5,right: 5),
+                                         
+
+                                          child: Text(
+                                            'Yes',
+                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                                          ),
                                         )),
+
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 );
                               });
@@ -248,7 +277,7 @@ class _CustomerListState extends State<CustomerList> {
                   Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('Name', 'Contact',
+                    child: vehicleListCont('#','Name', 'Contact',
                         'Address', 'Cus Type', 14, FontWeight.bold),
                   ),
 
@@ -260,10 +289,12 @@ class _CustomerListState extends State<CustomerList> {
                       itemCount:
                           isSearching ? filterList.length : customerList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        int indexx=index+1;
                         var item = isSearching
                             ? filterList[index]
                             : customerList[index];
                         return vehicleListCont(
+                          '$indexx',
                           '${item['name']}',
                           '${item['contact']}',
                           '${item['address']}',
@@ -305,6 +336,7 @@ class _CustomerListState extends State<CustomerList> {
   }
 
   vehicleListCont(
+    String serial,
     String name,
     String contact,
     String customertype,
@@ -324,6 +356,14 @@ class _CustomerListState extends State<CustomerList> {
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
           Expanded(
             child: Container(
               child: Text(

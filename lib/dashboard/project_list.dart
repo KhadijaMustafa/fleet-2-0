@@ -123,27 +123,56 @@ class _ProjectListState extends State<ProjectList> {
                                 return AlertDialog(
                                   //title: Text('data'),
                                   content: Text(
-                                    'Delete this record?',
+                                    'Do you want to delete this record?',
                                     style: TextStyle(
-                                        color: MyColors.yellow,
+                                        color: MyColors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                    InkWell(
+                                      Container(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                             InkWell(
                                         onTap: () {
                                           Navigator.pop(context, false);
                                         },
-                                        child: Text('Cancel')),
-                                    TextButton(
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: MyColors.bgred
+                                        ),
+                                      margin: EdgeInsets.only(left: 5,right: 5),
+                                 
+                                          child: Text('No',
+                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
+
+                                            TextButton(
                                         onPressed: () {
                                           Navigator.pop(
                                               context, deleteProject());
                                           setState(() => selectedItem = null);
                                         },
-                                        child: Text(
-                                          'Ok',
-                                          style: TextStyle(color: Colors.black),
+                                        child: Container(
+                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: MyColors.bggreen
+                                        ),
+                                
+                                      margin: EdgeInsets.only(left: 5,right: 5),
+                                         
+
+                                          child: Text(
+                                            'Yes',
+                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                                          ),
                                         )),
+
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 );
                               });
@@ -247,7 +276,7 @@ class _ProjectListState extends State<ProjectList> {
                   Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('Code', ' Name',
+                    child: vehicleListCont('#','Code', ' Name',
                         'From Site', 'Trips','Date','Customer', 14, FontWeight.bold),
                   ),
 
@@ -259,10 +288,12 @@ class _ProjectListState extends State<ProjectList> {
                       itemCount:
                           isSearching ? filterList.length : projectList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        int indexx=index+1;
                         var item = isSearching
                             ? filterList[index]
                             : projectList[index];
                         return vehicleListCont(
+                          '$indexx',
                           '${item['code']}',
                           '${item['name']}',
                           '${item['fromSite']}',
@@ -306,6 +337,7 @@ class _ProjectListState extends State<ProjectList> {
   }
 
   vehicleListCont(
+    String serial,
     String code,
     String name,
     String fromsite,
@@ -327,6 +359,14 @@ class _ProjectListState extends State<ProjectList> {
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
           Expanded(
             child: Container(
               child: Text(

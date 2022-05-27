@@ -1,31 +1,44 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:one_context/one_context.dart';
-import 'package:xtreme_fleet/dashboard/employee_expense.dart';
+import 'package:xtreme_fleet/dashboard/khata_transaction_list.dart';
 import 'package:xtreme_fleet/utilities/CusDateFormat.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
-import 'package:http/http.dart' as http;
-import 'package:xtreme_fleet/utilities/my_navigation.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:xtreme_fleet/utilities/pickers.dart';
-
-class AddEmployeeExpense extends StatefulWidget {
-  AddEmployeeExpense({Key? key}) : super(key: key);
+class AddKhataTransaction extends StatefulWidget {
+  AddKhataTransaction({Key? key}) : super(key: key);
 
   @override
-  State<AddEmployeeExpense> createState() => _AddEmployeeExpenseState();
+  State<AddKhataTransaction> createState() => _AddKhataTransactionState();
 }
 
-class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
-  TextEditingController amountController = TextEditingController();
-  TextEditingController remarksController = TextEditingController();
-  OneContext _context = OneContext.instance;
-  final _formkey = GlobalKey<FormState>();
+class _AddKhataTransactionState extends State<AddKhataTransaction> {
+   OneContext _context = OneContext.instance;
+   TextEditingController amountController=TextEditingController();
+   TextEditingController remarksController=TextEditingController();
+  DateTime selectedDate = DateTime.now();
 
-  String? imageFile;
+   var customer;
+   var transaction;
+   bool amount=false;
+   bool remark=false;
+   bool cust=false;
+   bool trasac=false;
+   bool setdate=false;
+
+
+   List customerList=[];
+   
+    List<String> transactionList = [
+    'Debit (+)',
+    'Credit (-)',
+   
+  ];
+  
+   String? imageFile;
   pickImageFomG(ImageSource source) async {
     XFile? file = await Pickers.instance.pickImage(source: source);
     if (file != null) {
@@ -34,45 +47,26 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
     }
   }
 
-  var expenseType;
-  List empNameList = [];
-  var name;
-  var dateTime;
-
-  DateTime selectedDate = DateTime.now();
-  List<String> expenseList = [
-    'Salaries',
-    'Visa Expense',
-    'Insurance Expense',
-    'Expense (EDC + QCC + Driving Permit expense)',
-    'Other',
-  ];
-
-  bool expDropDowm = false;
-  bool employeename = false;
-  bool amount = false;
-  bool setdate = false;
-  bool file = false;
-  bool remark = false;
-
   getDropDownValues() async {
     try {
       var response = await http.post(
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
-            "type": "Employee_DropdownList_Get",
+            "type": "KhataCustomer_DropdownList_Get",
             "value": {"Language": "en-US"}
           }));
       print(response.body);
       print(response.statusCode);
-      print(response.statusCode);
+
       var decode = json.decode(response.body);
-      empNameList = json.decode(decode['Value']);
+      customerList = json.decode(decode['Value']);
+
+      print(customerList);
 
       setState(() {});
 
-      return empNameList;
+      return customerList;
     } catch (e) {
       print(e);
     }
@@ -80,28 +74,29 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
   }
 
   getListCall() async {
-    empNameList = await getDropDownValues();
-  }
+    customerList = await getDropDownValues();
+    
 
+
+  }
   @override
   void initState() {
     super.initState();
     getListCall();
-    // addExpenses();
   }
 
-  addEmployeeExpenses() async {
+   addTransaction() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    if (name == null) {
+    if (customer == null) {
       setState(() {
-        employeename = true;
+        cust = true;
       });
 
-      print(employeename);
+      print(customer);
       print('?????????????????????????????????????????????????????');
-    } else if (expenseType == null) {
+    } else if (transaction == null) {
       setState(() {
-        expDropDowm = true;
+        trasac = true;
       });
     } else if (amountController.text.isEmpty) {
       setState(() {
@@ -112,11 +107,7 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
         setdate = true;
       });
     }
-    //  else if (imageFile == null) {
-    //   setState(() {
-    //     file = true;
-    //   });
-    // }
+  
     else if (remarksController.text.isEmpty) {
       setState(() {
         remark = true;
@@ -129,18 +120,18 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
             Uri.parse(
                 'https://fleet.xtremessoft.com/services/Xtreme/multipart'));
         request.fields.addAll({
-          'type': 'EmployeeExpense_Save',
-          'Id': '00000000-0000-0000-0000-000000000000',
-          'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
-          'EmployeeId': name['value'],
-          'ExpenseType': expenseType,
-          'Amount': amountController.text,
-          'ExpenseDate': CusDateFormat.getDate(selectedDate),
-          'Remarks': remarksController.text,
-          'Language': 'en-US'
+       'type': 'Transaction_Save',
+  'Id': '00000000-0000-0000-0000-000000000000',
+  'TransactionType': transaction,
+  'AmountPaid': amountController.text,
+  'PaidDate': CusDateFormat.getDate(selectedDate),
+  'Reason': remarksController.text,
+  'KhataCustomerId': customer['value'],
+  'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
+  'Language': 'en-US'
         });
-        print(name);
-        print('expenseType');
+       
+      
         if (imageFile != null) {
           request.files.add(
               await http.MultipartFile.fromPath('Attachment', '$imageFile'));
@@ -153,7 +144,7 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
         _context.hideProgressIndicator();
 
         print('false');
-        // _context.hideProgressIndicator();
+       
         if (response.statusCode == 200) {
           print('statusCode.....................');
           var decode = json.decode(response.body);
@@ -164,7 +155,7 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
           Navigator.pop(context);
 
           var route = MaterialPageRoute(
-            builder: (context) => EmployeeExpense(),
+            builder: (context) => KhataTransactionList(),
           );
           Navigator.pushReplacement(context, route);
 
@@ -179,64 +170,39 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
       }
     }
   }
-
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
+       appBar: AppBar(
+       
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Expense',
+          'Add Transaction',
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          key: _formkey,
-          child: Column(
-            children: [
-              //  addExpCont('Employee', '*', ':', Colors.red),
-              Container(
+      body: Container(
+        child: SingleChildScrollView(child: Column(
+          children: [
+              dropdownComp(
+                  customer == null
+                      ? "Customer Name"
+                      : customer["text"],
+                  cust ? Colors.red : Colors.black, onchanged: (value) {
+                setState(() {
+                  customer = value;
+                  cust = false;
+              
+                });
+              }, list: customerList, dropdowntext: "text"),
+              cust ? validationCont() : Container(),
+             Container(
                 height: 50,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
-                      color: employeename ? Colors.red : Colors.black,
-                    )),
-                margin: EdgeInsets.only(left: 20, top: 30, right: 20),
-                padding: EdgeInsets.only(left: 20, right: 10),
-                child: DropdownButtonFormField(
-                  isExpanded: true,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                      filled: false,
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(color: MyColors.black),
-                      hintText: name == null ? "Employee" : name['text'],
-                      fillColor: Colors.white),
-                  onChanged: (value) {
-                    print(value);
-                    setState(() {
-                      name = value;
-                      employeename = false;
-                    });
-                  },
-                  items: empNameList
-                      .map((item) => DropdownMenuItem(
-                          value: item, child: Text("${item['text']}")))
-                      .toList(),
-                ),
-              ),
-              employeename ? validationCont() : Container(),
-              // addExpCont('Expense Type', '*', ':', Colors.red),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: expDropDowm ? Colors.red : Colors.black,
+                      color: trasac ? Colors.red : Colors.black,
                     )),
                 margin: EdgeInsets.only(left: 20, top: 25, right: 20),
                 padding: EdgeInsets.only(left: 20, right: 10),
@@ -249,52 +215,32 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
                       filled: false,
                       hintStyle: TextStyle(color: MyColors.black),
                       hintText:
-                          expenseType == null ? 'Expense Type' : expenseType,
+                          transaction == null ? 'Expense Type' : transaction,
                       fillColor: Colors.white),
                   // value: dropDownValue,
                   onChanged: (String? Value) {
                     setState(() {
-                      expenseType = Value;
-                      expDropDowm = false;
+                      transaction = Value;
+                      trasac = false;
                     });
                   },
-                  items: expenseList
+                  items: transactionList
                       .map((expenseTitle) => DropdownMenuItem(
                           value: expenseTitle, child: Text("$expenseTitle")))
                       .toList(),
                 ),
               ),
-              expDropDowm ? validationCont() : Container(),
-              // addExpCont('Amount', '*', ':', Colors.red),
-              Container(
-                margin: EdgeInsets.only(left: 20, top: 25, right: 20),
-                padding: EdgeInsets.only(left: 20, right: 10),
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border:
-                        Border.all(color: amount ? Colors.red : Colors.black)),
-                child: TextFormField(
-                  cursorColor: MyColors.black,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      hintStyle: TextStyle(
-                        color: MyColors.black,
-                      ),
-                      hintText: 'Amount',
-                      border: InputBorder.none),
-                  onChanged: (String? Value) {
-                    setState(() {
-                      amount = false;
-                    });
-                  },
-                ),
-              ),
+              trasac ? validationCont() : Container(),
+
+               textFieldCont('Amount', amountController,
+                  amount ? Colors.red : Colors.black, onChanged: (value) {
+                setState(() {
+                  amount = false;
+                });
+              },keyboard: TextInputType.number),
               amount ? validationCont() : Container(),
-              //addExpCont('Expense Date', '*', ':', Colors.red),
-              Container(
+
+                Container(
                 margin: EdgeInsets.only(left: 20, top: 25, right: 20),
                 padding: EdgeInsets.only(left: 20, right: 10),
                 height: 50,
@@ -339,8 +285,7 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
                 ),
               ),
               setdate ? validationCont() : Container(),
-              // addExpCont('Attachment', '*', ':', Colors.white),
-              Container(
+                   Container(
                 margin: EdgeInsets.only(left: 20, top: 25, right: 20),
                 padding: EdgeInsets.only(left: 20, right: 10),
                 height: 50,
@@ -381,38 +326,18 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
                   ],
                 ),
               ),
-              // file ? validationCont() : Container(),
-              // addExpCont('Remarks', '*', ':', Colors.red),
-              Container(
-                margin: EdgeInsets.only(left: 20, top: 30, right: 20),
-                padding: EdgeInsets.only(left: 20, right: 10, top: 10),
-                height: 70,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border:
-                        Border.all(color: remark ? Colors.red : Colors.black)),
-                child: TextFormField(
-                  cursorColor: MyColors.black,
-
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: remarksController,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration.collapsed(
-                    hintText: 'Remarks.................',
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (String? Value) {
-                    setState(() {
-                      remark = false;
-                    });
-                  },
-                ),
-              ),
+               textFieldCont('Remarks...', remarksController,
+                  remark ? Colors.red : Colors.black, onChanged: (value) {
+                setState(() {
+                  remark = false;
+                });
+              }),
               remark ? validationCont() : Container(),
-              InkWell(
+
+
+                 InkWell(
                 onTap: () {
-                  addEmployeeExpenses();
+                 addTransaction();
                 },
                 child: Container(
                   height: 50,
@@ -431,44 +356,39 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
                   ),
                 ),
               )
-            ],
-          ),
-        ),
+
+          ],
+        )),
       ),
+
     );
   }
-
-  cDropdown(List<String> list, String selected, Function(String) onChanged) {
-    return DropdownButtonFormField(
-      decoration: InputDecoration(
-          border:
-              OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-          filled: true,
-          hintStyle: TextStyle(color: Colors.grey[800]),
-          hintText: 'Select Type',
-          fillColor: Colors.white),
-      value: selected,
-      onChanged: (String? value) => onChanged(value!),
-      items: list
-          .map((expenseTitle) => DropdownMenuItem(
-              value: expenseTitle, child: Text("$expenseTitle")))
-          .toList(),
-    );
-  }
-
-  addExpCont(String title, String asterisk, String colon, Color color) {
+   dropdownComp(String hinttext, Color bordercolor,
+      {Function? onchanged, List? list, String? dropdowntext}) {
     return Container(
-      alignment: Alignment.topLeft,
-      margin: EdgeInsets.only(left: 20, top: 15),
-      child: RichText(
-          text: TextSpan(children: [
-        TextSpan(
-            text: title, style: TextStyle(color: Colors.black, fontSize: 18)),
-        TextSpan(text: asterisk, style: TextStyle(color: color, fontSize: 18)),
-        TextSpan(
-            text: colon, style: TextStyle(color: Colors.black, fontSize: 18)),
-      ])),
-    );
+        height: 50,
+        padding: EdgeInsets.only(left: 20, right: 20),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(
+              color: bordercolor,
+            )),
+        margin: EdgeInsets.only(left: 20, top: 25, right: 20),
+        child: DropdownButtonFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          isExpanded: true,
+          decoration: InputDecoration(
+              border: InputBorder.none,
+              filled: false,
+              hintStyle: TextStyle(color: MyColors.black),
+              hintText: '$hinttext',
+              fillColor: Colors.white),
+          onChanged: (value) => onchanged!(value),
+          items: list
+              ?.map((item) => DropdownMenuItem(
+                  value: item, child: Text("${item[dropdowntext]}")))
+              .toList(),
+        ));
   }
 
   validationCont() {
@@ -479,6 +399,28 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
       child: Text(
         'This field is required',
         style: TextStyle(color: Colors.red, fontSize: 12),
+      ),
+    );
+  }
+
+  textFieldCont(String hint, TextEditingController controller, Color,
+      {Function(String)? onChanged, TextInputType? keyboard}) {
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 10),
+      margin: EdgeInsets.only(left: 20, top: 25, right: 20),
+      height: 50,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: Color)),
+      child: TextFormField(
+        keyboardType: keyboard,
+        controller: controller,
+        cursorColor: Colors.black,
+        decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: TextStyle(color: MyColors.black, fontSize: 14),
+            border: InputBorder.none),
+        onChanged: (value) => onChanged!(value),
       ),
     );
   }

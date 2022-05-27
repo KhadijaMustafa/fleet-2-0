@@ -50,6 +50,9 @@ class _AddEmployeeListState extends State<AddEmployeeList> {
 
       print(employeeN);
       print('/////////////////////////////////');
+      setState(() {
+        
+      });
     } catch (e) {}
   }
 
@@ -299,7 +302,7 @@ class _AddEmployeeListState extends State<AddEmployeeList> {
           decoration: InputDecoration(
               border: InputBorder.none,
               filled: false,
-              hintStyle: TextStyle(color: Colors.black54),
+              hintStyle: TextStyle(color: MyColors.black),
               hintText: '$hinttext',
               fillColor: Colors.white),
           onChanged: (value) => onchanged!(value),

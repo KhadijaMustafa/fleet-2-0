@@ -195,7 +195,7 @@ class _EditVehicleExpenseState extends State<EditVehicleExpense> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Expense',
+          'Update Expense',
           style: TextStyle(color: Colors.white),
         ),
       ),

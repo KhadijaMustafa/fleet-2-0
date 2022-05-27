@@ -17,7 +17,6 @@ class VehicleSupplier extends StatefulWidget {
 }
 
 class _VehicleSupplierState extends State<VehicleSupplier> {
-
   TextEditingController searchController = TextEditingController();
   List supplierList = [];
   bool loading = true;
@@ -26,6 +25,7 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
   var selectedItem;
   int itemIndex = 0;
   var suppliername;
+  int count = 1;
   getVehExpense() async {
     try {
       var headers = {'Content-Type': 'application/json'};
@@ -64,7 +64,7 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
   @override
   void initState() {
     expCallApi();
-   
+
     super.initState();
   } //
 
@@ -114,10 +114,13 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
-        title:selectedItem==null? Text('Vehicle Supplier List'):Container(),
+        title:
+            selectedItem == null ? Text('Vehicle Supplier List') : Container(),
         actions: [
-          selectedItem==null?Container():Row(
-             children: [
+          selectedItem == null
+              ? Container()
+              : Row(
+                  children: [
                     GestureDetector(
                         onTap: () {
                           showDialog(
@@ -126,35 +129,73 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
                                 return AlertDialog(
                                   //title: Text('data'),
                                   content: Text(
-                                    'Delete this record?',
+                                    'Do you want to delete this record?',
                                     style: TextStyle(
-                                        color: MyColors.yellow,
+                                        color: MyColors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                    InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Text('Cancel')),
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, deleteSupplier());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Text(
-                                          'Ok',
-                                          style: TextStyle(color: Colors.black),
-                                        )),
+                                    Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context, deleteSupplier());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 );
                               });
-                     
                         },
                         child: actionIcon(
                           Icons.delete,
                         )),
-                  
                     GestureDetector(
                         onTap: () {
                           MyNavigation().push(
@@ -168,7 +209,7 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
                         onTap: () => setState(() => selectedItem = null),
                         child: actionIcon(Icons.close)),
                   ],
-          )
+                )
         ],
       ),
       body: loading
@@ -183,7 +224,7 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
                 children: [
                   Container(
                     //margin: EdgeInsets.all(10),
-                   // height: 50,
+                    // height: 50,
                     child: Container(
                       height: 45,
                       padding: EdgeInsets.only(
@@ -248,40 +289,41 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
                   Container(
                     padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: supplierCont(
-                        'Name', 'Address', 'Contact Person ', 14, FontWeight.bold),
+                    child: supplierCont('#', 'Name', 'Address',
+                        'Contact Person ', 14, FontWeight.bold),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 5,right: 5),
+                    padding: EdgeInsets.only(left: 5, right: 5),
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount:
                           isSearching ? filterList.length : supplierList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        int indexx = index + 1;
                         var item = isSearching
                             ? filterList[index]
                             : supplierList[index];
-                            var supname=supplierList[index]['name'];
+                        var supname = supplierList[index]['name'];
                         return supplierCont(
-                            '${item['name']}',
-                            '${item['address']}',
-                            '${item['contactPerson']}',
-                            12,
-                            FontWeight.normal,
-                             onLongPress: () {
-                                      print('object');
-                                     
-                                      setState(() {
-                                        selectedItem = item;
-                                        itemIndex = index;
-                                          suppliername=supname;
+                          '$indexx',
+                          '${item['name']}',
+                          '${item['address']}',
+                          '${item['contactPerson']}',
+                          12,
+                          FontWeight.normal,
+                          onLongPress: () {
+                            print('object');
 
-                                      });
-                                    }, bgColor: '${selectedItem}' == '${item}'
-                                        ? MyColors.yellow
-                                        : Colors.white,
-                     
+                            setState(() {
+                              selectedItem = item;
+                              itemIndex = index;
+                              suppliername = supname;
+                            });
+                          },
+                          bgColor: '${selectedItem}' == '${item}'
+                              ? MyColors.yellow
+                              : Colors.white,
                         );
                       },
                     ),
@@ -291,7 +333,8 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
             ),
     );
   }
-   actionIcon(IconData) {
+
+  actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -302,25 +345,37 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
     );
   }
 
-  supplierCont(String name, String address, String contact, double size,
-      FontWeight fontWeight,
-      {
-      // String? project,
-      Function? onLongPress,
-       bgColor,
-    
-     }) {
+  supplierCont(
+    String serial,
+    String name,
+    String address,
+    String contact,
+    double size,
+    FontWeight fontWeight, {
+    // String? project,
+    Function? onLongPress,
+    bgColor,
+  }) {
     return GestureDetector(
-       onLongPress: () => onLongPress!(),
+      onLongPress: () => onLongPress!(),
       child: Container(
         decoration: BoxDecoration(
-             color: bgColor,
-             
-            borderRadius: BorderRadius.circular(10)),
+            color: bgColor, borderRadius: BorderRadius.circular(10)),
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              
+
+
+          Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
           Expanded(
             child: Container(
               child: Text(

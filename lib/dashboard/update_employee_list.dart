@@ -201,7 +201,7 @@ class _UpdateEmployeeListState extends State<UpdateEmployeeList> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Employee',
+          'Update Employee',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -343,7 +343,7 @@ class _UpdateEmployeeListState extends State<UpdateEmployeeList> {
           decoration: InputDecoration(
               border: InputBorder.none,
               filled: false,
-              hintStyle: TextStyle(color: Colors.black54),
+              hintStyle: TextStyle(color: MyColors.black),
               hintText: '$hinttext',
               fillColor: Colors.white),
           onChanged: (value) => onchanged!(value),

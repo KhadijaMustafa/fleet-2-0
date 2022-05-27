@@ -127,8 +127,8 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
     contactperson.text = widget.item!['contactPerson'];
     contactpersonurdu.text = widget.item!['contactPersonUrd'];
 
-    address.text = widget.item!['address'];
-    address.text = widget.item!['addressUrd'];
+    address.text = widget.item!['addressEng'];
+    addressurdu.text = widget.item!['addressUrd'];
 
 
     super.initState();
@@ -142,7 +142,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Vehicle Supplier',
+          'Update Vehicle Supplier',
           style: TextStyle(color: Colors.white),
         ),
       ),

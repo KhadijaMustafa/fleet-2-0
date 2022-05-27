@@ -354,27 +354,56 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
                                 return AlertDialog(
                                   //title: Text('data'),
                                   content: Text(
-                                    'Delete this record?',
+                                    'Do you want to delete this record?',
                                     style: TextStyle(
-                                        color: MyColors.yellow,
+                                        color: MyColors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                    InkWell(
+                                   Container(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                             InkWell(
                                         onTap: () {
                                           Navigator.pop(context, false);
                                         },
-                                        child: Text('Cancel')),
-                                    TextButton(
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: MyColors.bgred
+                                        ),
+                                      margin: EdgeInsets.only(left: 5,right: 5),
+                                 
+                                          child: Text('No',
+                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
+
+                                            TextButton(
                                         onPressed: () {
                                           Navigator.pop(
                                               context, deleteEmployeeData());
                                           setState(() => selectedItem = null);
                                         },
-                                        child: Text(
-                                          'Ok',
-                                          style: TextStyle(color: Colors.black),
+                                        child: Container(
+                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: MyColors.bggreen
+                                        ),
+                                
+                                      margin: EdgeInsets.only(left: 5,right: 5),
+                                         
+
+                                          child: Text(
+                                            'Yes',
+                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                                          ),
                                         )),
+
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 );
                               });
@@ -474,7 +503,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
                       padding: EdgeInsets.all(5),
                       // margin: EdgeInsets.all(10),
                       color: Color.fromARGB(255, 234, 227, 227),
-                      child: empExpCont('Name', 'Type', 'Date', 'Amount',
+                      child: empExpCont('#','Name', 'Type', 'Date', 'Amount',
                           'Remarks', 13, FontWeight.bold),
                     ),
                     Container(
@@ -484,10 +513,11 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
                             ? filterList.length
                             : employeeList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          int indexx=index+1;
                           var item = isSearching
                               ? filterList[index]
                               : employeeList[index];
-                          return empExpCont(
+                          return empExpCont('$indexx',
                               '${item['name']}',
                               '${item['expenseType']}',
                               '${item['expenseDate']}',
@@ -538,7 +568,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
     );
   }
 
-  empExpCont(String title, String document, String expiryDate, String amount,
+  empExpCont(String serial,String title, String document, String expiryDate, String amount,
       String remarks, double size, FontWeight fontWeight,
       {String? project,
       Function? onLongPress,
@@ -549,11 +579,19 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
       onLongPress: () => onLongPress!(),
       child: Container(
         margin: EdgeInsets.only(top: 5),
-        padding: EdgeInsets.all(5),
+       
         decoration: BoxDecoration(
             color: bgColor, borderRadius: BorderRadius.circular(10)),
         child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+             Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
           Expanded(
             child: Container(
               child: Text(
@@ -570,14 +608,15 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 10),
+           
+              //margin: EdgeInsets.only(left: 10),
               child: Text(expiryDate,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 3, right: 5),
+             margin: EdgeInsets.only(left: 3, right: 5),
               child: Text(amount,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),

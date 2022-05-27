@@ -178,7 +178,7 @@ class _UpdateKhataState extends State<UpdateKhata> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Khata',
+          'Update Khata',
           style: TextStyle(color: Colors.white),
         ),
       ),

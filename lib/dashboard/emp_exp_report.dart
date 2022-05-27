@@ -207,7 +207,7 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                             //padding: EdgeInsets.all(5),
                             //margin: EdgeInsets.all(5),
                             color: Color.fromARGB(255, 234, 227, 227),
-                            child: vehExpCont('Name', ' Type', ' Date',
+                            child: vehExpCont('#','Name', ' Type', ' Date',
                                 'Amount', 'Remarks', 13, FontWeight.bold),
                           ),
                           Container(
@@ -217,10 +217,12 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                               // scrollDirection: Axis.vertical,
                               itemCount: recordList.length,
                               itemBuilder: (BuildContext context, int index) {
+                                int indexx=index+1;
                                 var item = recordList[index];
 
                                 // return Container();
                                 return vehExpCont(
+                                  '$indexx',
                                   '${item['name']} ',
                                   '${item['expenseType']}',
                                   '${item['expenseDate']}',
@@ -254,6 +256,7 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
   }
 
   vehExpCont(
+    String serial,
     String platenmbr,
     String expType,
     String expiryDate,
@@ -274,6 +277,14 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
           Expanded(
             child: Container(
               child: Text(

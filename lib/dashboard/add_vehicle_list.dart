@@ -82,47 +82,49 @@ class _AddVehicleListState extends State<AddVehicleList> {
         drivername = true;
       });
     } else {
-    try {
-      var request = http.MultipartRequest('POST',
-          Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/multipart'));
-      request.fields.addAll({
-        'type': 'Vehicle_Save',
-        'Id': '00000000-0000-0000-0000-000000000000',
-        'PlatNumber': platenumber.text,
-        'VehicleSupplierId': vehiclesupplier['value'],
-        'SetupVehicleTypeId': vehicletype['value'],
-        'EmployeeId': driver['value'],
-        'Language': 'en-US'
-      });
-      print(platenumber.text);
-      print( driver['value']);
+      try {
+        var request = http.MultipartRequest(
+            'POST',
+            Uri.parse(
+                'https://fleet.xtremessoft.com/services/Xtreme/multipart'));
+        request.fields.addAll({
+          'type': 'Vehicle_Save',
+          'Id': '00000000-0000-0000-0000-000000000000',
+          'PlatNumber': platenumber.text,
+          'VehicleSupplierId': vehiclesupplier['value'],
+          'SetupVehicleTypeId': vehicletype['value'],
+          'EmployeeId': driver['value'],
+          'Language': 'en-US'
+        });
+        print(platenumber.text);
+        print(driver['value']);
 
-      print(vehiclesupplier['value']);
+        print(vehiclesupplier['value']);
 
-      _context.showProgressIndicator(
-          circularProgressIndicatorColor: Color.fromARGB(255, 98, 61, 12));
-      http.StreamedResponse streamResponse = await request.send();
-      http.Response response = await http.Response.fromStream(streamResponse);
-      _context.hideProgressIndicator();
-      if (response.statusCode == 200) {
-        var decode = json.decode(response.body);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: MyColors.bggreen,
-          content: Text('Record succesfully added.'),
-        ));
-        Navigator.pop(context);
-        var route = MaterialPageRoute(
-          builder: (context) => VehicleList(),
-        );
-        Navigator.pushReplacement(context, route);
-        print(decode);
-        print('decode');
+        _context.showProgressIndicator(
+            circularProgressIndicatorColor: Color.fromARGB(255, 98, 61, 12));
+        http.StreamedResponse streamResponse = await request.send();
+        http.Response response = await http.Response.fromStream(streamResponse);
+        _context.hideProgressIndicator();
+        if (response.statusCode == 200) {
+          var decode = json.decode(response.body);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: MyColors.bggreen,
+            content: Text('Record succesfully added.'),
+          ));
+          Navigator.pop(context);
+          var route = MaterialPageRoute(
+            builder: (context) => VehicleList(),
+          );
+          Navigator.pushReplacement(context, route);
+          print(decode);
+          print('decode');
+        }
+      } catch (e) {
+        _context.hideProgressIndicator();
+        print(e);
       }
-    } catch (e) {
-      _context.hideProgressIndicator();
-      print(e);
     }
-  }
   }
 
   @override
@@ -147,16 +149,13 @@ class _AddVehicleListState extends State<AddVehicleList> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              textFieldCont('Plate Number', platenumber, pltnumber? Colors.red : Colors.black,onChanged: (value){
+              textFieldCont('Plate Number', platenumber,
+                  pltnumber ? Colors.red : Colors.black, onChanged: (value) {
                 setState(() {
-                  pltnumber=false;
+                  pltnumber = false;
                 });
               }),
               pltnumber ? validationCont() : Container(),
-  
-
-
-
               dropdownComp(
                   vehiclesupplier == null
                       ? "Vehicle Supplier Name"
@@ -166,7 +165,6 @@ class _AddVehicleListState extends State<AddVehicleList> {
                   vehiclesupplier = value;
                   suppliername = false;
                   print(vehiclesupplier);
-
                 });
               }, list: supplierList, dropdowntext: "text"),
               suppliername ? validationCont() : Container(),
@@ -178,19 +176,16 @@ class _AddVehicleListState extends State<AddVehicleList> {
                   vehicle = false;
                   print(vehicletype);
                   print('vehicle');
-
                 });
               }, list: vehicltypelist, dropdowntext: "text"),
               vehicle ? validationCont() : Container(),
-              dropdownComp(
-                  driver == null ? "Driver Name" : driver["text"], drivername ? Colors.red : Colors.black,
-                  onchanged: (value) {
+              dropdownComp(driver == null ? "Driver Name" : driver["text"],
+                  drivername ? Colors.red : Colors.black, onchanged: (value) {
                 setState(() {
                   driver = value;
                   drivername = false;
                   print(driver);
                   print('driver');
-
                 });
               }, list: driverlist, dropdowntext: "text"),
               drivername ? validationCont() : Container(),
@@ -242,10 +237,10 @@ class _AddVehicleListState extends State<AddVehicleList> {
           decoration: InputDecoration(
               border: InputBorder.none,
               filled: false,
-              hintStyle: TextStyle(color: Colors.black54),
+              hintStyle: TextStyle(color: MyColors.black),
               hintText: '$hinttext',
               fillColor: Colors.white),
-          onChanged: (value) =>onchanged!(value),
+          onChanged: (value) => onchanged!(value),
           items: list
               ?.map((item) => DropdownMenuItem(
                   value: item, child: Text("${item[dropdowntext]}")))
@@ -282,44 +277,8 @@ class _AddVehicleListState extends State<AddVehicleList> {
             hintText: hint,
             hintStyle: TextStyle(color: MyColors.black, fontSize: 14),
             border: InputBorder.none),
-                  onChanged: (value) =>onChanged!(value),
-
-        // onChanged: (String? Value) {
-        //   onChanged;
-        // },
+        onChanged: (value) => onChanged!(value),
       ),
     );
   }
 }
-  // Container(
-  //               height: 50,
-  //               decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(30),
-
-  //                   border: Border.all(
-  //                 color:  Colors.black,
-  //               )),
-  //                margin: EdgeInsets.only(left: 20, top: 30, right: 20),
-  //               padding: EdgeInsets.only(left: 20, right: 10),
-  //               child: DropdownButtonFormField(
-  //                 isExpanded: true,
-  //                 autovalidateMode: AutovalidateMode.onUserInteraction,
-  //                 decoration: InputDecoration(
-  //                     filled: false,
-  //                     border: InputBorder.none,
-  //                     hintStyle: TextStyle(color: Colors.grey[800]),
-  //                     hintText: vehiclesupplier == null ? "--select--" : vehiclesupplier['text'],
-  //                     fillColor: Colors.white),
-  //                 onChanged: (value) {
-  //                   print(value);
-  //                   setState(() {
-  //                     vehiclesupplier = value;
-                    
-  //                   });
-  //                 },
-  //                 items: supplierList
-  //                     .map((item) => DropdownMenuItem(
-  //                         value: item, child: Text("${item['text']}")))
-  //                     .toList(),
-  //               ),
-  //             ),

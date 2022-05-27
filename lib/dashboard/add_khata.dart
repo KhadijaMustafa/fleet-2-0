@@ -32,7 +32,7 @@ class _AddKhataState extends State<AddKhata> {
   getKhataNumber()async{
 
     try {
-        print('/////////////////////////////////???');
+       
 
       var headers = {
   'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ request.headers.addAll(headers);
 
     http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
-      if(response.statusCode==200){
+     
             var decode = json.decode(response.body);
         var dodecode=json.decode(decode['Value']);
         
@@ -58,10 +58,12 @@ request.headers.addAll(headers);
         print(dodecode);
 
         print(khata);
-        print('/////////////////////////////////');
+       
+setState(() {
+  
+});
 
-
-      }
+      
 
    
          

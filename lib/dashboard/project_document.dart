@@ -165,7 +165,7 @@ class _ProjectDocumentsState extends State<ProjectDocuments> {
                     padding: EdgeInsets.all(8),
                     //margin: EdgeInsets.all(10),
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: empDocCont(
+                    child: empDocCont('#',
                       'Code',
                       'Name',
                       'Document',
@@ -182,10 +182,11 @@ class _ProjectDocumentsState extends State<ProjectDocuments> {
                           ? filterList.length
                           : proDetailList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        int indexx=index=1;
                         var item = isSearching
                             ? filterList[index]
                             : proDetailList[index];
-                        return empDocCont(
+                        return empDocCont('$indexx',
                             '${item['projectCode']}',
                             '${item['projectName']}',
                             '${item['documentType']}',
@@ -208,6 +209,7 @@ class _ProjectDocumentsState extends State<ProjectDocuments> {
   }
 
   empDocCont(
+    String serial,
     String title,
     String document,
     String projectName,
@@ -221,6 +223,14 @@ class _ProjectDocumentsState extends State<ProjectDocuments> {
       alignment: Alignment.topLeft,
       margin: EdgeInsets.only(left: 10, top: 10),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
         Expanded(
           child: Container(
             child: Text(

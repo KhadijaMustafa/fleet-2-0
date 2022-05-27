@@ -123,27 +123,56 @@ class _MonthlyRentState extends State<MonthlyRent> {
                                 return AlertDialog(
                                   //title: Text('data'),
                                   content: Text(
-                                    'Delete this record?',
+                                    'Do you want to delete this record?',
                                     style: TextStyle(
-                                        color: MyColors.yellow,
+                                        color: MyColors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                    InkWell(
+                                     Container(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                             InkWell(
                                         onTap: () {
                                           Navigator.pop(context, false);
                                         },
-                                        child: Text('Cancel')),
-                                    TextButton(
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: MyColors.bgred
+                                        ),
+                                      margin: EdgeInsets.only(left: 5,right: 5),
+                                 
+                                          child: Text('No',
+                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
+
+                                            TextButton(
                                         onPressed: () {
                                           Navigator.pop(
                                               context, deleteRent());
                                           setState(() => selectedItem = null);
                                         },
-                                        child: Text(
-                                          'Ok',
-                                          style: TextStyle(color: Colors.black),
+                                        child: Container(
+                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: MyColors.bggreen
+                                        ),
+                                
+                                      margin: EdgeInsets.only(left: 5,right: 5),
+                                         
+
+                                          child: Text(
+                                            'Yes',
+                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                                          ),
                                         )),
+
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 );
                               });
@@ -247,7 +276,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
                   Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('Number', 'Date',
+                    child: vehicleListCont('#','Number', 'Date',
                         'Manifes', 'Plate','Code','Hour(s)','DM/TC', 14, FontWeight.bold),
                   ),
 
@@ -259,10 +288,12 @@ class _MonthlyRentState extends State<MonthlyRent> {
                       itemCount:
                           isSearching ? filterList.length : rentList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        int indexx=index+1;
                         var item = isSearching
                             ? filterList[index]
                             : rentList[index];
                         return vehicleListCont(
+                          '$indexx',
                           '${item['monthlyRentNumber']}',
                           '${item['monthlyRentDate']}',
                           '${item['manifestoNumber']}',
@@ -307,6 +338,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
   }
 
   vehicleListCont(
+    String serial,
     String rentnumber,
     String date,
     String manifesto,
@@ -329,6 +361,14 @@ class _MonthlyRentState extends State<MonthlyRent> {
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
           Expanded(
             child: Container(
               child: Text(

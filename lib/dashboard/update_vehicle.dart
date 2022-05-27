@@ -124,6 +124,9 @@ setState(() {
     vehicltypelist =
         await getDropDownValues('Setup_VehicleType_DropdownList_Get');
     driverlist = await getDropDownValues('Driver_DropdownList_Get');
+    setState(() {
+      
+    });
   }
 
   updateVeh() async {
@@ -191,8 +194,8 @@ setState(() {
 
   @override
   void initState() {
-   // getListCall();
-    // getValue();
+    getListCall();
+ 
     getValue();
     print('////////////////////////employeeid');
    
@@ -209,7 +212,7 @@ setState(() {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Vehicle',
+          'Update Vehicle',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -305,7 +308,7 @@ setState(() {
           decoration: InputDecoration(
               border: InputBorder.none,
               filled: false,
-              hintStyle: TextStyle(color: Colors.black54),
+              hintStyle: TextStyle(color: MyColors.black),
               hintText: '$hinttext',
               fillColor: Colors.white),
           onChanged: (value) => onchanged!(value),

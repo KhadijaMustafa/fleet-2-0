@@ -7,6 +7,7 @@ import 'package:xtreme_fleet/dashboard/add_khata.dart';
 import 'package:xtreme_fleet/dashboard/update_khata.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
+
 class NewKhataList extends StatefulWidget {
   NewKhataList({Key? key}) : super(key: key);
 
@@ -15,7 +16,7 @@ class NewKhataList extends StatefulWidget {
 }
 
 class _NewKhataListState extends State<NewKhataList> {
-   TextEditingController searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   List supplierList = [];
   bool loading = true;
   List filterList = [];
@@ -25,9 +26,8 @@ class _NewKhataListState extends State<NewKhataList> {
   List customerKhataList = [];
 
   deleteCustomerKhata() async {
-  
     try {
-        print('Delete');
+      print('Delete');
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
@@ -39,22 +39,20 @@ class _NewKhataListState extends State<NewKhataList> {
 
       http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
-        print('???????????????????');
+      print('???????????????????');
 
-     
-        print('???????????????????');
-        var decode = json.decode(response.body);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: MyColors.bggreen,
-            content: Text('Record succesfully deleted.')));
-        customerKhataList.removeAt(itemIndex);
+      print('???????????????????');
+      var decode = json.decode(response.body);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: MyColors.bggreen,
+          content: Text('Record succesfully deleted.')));
+      customerKhataList.removeAt(itemIndex);
 
-        setState(() {
-          selectedItem = null;
-        });
-        print('Deleted');
-        print(decode);
-      
+      setState(() {
+        selectedItem = null;
+      });
+      print('Deleted');
+      print(decode);
     } catch (e) {
       print(e);
     }
@@ -102,12 +100,13 @@ class _NewKhataListState extends State<NewKhataList> {
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
-           MyNavigation().push(context, AddKhata());
+          MyNavigation().push(context, AddKhata());
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -129,27 +128,66 @@ class _NewKhataListState extends State<NewKhataList> {
                                 return AlertDialog(
                                   //title: Text('data'),
                                   content: Text(
-                                    'Delete this record?',
+                                    'Do you want to delete this record?',
                                     style: TextStyle(
-                                        color: MyColors.yellow,
+                                        color: MyColors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                    InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Text('Cancel')),
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                              context, deleteCustomerKhata());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Text(
-                                          'Ok',
-                                          style: TextStyle(color: Colors.black),
-                                        )),
+                                    Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context,
+                                                    deleteCustomerKhata());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 );
                               });
@@ -159,7 +197,6 @@ class _NewKhataListState extends State<NewKhataList> {
                         )),
                     GestureDetector(
                       onTap: () {
-                    
                         MyNavigation().push(
                             context,
                             UpdateKhata(
@@ -252,20 +289,24 @@ class _NewKhataListState extends State<NewKhataList> {
                   Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('Khata #', ' Name',
-                        'Contact', 'Address', 14, FontWeight.bold),
+                    child: vehicleListCont('#', 'Khata #', ' Name', 'Contact',
+                        'Address', 14, FontWeight.bold),
                   ),
                   Container(
                     child: ListView.builder(
+                      //physics: ClampingScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount:
-                          isSearching ? filterList.length : customerKhataList.length,
+                      itemCount: isSearching
+                          ? filterList.length
+                          : customerKhataList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        int indexx = index + 1;
                         var item = isSearching
                             ? filterList[index]
                             : customerKhataList[index];
                         return vehicleListCont(
+                          '$indexx',
                           '${item['khataNumber']}',
                           '${item['nameEng']}',
                           '${item['contactNumber']}',
@@ -295,7 +336,8 @@ class _NewKhataListState extends State<NewKhataList> {
             )),
     );
   }
-    actionIcon(IconData) {
+
+  actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -307,6 +349,7 @@ class _NewKhataListState extends State<NewKhataList> {
   }
 
   vehicleListCont(
+    String serial,
     String khataNum,
     String name,
     String contact,
@@ -326,6 +369,14 @@ class _NewKhataListState extends State<NewKhataList> {
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Container(
+            width: 15,
+            margin: EdgeInsets.only(left: 8,right: 8),
+            child: Text(
+              serial,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
           Expanded(
             child: Container(
               child: Text(

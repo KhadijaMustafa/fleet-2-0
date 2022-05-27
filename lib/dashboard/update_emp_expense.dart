@@ -200,7 +200,7 @@ class _UpdateEmployeeExpenseState extends State<UpdateEmployeeExpense> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Expense',
+          'Update Expense',
           style: TextStyle(color: Colors.white),
         ),
       ),

@@ -201,7 +201,7 @@ class _AddVehicleExpenseState extends State<AddVehicleExpense> {
                   decoration: InputDecoration(
                       filled: false,
                       border: InputBorder.none,
-                      hintStyle: TextStyle(color: Colors.black54),
+                      hintStyle: TextStyle(color: MyColors.black),
                       hintText: dropDownValue == null
                           ? "Plate Number"
                           : dropDownValue['text'],
@@ -272,7 +272,7 @@ class _AddVehicleExpenseState extends State<AddVehicleExpense> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       hintStyle: TextStyle(
-                        color: Colors.black54,
+                        color: MyColors.black,
                       ),
                       hintText: 'Amount',
                       border: InputBorder.none),
@@ -300,7 +300,7 @@ class _AddVehicleExpenseState extends State<AddVehicleExpense> {
                       //child: Text('day-mon-year'),
                       child: Text('${CusDateFormat.getDate(selectedDate)}',
                           style: TextStyle(
-                            color: Colors.black54,
+                            color: MyColors.black,
                           )),
                     ),
                     InkWell(
@@ -323,7 +323,7 @@ class _AddVehicleExpenseState extends State<AddVehicleExpense> {
                       child: Container(
                         child: Icon(
                           Icons.calendar_today,
-                          color: Colors.black54,
+                          color: MyColors.black,
                         ),
                       ),
                     )
@@ -358,7 +358,7 @@ class _AddVehicleExpenseState extends State<AddVehicleExpense> {
                           },
                           child: Text(
                             'Choose file',
-                            style: TextStyle(fontSize: 11),
+                            style: TextStyle(fontSize: 11,color: MyColors.black),
                           )),
                     ),
                     imageFile != null
@@ -374,7 +374,7 @@ class _AddVehicleExpenseState extends State<AddVehicleExpense> {
                           )
                         : Text(
                             'No file choosen',
-                            style: TextStyle(color: Colors.black54),
+                            style: TextStyle(color: MyColors.black),
                           )
                   ],
                 ),
@@ -396,8 +396,8 @@ class _AddVehicleExpenseState extends State<AddVehicleExpense> {
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration.collapsed(
-                    hintText: 'Remarks',
-                    hintStyle: TextStyle(color: Colors.black54),
+                    hintText: 'Remarks...........',
+                    hintStyle: TextStyle(color: MyColors.black),
                     border: InputBorder.none,
                   ),
                   onChanged: (String? Value) {
