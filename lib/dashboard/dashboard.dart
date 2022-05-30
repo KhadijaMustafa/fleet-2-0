@@ -70,12 +70,11 @@ class _DashboardState extends State<Dashboard> {
   }
 
   callApis() async {
-    empList = await dashboardApi('Employee')??[];
-    vehList = await dashboardApi('Vehicle')??[];
-    projectList = await dashboardApi('Project')??[];
-  
-      mainList = await [...empList, ...vehList, ...projectList];
-    
+    empList = await dashboardApi('Employee') ?? [];
+    vehList = await dashboardApi('Vehicle') ?? [];
+    projectList = await dashboardApi('Project') ?? [];
+
+    mainList = await [...empList, ...vehList, ...projectList];
 
     _loading = false;
     setState(() {});
@@ -139,7 +138,6 @@ class _DashboardState extends State<Dashboard> {
               )
             : Container(
                 padding: EdgeInsets.only(top: 10, bottom: 20),
-              
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -264,13 +262,10 @@ class _DashboardState extends State<Dashboard> {
     return GestureDetector(
       onTap: () => onTap!(),
       child: Container(
-        // alignment: Alignment.bottomCenter,
         height: 250,
-
         child: Stack(children: [
           Card(
             color: bgcolor,
-            // color: Color.fromRGBO(104, 191, 123, 1),
             shadowColor: Colors.white.withOpacity(0.2),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(13.0),
@@ -287,13 +282,9 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   Container(
                     alignment: Alignment.topCenter,
-                    // margin: EdgeInsets.only(top: -15),
-                    //  padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      // color: MyColors.bggreen
                     ),
-                    // alignment: Alignment.topLeft,
                     child: Text(
                       text,
                       overflow: TextOverflow.ellipsis,

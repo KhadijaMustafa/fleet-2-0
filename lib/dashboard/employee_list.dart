@@ -102,6 +102,7 @@ class _EmployeeListState extends State<EmployeeList> {
 
   @override
   Widget build(BuildContext context) {
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -276,11 +277,17 @@ class _EmployeeListState extends State<EmployeeList> {
                       ),
                     ),
                   ),
-                  Container(
-                    // padding: EdgeInsets.only(left: 10),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                         width: width+65,
+                      child: Column(
+                      children: [
+                         Container(
+                
                     color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont( '#','Employee#', ' Name',
-                        'Contact', 'Position', 14, FontWeight.bold),
+                    child: vehicleListCont( '#','Employee #', ' Name',
+                        'Contact Number', 'Position', 14, FontWeight.bold),
                   ),
                   Container(
                     child: ListView.builder(
@@ -319,6 +326,11 @@ class _EmployeeListState extends State<EmployeeList> {
                       },
                     ),
                   )
+
+                      ],
+                    )),
+                  )
+                 
                 ],
               ),
             )),
@@ -359,44 +371,40 @@ class _EmployeeListState extends State<EmployeeList> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
              children: [
                Container(
-            width: 15,
+            width: 25,
             margin: EdgeInsets.only(left: 8,right: 8),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-            Expanded(
-              child: Container(
-            
-                child: Text(
-                  empnumber,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight),
-                ),
+            Container(
+            width: 100,
+              child: Text(
+                empnumber,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight),
               ),
             ),
         
-          Expanded(
-            child: Container(
-                      margin: EdgeInsets.only(left: 20),
+          Container(
+            width: 110,
+                  
 
-              child: Text(name,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+            child: Text(name,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(contact,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+                     width: 115,
+
+            child: Text(contact,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(position,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+       
+            child: Text(position,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
         ]),
       ),

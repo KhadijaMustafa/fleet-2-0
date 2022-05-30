@@ -102,6 +102,8 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
 
   @override
   Widget build(BuildContext context) {
+    double width=MediaQuery.of(context).size.width;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -286,48 +288,61 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    color: Color.fromARGB(255, 234, 227, 227),
-                    child: supplierCont('#', 'Name', 'Address',
-                        'Contact Person ', 14, FontWeight.bold),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: width+10,
+                      child: Column(
+                        children: [
+                           Container(
+                    
+                      color: Color.fromARGB(255, 234, 227, 227),
+                      child: supplierCont('#', 'Name', 'Address',
+                          'Contact Person ', 14, FontWeight.bold),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 5, right: 5),
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount:
-                          isSearching ? filterList.length : supplierList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int indexx = index + 1;
-                        var item = isSearching
-                            ? filterList[index]
-                            : supplierList[index];
-                        var supname = supplierList[index]['name'];
-                        return supplierCont(
-                          '$indexx',
-                          '${item['name']}',
-                          '${item['address']}',
-                          '${item['contactPerson']}',
-                          12,
-                          FontWeight.normal,
-                          onLongPress: () {
-                            print('object');
+                       Container(
+                      padding: EdgeInsets.only(left: 5, right: 5),
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount:
+                            isSearching ? filterList.length : supplierList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          int indexx = index + 1;
+                          var item = isSearching
+                              ? filterList[index]
+                              : supplierList[index];
+                          var supname = supplierList[index]['name'];
+                          return supplierCont(
+                            '$indexx',
+                            '${item['name']}',
+                            '${item['address']}',
+                            '${item['contactPerson']}',
+                            12,
+                            FontWeight.normal,
+                            onLongPress: () {
+                              print('object');
 
-                            setState(() {
-                              selectedItem = item;
-                              itemIndex = index;
-                              suppliername = supname;
-                            });
-                          },
-                          bgColor: '${selectedItem}' == '${item}'
-                              ? MyColors.yellow
-                              : Colors.white,
-                        );
-                      },
+                              setState(() {
+                                selectedItem = item;
+                                itemIndex = index;
+                                suppliername = supname;
+                              });
+                            },
+                            bgColor: '${selectedItem}' == '${item}'
+                                ? MyColors.yellow
+                                : Colors.white,
+                          );
+                        },
+                      ),
+                  )
+
+                        ],
+                      ),
                     ),
                   )
+                 
+               
                 ],
               )),
             ),
@@ -369,64 +384,35 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
 
 
           Container(
-            width: 15,
+            width: 25,
             margin: EdgeInsets.only(left: 8,right: 8),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(
-                name,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: Text(address,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(contact,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-          // Container(
-          //     margin: EdgeInsets.only(right: 10),
+          Container(
+            width: 120,
 
-          //   width: 30,)
-          // Container(
-          //   child: Row(
-          //     children: [
-          //       GestureDetector(
-          //         onTap: () => onPress!(),
-          //         child: Container(
-          //           margin: EdgeInsets.only(right: 10),
-          //           child: Icon(
-          //             delete,
-          //             color: MyColors.yellow,
-          //           ),
-          //         ),
-          //       ),
-          //       GestureDetector(
-          //         onTap: () => onTab!(),
-          //         child: Container(
-          //           margin: EdgeInsets.only(right: 5),
-          //           child: Icon(
-          //             edit,
-          //             color: MyColors.yellow,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+            child: Text(
+              name,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
+          Container(
+            width: 130,
+
+            child: Text(address,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          Container(
+            width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+            child: Text(contact,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+      
         ]),
       ),
     );

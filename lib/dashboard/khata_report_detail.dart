@@ -1,39 +1,30 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xtreme_fleet/dashboard/file_attachment.dart';
-import 'package:xtreme_fleet/utilities/my_colors.dart';
-import 'package:xtreme_fleet/utilities/CusDateFormat.dart';
 import 'package:http/http.dart' as http;
-import 'package:xtreme_fleet/utilities/my_navigation.dart';
-
-class VehicleExpenseReport extends StatefulWidget {
-  final item;
-  VehicleExpenseReport({Key? key, this.item}) : super(key: key);
+import 'package:xtreme_fleet/utilities/CusDateFormat.dart';
+import 'package:xtreme_fleet/utilities/my_colors.dart';
+class KhataReportDetail extends StatefulWidget {
+  KhataReportDetail({Key? key}) : super(key: key);
 
   @override
-  State<VehicleExpenseReport> createState() => _VehicleExpenseReportState();
+  State<KhataReportDetail> createState() => _KhataReportDetailState();
 }
 
-class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
-  DateTime startDate = DateTime.utc(2022);
+class _KhataReportDetailState extends State<KhataReportDetail> {
+    DateTime startDate = DateTime.utc(2022);
   DateTime selectedDate = DateTime.now();
-  List filterList = [];
-  bool isSearching = false;
-  bool _loading = true;
-  List reportList = [];
 
-  expenseReport() async {
-    print("StartDate" + CusDateFormat.getDate(startDate));
-    print("EndDate" + CusDateFormat.getDate(selectedDate));
-    // return;
+  bool loading = true;
+  List recordList = [];
+
+  empExpenseReport() async {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-        "type": "VehicleExpense_GetByDateRange",
+        "type": "Transaction_Report_GetByKhata",
         "value": {
           "StartDate": CusDateFormat.getDate(startDate),
           "EndDate": CusDateFormat.getDate(selectedDate),
@@ -49,29 +40,28 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
         var decode = json.decode(response.body);
         print('StatusCode');
         print(decode);
+        print(json.decode(decode['Value']));
         return json.decode(decode['Value']);
+        
       }
     } catch (e) {}
   }
 
-  vehicleReport() async {
-    reportList = await expenseReport();
-
+  employeeReport() async {
+    recordList = await empExpenseReport();
+    loading = false;
     setState(() {});
-    _loading = false;
   }
 
   @override
   void initState() {
     super.initState();
-    vehicleReport();
+    employeeReport();
   }
-
   @override
   Widget build(BuildContext context) {
-    double width=MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
+       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
@@ -88,7 +78,7 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
           ),
         ),
       ),
-      body: _loading
+      body: loading
           ? Center(
               child: CircularProgressIndicator(
                 color: MyColors.yellow,
@@ -191,9 +181,9 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
                               ],
                             ),
                           ),
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
-                              vehicleReport();
+                              employeeReport();
                             },
                             child: Container(
                               padding: EdgeInsets.all(10),
@@ -209,13 +199,7 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
                         ],
                       ),
                     ), ////
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Container(
-                        width: width+100,
-                        child: Column(
-                        children: [
-                            Container(
+                    Container(
                       margin: EdgeInsets.only(top: 10),
                       child: Column(
                         children: [
@@ -223,28 +207,28 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
                             //padding: EdgeInsets.all(5),
                             //margin: EdgeInsets.all(5),
                             color: Color.fromARGB(255, 234, 227, 227),
-                            child: vehExpCont('#','Plate #', ' Type', ' Date',
-                                'Amount', 'Remarks', 15, FontWeight.bold),
+                            child: vehExpCont('#','Name', ' Type', ' Date',
+                                'Amount', 'Remarks', 13, FontWeight.bold),
                           ),
                           Container(
                             child: ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               // scrollDirection: Axis.vertical,
-                              itemCount: reportList.length,
+                              itemCount: recordList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 int indexx=index+1;
-                                var item = reportList[index];
+                                var item = recordList[index];
 
                                 // return Container();
                                 return vehExpCont(
                                   '$indexx',
-                                  '${item['platNumber']} ',
+                                  '${item['name']} ',
                                   '${item['expenseType']}',
                                   '${item['expenseDate']}',
                                   '${item['amount']}',
                                   '${item['remarks']}',
-                                  12,
+                                  10,
                                   FontWeight.normal,
                                 );
                               },
@@ -253,19 +237,13 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
                         ],
                       ),
                     )
-
-                        ],
-                      )),
-                    )
-                  
                   ],
                 ),
               ),
             ),
     );
   }
-
-  actionIcon(IconData) {
+   actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -341,14 +319,7 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
-          // Expanded(
-          //   child: GestureDetector(
-          //     onTap: () => onTab!(),
-          //     child: Container(
-          //       child: Icon(IconData),
-          //     ),
-          //   ),
-          // ),
+      
         ]),
       ),
     );

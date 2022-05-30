@@ -101,6 +101,8 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
   }
   @override
   Widget build(BuildContext context) {
+     double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
         floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -276,15 +278,20 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                       ),
                     ),
                   ),
-                  Container(
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                                           width: width +200,
+
+                      child: Column(
+                        children: [
+                             Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
                     child: vehicleListCont('#','Customer', 'Amount',
                         'Transac.', 'Paid Date','Remarks', 14, FontWeight.bold),
                   ),
-
-                 
-                  Container(
+                     Container(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -321,6 +328,15 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                       },
                     ),
                   )
+
+                        ],
+                      ),
+                    ),
+                  )
+               
+
+                 
+               
                 ],
               ),
             )),
@@ -361,7 +377,7 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Container(
-            width: 15,
+            width: 25,
             margin: EdgeInsets.only(left: 8,right: 8),
             child: Text(
               serial,
@@ -369,43 +385,42 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
             ),
           ),
 
-          Expanded(
-            child: Container(
-              child: Text(
-                customer,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+          Container(
+            width: 120,
+            child: Text(
+              customer,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 10),
+          Container(
+            width: 100,
 
-              child: Text(amount,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(transaction,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
+            margin: EdgeInsets.only(left: 10),
 
-              child: Text(paidDate,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+            child: Text(amount,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5,right: 5),
-              child: Text(remarks,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 70,
+
+            margin: EdgeInsets.only(left: 5),
+            child: Text(transaction,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          Container(
+            width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+
+            child: Text(paidDate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          Container(
+            width: 130,
+            
+            margin: EdgeInsets.only(left: 5,right: 5),
+            child: Text(remarks,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
         ]),
       ),

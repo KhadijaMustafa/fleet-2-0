@@ -60,12 +60,13 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
 
   @override
   Widget build(BuildContext context) {
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Vehicle Expense Report',
+          'Employee Expense Report',
           style: TextStyle(color: Colors.white),
         ),
         leading: InkWell(
@@ -98,9 +99,9 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                               left: 10,
                             ),
                             margin: EdgeInsets.only(
-                              left: 10,
+                              left: 5,
                             ),
-                            height: 45,
+                            height: 40,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(color: Colors.black)),
@@ -143,9 +144,9 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                               left: 10,
                             ),
                             margin: EdgeInsets.only(
-                              left: 10,
+                              left: 5,
                             ),
-                            height: 45,
+                            height: 40,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(color: Colors.black)),
@@ -199,44 +200,49 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                         ],
                       ),
                     ), ////
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        width: width+200,
+                        child: Column(
+                          children: [
+                              Container(
+                        //padding: EdgeInsets.all(5),
+                        //margin: EdgeInsets.all(5),
+                        color: Color.fromARGB(255, 234, 227, 227),
+                        child: vehExpCont('#','Name', ' Type', ' Date',
+                            'Amount', 'Remarks', 15, FontWeight.bold),
+                    ),
                     Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: [
-                          Container(
-                            //padding: EdgeInsets.all(5),
-                            //margin: EdgeInsets.all(5),
-                            color: Color.fromARGB(255, 234, 227, 227),
-                            child: vehExpCont('#','Name', ' Type', ' Date',
-                                'Amount', 'Remarks', 13, FontWeight.bold),
-                          ),
-                          Container(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              // scrollDirection: Axis.vertical,
-                              itemCount: recordList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                int indexx=index+1;
-                                var item = recordList[index];
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          // scrollDirection: Axis.vertical,
+                          itemCount: recordList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            int indexx=index+1;
+                            var item = recordList[index];
 
-                                // return Container();
-                                return vehExpCont(
-                                  '$indexx',
-                                  '${item['name']} ',
-                                  '${item['expenseType']}',
-                                  '${item['expenseDate']}',
-                                  '${item['amount']}',
-                                  '${item['remarks']}',
-                                  10,
-                                  FontWeight.normal,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                            // return Container();
+                            return vehExpCont(
+                              '$indexx',
+                              '${item['name']} ',
+                              '${item['expenseType']}',
+                              '${item['expenseDate']}',
+                              '${item['amount']}',
+                              '${item['remarks']}',
+                              12,
+                              FontWeight.normal,
+                            );
+                          },
+                        ),
+                    )
+                            
+                          ],
+                        ),
                       ),
                     )
+                  
                   ],
                 ),
               ),
@@ -257,8 +263,8 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
 
   vehExpCont(
     String serial,
-    String platenmbr,
-    String expType,
+    String name,
+    String type,
     String expiryDate,
     String amount,
     String remarks,
@@ -278,56 +284,46 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Container(
-            width: 15,
+            width: 25,
             margin: EdgeInsets.only(left: 8,right: 8),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(
-                platenmbr,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+          Container(
+            width: 110,
+            child: Text(
+              name,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(expType,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 120,
+
+            child: Text(type,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(expiryDate,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+    
+            child: Text(expiryDate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(amount,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+        
+            child: Text(amount,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(remarks,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 120,
+          
+            child: Text(remarks,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          // Expanded(
-          //   child: GestureDetector(
-          //     onTap: () => onTab!(),
-          //     child: Container(
-          //       child: Icon(IconData),
-          //     ),
-          //   ),
-          // ),
+      
         ]),
       ),
     );

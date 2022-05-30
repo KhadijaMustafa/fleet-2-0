@@ -237,7 +237,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
       setState(() {
         isDownloading = false;
       });
-       NotificationUtil.showNotificationImportance(
+      NotificationUtil.showNotificationImportance(
           3, NotificationImportance.Default);
       showMessage(
         'Download Successful',
@@ -256,6 +256,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
 
   @override
   Widget build(BuildContext context) {
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         child: Container(
@@ -360,57 +361,65 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                   Container(
+                                    Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                             InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bgred
-                                        ),
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                 
-                                          child: Text('No',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
-
-                                            TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                              context, deleteEmployeeData());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Container(
-                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bggreen
-                                        ),
-                                
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                         
-
-                                          child: Text(
-                                            'Yes',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context,
+                                                    deleteEmployeeData());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
                                   ],
                                 );
                               });
-                        
                         },
                         child: actionIcon(Icons.delete)),
-                 
                     GestureDetector(
                         onTap: () {
                           MyNavigation().push(
@@ -499,56 +508,66 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      // margin: EdgeInsets.all(10),
-                      color: Color.fromARGB(255, 234, 227, 227),
-                      child: empExpCont('#','Name', 'Type', 'Date', 'Amount',
-                          'Remarks', 13, FontWeight.bold),
-                    ),
-                    Container(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: isSearching
-                            ? filterList.length
-                            : employeeList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          int indexx=index+1;
-                          var item = isSearching
-                              ? filterList[index]
-                              : employeeList[index];
-                          return empExpCont('$indexx',
-                              '${item['name']}',
-                              '${item['expenseType']}',
-                              '${item['expenseDate']}',
-                              '${item['amount']}',
-                              '${item['remarks']}',
-                              //'${item['currentFileName']}',
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        width: width+290,
+                          child: Column(
+                        children: [
+                          Container(
+                         
+                            // margin: EdgeInsets.all(10),
+                            color: Color.fromARGB(255, 234, 227, 227),
+                            child: empExpCont('#', 'Name', 'Expense Type', 'Expense Date',
+                                'Amount', 'Remarks', 15, FontWeight.bold),
+                          ),
+                          Container(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: isSearching
+                                  ? filterList.length
+                                  : employeeList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                int indexx = index + 1;
+                                var item = isSearching
+                                    ? filterList[index]
+                                    : employeeList[index];
+                                return empExpCont(
+                                    '$indexx',
+                                    '${item['name']}',
+                                    '${item['expenseType']}',
+                                    '${item['expenseDate']}',
+                                    '${item['amount']}',
+                                    '${item['remarks']}',
+                                    //'${item['currentFileName']}',
 
-                              10,
-                              FontWeight.normal,
-                              onLongPress: () {
-                                print('object');
+                                    12,
+                                    FontWeight.normal,
+                                    onLongPress: () {
+                                      print('object');
 
-                                setState(() {
-                                  selectedItem = item;
-                                  itemIndex = index;
-                                });
+                                      setState(() {
+                                        selectedItem = item;
+                                        itemIndex = index;
+                                      });
+                                    },
+                                    bgColor: '${selectedItem}' == '${item}'
+                                        ? MyColors.yellow
+                                        : Colors.white,
+                                    IconData: Icons.attachment,
+                                    onTab: () {
+                                      print('${item['currentFileName']}');
+                                      MyNavigation().push(
+                                          context,
+                                          FileAttachment(
+                                            image: '${item['currentFileName']}',
+                                          ));
+                                    });
                               },
-                              bgColor: '${selectedItem}' == '${item}'
-                                  ? MyColors.yellow
-                                  : Colors.white,
-                              IconData: Icons.attachment,
-                              onTab: () {
-                                print('${item['currentFileName']}');
-                                MyNavigation().push(
-                                    context,
-                                    FileAttachment(
-                                      image: '${item['currentFileName']}',
-                                    ));
-                              });
-                        },
-                      ),
+                            ),
+                          )
+                        ],
+                      )),
                     )
                   ],
                 ),
@@ -568,8 +587,8 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
     );
   }
 
-  empExpCont(String serial,String title, String document, String expiryDate, String amount,
-      String remarks, double size, FontWeight fontWeight,
+  empExpCont(String serial, String title, String document, String expiryDate,
+      String amount, String remarks, double size, FontWeight fontWeight,
       {String? project,
       Function? onLongPress,
       bgColor,
@@ -579,61 +598,51 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
       onLongPress: () => onLongPress!(),
       child: Container(
         margin: EdgeInsets.only(top: 5),
-       
         decoration: BoxDecoration(
             color: bgColor, borderRadius: BorderRadius.circular(10)),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-             Container(
-            width: 15,
-            margin: EdgeInsets.only(left: 8,right: 8),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Container(
+            width: 25,
+            margin: EdgeInsets.only(left: 8, right: 8),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(
-                title,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+          Container(
+            width: 110,
+            child: Text(
+              title,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(document,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 120,
+            child: Text(document,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-           
-              //margin: EdgeInsets.only(left: 10),
-              child: Text(expiryDate,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+            //margin: EdgeInsets.only(left: 10),
+            child: Text(expiryDate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-             margin: EdgeInsets.only(left: 3, right: 5),
-              child: Text(amount,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+            child: Text(amount,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 0),
-              child: Text(remarks,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 120,
+            child: Text(remarks,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () => onTab!(),
-              child: Container(
-                child: Icon(IconData),
-              ),
+          GestureDetector(
+            onTap: () => onTab!(),
+            child: Container(
+              width: 100,
+              child: Icon(IconData),
             ),
           ),
         ]),

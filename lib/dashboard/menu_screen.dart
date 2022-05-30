@@ -7,6 +7,7 @@ import 'package:xtreme_fleet/dashboard/customer_list.dart';
 import 'package:xtreme_fleet/dashboard/emp_exp_report.dart';
 import 'package:xtreme_fleet/dashboard/employee_expense.dart';
 import 'package:xtreme_fleet/dashboard/employee_list.dart';
+import 'package:xtreme_fleet/dashboard/khata_report_detail.dart';
 import 'package:xtreme_fleet/dashboard/khata_transaction_list.dart';
 import 'package:xtreme_fleet/dashboard/monthly_rent.dart';
 import 'package:xtreme_fleet/dashboard/new_khata_list.dart';
@@ -237,8 +238,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   expandedAlignment: Alignment.center,
                   title: menuCont(FontAwesomeIcons.calculator, 'Khata ',
                       EdgeInsets.only(top: 20), FontWeight.bold, 16, 20,
-                      iconcolor: indexcolor == 9 || indexcolor==10? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 9 || indexcolor==10 ? MyColors.yellow : MyColors.black,
+                      iconcolor: indexcolor == 9 || indexcolor==10 || indexcolor==30? MyColors.yellow : MyColors.black,
+                  textcolor: indexcolor == 9 || indexcolor==10 || indexcolor==30? MyColors.yellow : MyColors.black,
                       ),
                   children: [
                     InkWell(
@@ -275,6 +276,24 @@ class _MenuScreenState extends State<MenuScreen> {
                             14,
                             16,iconcolor: indexcolor == 10? MyColors.yellow : MyColors.black,
                   textcolor: indexcolor == 10? MyColors.yellow : MyColors.black,),
+                      ),
+                    ),
+                     InkWell(
+                      onTap: () {
+                        setState(() {
+                          indexcolor=30;
+                        });
+                        MyNavigation().push(context, KhataReportDetail());
+                      },
+                      child: Container(
+                        child: menuCont(
+                            FontAwesomeIcons.fileImport,
+                            'Khata Report',
+                            EdgeInsets.only(left: 50, top: 10),
+                            FontWeight.w400,
+                            14,
+                            16,iconcolor: indexcolor == 30? MyColors.yellow : MyColors.black,
+                  textcolor: indexcolor == 30? MyColors.yellow : MyColors.black,),
                       ),
                     ),
                   ]),

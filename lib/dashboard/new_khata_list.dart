@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:xtreme_fleet/dashboard/add_khata.dart';
+import 'package:xtreme_fleet/dashboard/khata_report.dart';
 import 'package:xtreme_fleet/dashboard/update_khata.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
 
 class NewKhataList extends StatefulWidget {
-  NewKhataList({Key? key}) : super(key: key);
+
+  NewKhataList({Key? key,}) : super(key: key);
 
   @override
   State<NewKhataList> createState() => _NewKhataListState();
@@ -24,6 +26,9 @@ class _NewKhataListState extends State<NewKhataList> {
   var selectedItem;
   int itemIndex = 0;
   List customerKhataList = [];
+  var khatadetail;
+
+
 
   deleteCustomerKhata() async {
     try {
@@ -103,6 +108,9 @@ class _NewKhataListState extends State<NewKhataList> {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -220,120 +228,155 @@ class _NewKhataListState extends State<NewKhataList> {
             )
           : Container(
               child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    //margin: EdgeInsets.all(10),
-                    // height: 50,
-                    child: Container(
-                      height: 45,
-                      padding: EdgeInsets.only(
-                          left: 20, top: 5, bottom: 4, right: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: MyColors.grey)),
-                      margin: EdgeInsets.only(
-                          left: 10, right: 10, top: 10, bottom: 10),
-                      child: TextFormField(
-                        cursorColor: MyColors.black,
-                        controller: searchController,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Search here .........',
-                            suffixIcon: GestureDetector(
-                                onTap: isSearching
-                                    ? () {
-                                        searchController.clear();
-                                        setState(() {
-                                          isSearching = false;
-                                        });
-                                      }
-                                    : () {
-                                        setState(() {
-                                          isSearching = true;
-                                          filterList.clear();
-                                        });
-
-                                        List filtered = customerKhataList
-                                            .where((item) =>
-                                                '${item['khataNumber']}'
-                                                    .toLowerCase()
-                                                    .contains(searchController
-                                                        .text
-                                                        .toLowerCase()) ||
-                                                '${item['nameEng']}'
-                                                    .toLowerCase()
-                                                    .contains(searchController
-                                                        .text
-                                                        .toLowerCase()) ||
-                                                '${item['contactNumber']}'
-                                                    .toLowerCase()
-                                                    .contains(searchController
-                                                        .text
-                                                        .toLowerCase()))
-                                            .toList();
-
-                                        print(filtered);
-                                        setState(() {
-                                          filterList = filtered;
-                                        });
-                                      },
-                                child: Icon(
-                                  isSearching ? Icons.close : Icons.search,
-                                  size: 30,
-                                  color: MyColors.yellow,
-                                ))),
+                child: Column(
+                  children: [
+                    Container(
+                      //margin: EdgeInsets.all(10),
+                      // height: 50,
+                      child: Container(
+                        height: 45,
+                        padding: EdgeInsets.only(
+                            left: 20, top: 5, bottom: 4, right: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: MyColors.grey)),
+                        margin: EdgeInsets.only(
+                            left: 10, right: 10, top: 10, bottom: 10),
+                        child: TextFormField(
+                          cursorColor: MyColors.black,
+                          controller: searchController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Search here .........',
+                              suffixIcon: GestureDetector(
+                                  onTap: isSearching
+                                      ? () {
+                                          searchController.clear();
+                                          setState(() {
+                                            isSearching = false;
+                                          });
+                                        }
+                                      : () {
+                                          setState(() {
+                                            isSearching = true;
+                                            filterList.clear();
+                                          });
+              
+                                          List filtered = customerKhataList
+                                              .where((item) =>
+                                                  '${item['khataNumber']}'
+                                                      .toLowerCase()
+                                                      .contains(searchController
+                                                          .text
+                                                          .toLowerCase()) ||
+                                                  '${item['nameEng']}'
+                                                      .toLowerCase()
+                                                      .contains(searchController
+                                                          .text
+                                                          .toLowerCase()) ||
+                                                  '${item['contactNumber']}'
+                                                      .toLowerCase()
+                                                      .contains(searchController
+                                                          .text
+                                                          .toLowerCase()))
+                                              .toList();
+              
+                                          print(filtered);
+                                          setState(() {
+                                            filterList = filtered;
+                                          });
+                                        },
+                                  child: Icon(
+                                    isSearching ? Icons.close : Icons.search,
+                                    size: 30,
+                                    color: MyColors.yellow,
+                                  ))),
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    // padding: EdgeInsets.only(left: 10),
-                    color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('#', 'Khata #', ' Name', 'Contact',
-                        'Address', 14, FontWeight.bold),
-                  ),
-                  Container(
-                    child: ListView.builder(
-                      //physics: ClampingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: isSearching
-                          ? filterList.length
-                          : customerKhataList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int indexx = index + 1;
-                        var item = isSearching
-                            ? filterList[index]
-                            : customerKhataList[index];
-                        return vehicleListCont(
-                          '$indexx',
-                          '${item['khataNumber']}',
-                          '${item['nameEng']}',
-                          '${item['contactNumber']}',
-                          '${item['address']}',
-                          12,
-                          FontWeight.w400,
-                          onLongPress: () {
-                            print('object');
-                            print(item);
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                    
+                      
+                      child: Container(
+                        width: width +200,
+                      
+                        child: Column(
+                          children: [
+                            /////////  
+                               
 
-                            setState(() {
-                              print('???///////////');
-                              print(selectedItem);
-                              selectedItem = item;
-                              itemIndex = index;
-                            });
-                          },
-                          bgColor: '${selectedItem}' == '${item}'
-                              ? MyColors.yellow
-                              : Colors.white,
-                        );
-                      },
+
+                            /////////
+                            Container(
+                        // padding: EdgeInsets.only(left: 10),
+                        color: Color.fromARGB(255, 234, 227, 227),
+                        child: vehicleListCont(
+                            '#',
+                            'Khata #',
+                            ' Name',
+                            'Contact',
+                            'Address',
+                            15,
+                            FontWeight.bold),
                     ),
-                  )
-                ],
-              ),
-            )),
+                         Container(
+                       
+              
+                        child: ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: isSearching
+                              ? filterList.length
+                              : customerKhataList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            int indexx = index + 1;
+                            var item = isSearching
+                                ? filterList[index]
+                                : customerKhataList[index];
+                            return vehicleListCont(
+                              '$indexx',
+                              '${item['khataNumber']}',
+                              '${item['nameEng']}',
+                              '${item['contactNumber']}',
+                              '${item['address']}',
+                              12,
+                              FontWeight.w400,
+                              onLongPress: () {
+                                print('object');
+                                print(item);
+                        
+                                setState(() {
+                                  print('???///////////');
+                                  print(selectedItem);
+                                  selectedItem = item;
+                                  itemIndex = index;
+                                });
+                              },
+                              bgColor: '${selectedItem}' == '${item}'
+                                  ? MyColors.yellow
+                                  : Colors.white,
+                                  onTab: (){
+                                    setState(() {
+                                      khatadetail=item;
+                                    });
+                                    MyNavigation().push(context, KhataReport(item: khatadetail,));
+                                  }
+                            );
+                          },
+                        ),
+                    )
+                            
+                          ],
+                        ),
+                      ),
+                    )
+                    
+                 
+                  ],
+                ),
+              )),
     );
   }
 
@@ -359,6 +402,7 @@ class _NewKhataListState extends State<NewKhataList> {
     // String? project,
     Function? onLongPress,
     bgColor,
+    Function? onTab,
   }) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
@@ -370,40 +414,43 @@ class _NewKhataListState extends State<NewKhataList> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
-            width: 15,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            width: 25,
+            margin: EdgeInsets.only(left: 8, right: 8),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
+          InkWell(
+            onTap: ()=>onTab!(),
             child: Container(
+            width: 120,
+
               child: Text(
                 khataNum,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight),
               ),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(name,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+            child: Text(name,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(contact,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+            child: Text(contact,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(address,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+            child: Text(address,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
         ]),
       ),

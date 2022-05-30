@@ -104,6 +104,8 @@ class _VehicleListState extends State<VehicleList> {
 
   @override
   Widget build(BuildContext context) {
+    double width=MediaQuery.of(context).size.width;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -282,15 +284,19 @@ class _VehicleListState extends State<VehicleList> {
                       ),
                     ),
                   ),
-                  Container(
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: width +100,
+                      child: Column(
+                      children: [
+                        Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
                     child: vehicleListCont('#','Plate Number', 'Supplier Name',
                         'Vehicle Type', 'Driver', 14, FontWeight.bold),
                   ),
-
-                 
-                  Container(
+                   Container(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -326,6 +332,14 @@ class _VehicleListState extends State<VehicleList> {
                       },
                     ),
                   )
+
+                      ],
+                    )),
+                  )
+                  
+
+                 
+                 
                 ],
               ),
             )),
@@ -365,7 +379,7 @@ class _VehicleListState extends State<VehicleList> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.start, children: [
               Container(
-            width: 15,
+            width: 25,
             margin: EdgeInsets.only(left: 8,right: 8),
             child: Text(
               serial,
@@ -373,33 +387,33 @@ class _VehicleListState extends State<VehicleList> {
             ),
           ),
 
-          Expanded(
-            child: Container(
-              child: Text(
-                platenumber,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+          Container(
+            width: 110,
+
+            child: Text(
+              platenumber,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(suppliername,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 120,
+
+            child: Text(suppliername,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(vehicletype,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+            child: Text(vehicletype,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(driver,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+            child: Text(driver,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
         ]),
       ),

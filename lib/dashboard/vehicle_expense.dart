@@ -54,6 +54,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
 
     String wholeUrl = 'https://fleet.xtremessoft.com/UploadFile/' + url;
     try {
+     
       http.Response response = await http.get(Uri.parse(wholeUrl));
       // var documentDirectory = await getApplicationDocumentsDirectory();
       var documentDirectory = await getExternalStorageDirectory();
@@ -303,7 +304,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
       //   keys.add(key);
       // });
       keys.addAll(
-          ['platNumber', 'expenseType', 'expenseDate', 'amount', 'remarks']);
+          ['PlatNumber', 'ExpenseType', 'ExpenseDate', 'Amount', 'Remarks']);
       List<String> alpha = [
         'A',
         'B',
@@ -379,6 +380,8 @@ class _VehicleExpenseState extends State<VehicleExpense> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         child: Container(
@@ -631,17 +634,20 @@ class _VehicleExpenseState extends State<VehicleExpense> {
                         ),
                       ),
                     ),
-                    Container(
-                      child: Column(
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        width: width+300,
+                        child: Column(
                         children: [
-                          Container(
+                           Container(
                             //padding: EdgeInsets.all(5),
                             //margin: EdgeInsets.all(5),
                             color: Color.fromARGB(255, 234, 227, 227),
-                            child: vehExpCont('#','Plate #', ' Type', ' Date',
-                                'Amount', 'Remarks', 13, FontWeight.bold),
+                            child: vehExpCont('#','Plate #', 'Expense Type', 'Expense Date',
+                                'Amount', 'Remarks', 15, FontWeight.bold),
                           ),
-                          Container(
+                            Container(
                             child: ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
@@ -661,7 +667,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
                                     '${item['expenseDate']}',
                                     '${item['amount']}',
                                     '${item['remarks']}',
-                                    10,
+                                    12,
                                     FontWeight.normal,
                                     onLongPress: () {
                                       print('object');
@@ -686,9 +692,11 @@ class _VehicleExpenseState extends State<VehicleExpense> {
                               },
                             ),
                           ),
+
                         ],
-                      ),
+                      )),
                     )
+                   
                   ],
                 ),
               ),
@@ -724,56 +732,56 @@ class _VehicleExpenseState extends State<VehicleExpense> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Container(
-            width: 15,
+            width: 25,
             margin: EdgeInsets.only(left: 8,right: 8),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(
-                platenmbr,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+          Container(
+            width: 100,
+
+            child: Text(
+              platenmbr,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(expType,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 120,
+
+            child: Text(expType,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(expiryDate,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+            child: Text(expiryDate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              alignment: Alignment.bottomRight,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(amount,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 80,
+
+            alignment: Alignment.bottomRight,
+          
+            child: Text(amount,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              alignment: Alignment.bottomRight,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(remarks,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 120,
+
+            alignment: Alignment.bottomRight,
+           
+            child: Text(remarks,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () => onTab!(),
-              child: Container(
-                child: Icon(IconData),
-              ),
+          GestureDetector(
+            onTap: () => onTab!(),
+            child: Container(
+            width: 100,
+
+              child: Icon(IconData),
             ),
           ),
         ]),
