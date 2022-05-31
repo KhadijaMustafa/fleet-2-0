@@ -107,9 +107,15 @@ class _LoginState extends State<Login> {
             return null;
           }
 
-          print('<<<<<<<<<>>>>>>>>>>>>>>>>>');
           print(decode);
           print(decode['Value']);
+          print('<<<<<<<<<>>>>>>>>>>>>>>>>>');
+
+          var dodecode = json.decode(decode['Value'])["username"];
+          print(dodecode);
+
+          print('<<<<<<<<<>>>>>>>>>>>>>>>>>');
+
           return json.decode(decode['Value']);
         }
         //  else {

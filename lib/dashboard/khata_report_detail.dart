@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:xtreme_fleet/dashboard/add_customer_trans.dart';
 import 'package:xtreme_fleet/utilities/CusDateFormat.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
+import 'package:xtreme_fleet/utilities/my_navigation.dart';
 class KhataReportDetail extends StatefulWidget {
   KhataReportDetail({Key? key}) : super(key: key);
 
@@ -17,6 +19,8 @@ class _KhataReportDetailState extends State<KhataReportDetail> {
 
   bool loading = true;
   List recordList = [];
+   double totalAmount = 0.0;
+
 
   empExpenseReport() async {
     try {
@@ -58,14 +62,66 @@ class _KhataReportDetailState extends State<KhataReportDetail> {
     super.initState();
     employeeReport();
   }
+
+   calculateAmount() {
+    totalAmount = 0.0;
+    recordList.forEach((element) {
+      totalAmount = totalAmount + element['amount'];
+      print(totalAmount);
+      print('totalAmount');
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 40,
+          color: MyColors.yellow,
+          child: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child:textCont('Debit :'),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child:textCont('')
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child:textCont('Credit :'),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child:textCont('')
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child:textCont('Total :')
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: textCont('$totalAmount'),
+              ),
+              //calculateAmount()
+            ],
+          ),
+        ),
+      ),
+        floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          MyNavigation().push(context, AddCustomerTransaction());
+        },
+        child: Icon(Icons.add),
+        backgroundColor: MyColors.yellow,
+      ),
        appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Vehicle Expense Report',
+          'Khata Detail',
           style: TextStyle(color: Colors.white),
         ),
         leading: InkWell(
@@ -323,5 +379,14 @@ class _KhataReportDetailState extends State<KhataReportDetail> {
         ]),
       ),
     );
+  }
+  textCont(String text){
+    return  Text(
+                  '$text  ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
   }
 }

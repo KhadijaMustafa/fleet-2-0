@@ -16,7 +16,7 @@ class KhataTransactionList extends StatefulWidget {
 
 class _KhataTransactionListState extends State<KhataTransactionList> {
     TextEditingController searchController = TextEditingController();
-  List supplierList = [];
+ 
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
@@ -32,7 +32,11 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
         "type": "Transaction_Delete",
-        "value": {"Id": "${selectedItem['id']}"}
+  "value": {
+    "Id": "${selectedItem['id']}",
+    "UserId": "f14198a1-1a9a-ec11-8327-74867ad401de",
+    "Language": "en-US"
+  }
       });
       request.headers.addAll(headers);
 
@@ -41,6 +45,7 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
 
     
         print('???????????????????');
+        if(response.statusCode==200){
         var decode = json.decode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
@@ -52,6 +57,7 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
         });
         print('Deleted');
         print(decode);
+        }
       
     } catch (e) {}
   }

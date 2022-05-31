@@ -12,6 +12,8 @@ import 'package:xtreme_fleet/dashboard/khata_transaction_list.dart';
 import 'package:xtreme_fleet/dashboard/monthly_rent.dart';
 import 'package:xtreme_fleet/dashboard/new_khata_list.dart';
 import 'package:xtreme_fleet/dashboard/project_list.dart';
+import 'package:xtreme_fleet/dashboard/setup_site.dart';
+import 'package:xtreme_fleet/dashboard/setup_vehicle_type.dart';
 import 'package:xtreme_fleet/dashboard/veh_exp_report.dart';
 import 'package:xtreme_fleet/dashboard/vehicle_expense.dart';
 import 'package:xtreme_fleet/dashboard/vehicle_list.dart';
@@ -107,19 +109,19 @@ class _MenuScreenState extends State<MenuScreen> {
                   textcolor: indexcolor == 1 ? MyColors.yellow : MyColors.black,),
               ),
             ),
-            // InkWell(
-            //   onTap: () {
-            //       setState(() {
-            //       indexcolor = 2;
-            //     });
-            //     MyNavigation().push(context, CustomerList());
-            //   },
-            //   child: Container(
-            //     child: menuCont(FontAwesomeIcons.userLarge, 'Customer',
-            //         EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 18,    iconcolor: indexcolor == 2? MyColors.yellow : MyColors.black,
-            //       textcolor: indexcolor == 2 ? MyColors.yellow : MyColors.black,),
-            //   ),
-            // ),
+            InkWell(
+              onTap: () {
+                  setState(() {
+                  indexcolor = 2;
+                });
+                MyNavigation().push(context, CustomerList());
+              },
+              child: Container(
+                child: menuCont(FontAwesomeIcons.userLarge, 'Customer',
+                    EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 18,    iconcolor: indexcolor == 2? MyColors.yellow : MyColors.black,
+                  textcolor: indexcolor == 2 ? MyColors.yellow : MyColors.black,),
+              ),
+            ),
             InkWell(
               onTap: () {
                   setState(() {
@@ -278,24 +280,24 @@ class _MenuScreenState extends State<MenuScreen> {
                   textcolor: indexcolor == 10? MyColors.yellow : MyColors.black,),
                       ),
                     ),
-                     InkWell(
-                      onTap: () {
-                        setState(() {
-                          indexcolor=30;
-                        });
-                        MyNavigation().push(context, KhataReportDetail());
-                      },
-                      child: Container(
-                        child: menuCont(
-                            FontAwesomeIcons.fileImport,
-                            'Khata Report',
-                            EdgeInsets.only(left: 50, top: 10),
-                            FontWeight.w400,
-                            14,
-                            16,iconcolor: indexcolor == 30? MyColors.yellow : MyColors.black,
-                  textcolor: indexcolor == 30? MyColors.yellow : MyColors.black,),
-                      ),
-                    ),
+                  //    InkWell(
+                  //     onTap: () {
+                  //       setState(() {
+                  //         indexcolor=30;
+                  //       });
+                  //       MyNavigation().push(context, KhataReportDetail());
+                  //     },
+                  //     child: Container(
+                  //       child: menuCont(
+                  //           FontAwesomeIcons.fileImport,
+                  //           'Khata Report',
+                  //           EdgeInsets.only(left: 50, top: 10),
+                  //           FontWeight.w400,
+                  //           14,
+                  //           16,iconcolor: indexcolor == 30? MyColors.yellow : MyColors.black,
+                  // textcolor: indexcolor == 30? MyColors.yellow : MyColors.black,),
+                  //     ),
+                  //   ),
                   ]),
             ),
             //////
@@ -385,54 +387,54 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ]),
             ),
-            // Theme(
-            //   data: ThemeData().copyWith(dividerColor: Colors.transparent),
-            //   child: ExpansionTile(
-            //       iconColor: MyColors.yellow,
-            //       collapsedIconColor: MyColors.black,
-            //       expandedAlignment: Alignment.center,
-            //       title: menuCont(FontAwesomeIcons.gear, 'SetUps ',
-            //           EdgeInsets.only(top: 20), FontWeight.bold, 16, 20,   iconcolor: indexcolor == 15 || indexcolor==16 ? MyColors.yellow : MyColors.black,
-            //       textcolor: indexcolor == 15 || indexcolor==16?  MyColors.yellow : MyColors.black,),
-            //       children: [
-            //         InkWell(
-            //           onTap: () {
-            //             setState(() {
-            //               indexcolor=15;
-            //             });
-            //             MyNavigation().push(context, VehicleExpense());
-            //           },
-            //           child: Container(
-            //             child: menuCont(
-            //                 FontAwesomeIcons.carSide,
-            //                 'Site',
-            //                 EdgeInsets.only(left: 50, top: 10),
-            //                 FontWeight.w400,
-            //                 14,
-            //                 16,iconcolor: indexcolor == 15? MyColors.yellow : MyColors.black,
-            //       textcolor: indexcolor == 15? MyColors.yellow : MyColors.black,),
-            //           ),
-            //         ),
-            //         InkWell(
-            //           onTap: () {
-            //              setState(() {
-            //               indexcolor=16;
-            //             });
-            //             MyNavigation().push(context, EmployeeExpense());
-            //           },
-            //           child: Container(
-            //             child: menuCont(
-            //                 FontAwesomeIcons.userGroup,
-            //                 'Vahicle Type',
-            //                 EdgeInsets.only(left: 50, top: 10),
-            //                 FontWeight.w400,
-            //                 14,
-            //                 16,iconcolor: indexcolor == 16? MyColors.yellow : MyColors.black,
-            //       textcolor: indexcolor == 16? MyColors.yellow : MyColors.black,),
-            //           ),
-            //         ),
-            //       ]),
-            // ),
+            Theme(
+              data: ThemeData().copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                  iconColor: MyColors.yellow,
+                  collapsedIconColor: MyColors.black,
+                  expandedAlignment: Alignment.center,
+                  title: menuCont(FontAwesomeIcons.gear, 'SetUps ',
+                      EdgeInsets.only(top: 20), FontWeight.bold, 16, 20,   iconcolor: indexcolor == 15 || indexcolor==16 ? MyColors.yellow : MyColors.black,
+                  textcolor: indexcolor == 15 || indexcolor==16?  MyColors.yellow : MyColors.black,),
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          indexcolor=15;
+                        });
+                        MyNavigation().push(context, SetUpSite());
+                      },
+                      child: Container(
+                        child: menuCont(
+                            FontAwesomeIcons.carSide,
+                            'Site',
+                            EdgeInsets.only(left: 50, top: 10),
+                            FontWeight.w400,
+                            14,
+                            16,iconcolor: indexcolor == 15? MyColors.yellow : MyColors.black,
+                  textcolor: indexcolor == 15? MyColors.yellow : MyColors.black,),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                         setState(() {
+                          indexcolor=16;
+                        });
+                        MyNavigation().push(context, SetUpVehicleType());
+                      },
+                      child: Container(
+                        child: menuCont(
+                            FontAwesomeIcons.userGroup,
+                            'Vahicle Type',
+                            EdgeInsets.only(left: 50, top: 10),
+                            FontWeight.w400,
+                            14,
+                            16,iconcolor: indexcolor == 16? MyColors.yellow : MyColors.black,
+                  textcolor: indexcolor == 16? MyColors.yellow : MyColors.black,),
+                      ),
+                    ),
+                  ]),
+            ),
           ],
               ),
             ),

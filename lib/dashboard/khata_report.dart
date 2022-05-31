@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:xtreme_fleet/dashboard/khata_report_detail.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:xtreme_fleet/utilities/my_navigation.dart';
 
 class KhataReport extends StatefulWidget {
   final item;
@@ -28,8 +30,12 @@ class _KhataReportState extends State<KhataReport> {
   var nameurd;
   var addresseng;
   var addressurd;
-  double _value = 0;
+  double valuee = 0;
   bool loading = true;
+  double debit=0;
+  double credit=0;
+  double remaining=0;
+
 
   @override
   void initState() {
@@ -117,16 +123,44 @@ getTransactionList();
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  cardCont(MyColors.bgyellow, 'Total Debit', '0'),
-                  cardCont(MyColors.bgyellow, 'Total Credit', '0'),
+                  cardCont(MyColors.bgyellow, 'Total Debit', '$debit',debit==0? valuee=0:valuee=1),
+                  cardCont(MyColors.bgyellow, 'Total Credit', '$credit',credit==0? valuee=0:valuee=1),
                 ],
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10, left: 10),
+              child: Row(
+                children: [
+                   Container(
+              margin: EdgeInsets.only(top: 10, left: 10,right: 10),
               alignment: Alignment.topLeft,
-              child: cardCont(MyColors.bgyellow, 'Total Credit', '0'),
+              child: cardCont(MyColors.bgyellow, 'Remaining', '$remaining',remaining==0? valuee=0:valuee=1),
+            ),
+            Card(
+              color: MyColors.bgyellow,
+      // color: Color.fromRGBO(104, 191, 123, 1),
+      shadowColor: Colors.white.withOpacity(0.2),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(13.0),
+        side: BorderSide(color: MyColors.grey.withOpacity(0.1)),
+      ),
+      elevation: 50,
+              child: InkWell(
+                onTap: () => MyNavigation().push(context, KhataReportDetail()),
+                child: Container(
+                  height: 100,
+                  width: 180,
+                  alignment: Alignment.center,
+                          
+                  child: Text('Khata Detail'),
+                ),
+              ),
             )
+
+                ],
+              ),
+            )
+           
 
             //   cardCont(MyColors.bgyellow, 'Total Debit', '0')
           ],
@@ -168,7 +202,7 @@ getTransactionList();
     );
   }
 
-  cardCont(Color bgcolor, String text, String count) {
+  cardCont(Color bgcolor, String text, String count,double valuee) {
     return Card(
       color: bgcolor,
       // color: Color.fromRGBO(104, 191, 123, 1),
@@ -190,38 +224,28 @@ getTransactionList();
               alignment: Alignment.centerLeft,
               child: Text(count,
                   style: TextStyle(
-                      color: MyColors.black,
+                      color: MyColors.red,
                       fontSize: 14,
-                      fontWeight: FontWeight.w400)),
+                      fontWeight: FontWeight.w500)),
             ),
             Container(
               alignment: Alignment.centerLeft,
               child: Text(text,
                   style: TextStyle(
-                      color: MyColors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400)),
+                      color: MyColors.red,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500)),
             ),
             Container(
+              margin: EdgeInsets.only(top: 5),
               child: LinearProgressIndicator(
-                value: 0.1,
+                value: valuee,
+             
                 
                  valueColor: AlwaysStoppedAnimation<Color>(MyColors.red),
               backgroundColor: MyColors.grey,
               ),
-            //     child: FAProgressBar(
-            //   currentValue: _currentValue,
-            //   size: 2,
-            //   maxValue: 150,
-            //   changeColorValue: 100,
-            //   changeProgressColor: MyColors.red,
-            //   backgroundColor: MyColors.grey,
-            //   progressColor: MyColors.yellow,
-            //   animatedDuration: const Duration(milliseconds: 300),
-            //   direction: Axis.horizontal,
-            //   verticalDirection: VerticalDirection.up,
-            //   formatValueFixed: 2,
-            // )
+           
             )
           ],
         ),

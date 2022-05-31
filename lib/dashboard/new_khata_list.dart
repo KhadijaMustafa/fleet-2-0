@@ -37,15 +37,18 @@ class _NewKhataListState extends State<NewKhataList> {
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-        "type": "KhataCustomer_Delete",
-        "value": {"Id": "${selectedItem['id']}"}
+       "type": "KhataCustomer_Delete",
+  "value": {
+    "Id": "${selectedItem['id']}",
+    "Language": "en-US"
+  }
       });
       request.headers.addAll(headers);
 
       http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
       print('???????????????????');
-
+if(response.statusCode==200){
       print('???????????????????');
       var decode = json.decode(response.body);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -58,6 +61,7 @@ class _NewKhataListState extends State<NewKhataList> {
       });
       print('Deleted');
       print(decode);
+}
     } catch (e) {
       print(e);
     }
@@ -335,6 +339,7 @@ class _NewKhataListState extends State<NewKhataList> {
                             var item = isSearching
                                 ? filterList[index]
                                 : customerKhataList[index];
+                                var item2=customerKhataList[index];
                             return vehicleListCont(
                               '$indexx',
                               '${item['khataNumber']}',
@@ -359,7 +364,7 @@ class _NewKhataListState extends State<NewKhataList> {
                                   : Colors.white,
                                   onTab: (){
                                     setState(() {
-                                      khatadetail=item;
+                                      khatadetail=item2;
                                     });
                                     MyNavigation().push(context, KhataReport(item: khatadetail,));
                                   }
