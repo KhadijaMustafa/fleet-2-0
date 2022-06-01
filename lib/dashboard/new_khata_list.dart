@@ -367,7 +367,7 @@ if(response.statusCode==200){
                                       khatadetail=item2;
                                     });
                                     MyNavigation().push(context, KhataReport(item: khatadetail,));
-                                  }
+                                  },Color: MyColors.red
                             );
                           },
                         ),
@@ -408,6 +408,7 @@ if(response.statusCode==200){
     Function? onLongPress,
     bgColor,
     Function? onTab,
+    Color 
   }) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
@@ -433,7 +434,7 @@ if(response.statusCode==200){
 
               child: Text(
                 khataNum,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
+                style: TextStyle(fontSize: size, fontWeight: fontWeight,color: Color),
               ),
             ),
           ),
@@ -441,7 +442,7 @@ if(response.statusCode==200){
             width: 100,
 
             child: Text(name,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+                style: TextStyle(fontSize: size, fontWeight: fontWeight,)),
           ),
           Container(
             width: 100,

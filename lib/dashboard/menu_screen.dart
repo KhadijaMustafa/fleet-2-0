@@ -7,7 +7,6 @@ import 'package:xtreme_fleet/dashboard/customer_list.dart';
 import 'package:xtreme_fleet/dashboard/emp_exp_report.dart';
 import 'package:xtreme_fleet/dashboard/employee_expense.dart';
 import 'package:xtreme_fleet/dashboard/employee_list.dart';
-import 'package:xtreme_fleet/dashboard/khata_report_detail.dart';
 import 'package:xtreme_fleet/dashboard/khata_transaction_list.dart';
 import 'package:xtreme_fleet/dashboard/monthly_rent.dart';
 import 'package:xtreme_fleet/dashboard/new_khata_list.dart';

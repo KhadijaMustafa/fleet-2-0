@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:xtreme_fleet/dashboard/add_khata_transaction.dart';
+import 'package:xtreme_fleet/dashboard/file_attachment.dart';
 import 'package:xtreme_fleet/dashboard/update_transaction.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
@@ -287,7 +288,7 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                                           width: width +200,
+                                           width: width +280,
 
                       child: Column(
                         children: [
@@ -330,6 +331,15 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                           bgColor: '${selectedItem}' == '${item}'
                               ? MyColors.yellow
                               : Colors.white,
+                                IconData: Icons.attachment,
+                                    onTab: () {
+                                      print('${item['currentFileName']}');
+                                      MyNavigation().push(
+                                          context,
+                                          FileAttachment(
+                                            image: '${item['currentFileName']}',
+                                          ));
+                                    }
                         );
                       },
                     ),
@@ -372,6 +382,8 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
     // String? project,
     Function? onLongPress,
     bgColor,
+      IconData,
+      Function? onTab
   }) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
@@ -422,11 +434,19 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-            width: 130,
+            width: 120,
             
             margin: EdgeInsets.only(left: 5,right: 5),
             child: Text(remarks,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+             GestureDetector(
+            onTap: () => onTab!(),
+            child: Container(
+            width: 90,
+
+              child: Icon(IconData),
+            ),
           ),
         ]),
       ),
