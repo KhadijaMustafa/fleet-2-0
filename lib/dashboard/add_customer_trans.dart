@@ -13,7 +13,8 @@ import 'package:http/http.dart' as http;
 
 class AddCustomerTransaction extends StatefulWidget {
   final item;
-  AddCustomerTransaction({Key? key,this.item}) : super(key: key);
+  final name;
+  AddCustomerTransaction({Key? key,this.item,this.name}) : super(key: key);
 
   @override
   State<AddCustomerTransaction> createState() => _AddCustomerTransactionState();
@@ -32,6 +33,9 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
   bool cust = false;
   bool trasac = false;
   bool setdate = false;
+  double debit = 0;
+  double credit = 0;
+  double total=0;
 
   List customerList = [];
 
@@ -87,6 +91,8 @@ print('${widget.item}');
 
   }
 
+   
+
   addTransaction() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (transaction == null) {
@@ -106,6 +112,18 @@ print('${widget.item}');
         remark = true;
       });
     } else {
+      Map<String,String> body={
+            'type': 'Transaction_Save',
+  'Id': '00000000-0000-0000-0000-000000000000',
+  'TransactionType': transaction,
+  'AmountPaid': amountController.text,
+  'PaidDate': CusDateFormat.getDate(selectedDate),
+  'Reason': remarksController.text,
+  'KhataCustomerId': '${widget.item}',
+  'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
+  'Language': 'en-US'
+      };
+      print(body);
       try {
         print('start............');
         var request = http.MultipartRequest(
@@ -113,13 +131,13 @@ print('${widget.item}');
             Uri.parse(
                 'https://fleet.xtremessoft.com/services/Xtreme/multipart'));
         request.fields.addAll({
-          'type': 'Transaction_Save',
+       'type': 'Transaction_Save',
   'Id': '00000000-0000-0000-0000-000000000000',
   'TransactionType': transaction,
-  'AmountPaid': amountController.text,
+  'AmountPaid':transaction=='credit'? amountController.text:transaction=='debit'?amountController.text:'',
   'PaidDate': CusDateFormat.getDate(selectedDate),
   'Reason': remarksController.text,
-  'KhataCustomerId': '02e40152-44db-ec11-9169-00155d12d305',
+  'KhataCustomerId': '${widget.item}',
   'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
   'Language': 'en-US'
 
@@ -129,7 +147,14 @@ print('${widget.item}');
 
     
         });
+        print(request.fields);
+        print('start............');
+
 print('${widget.item}');
+print('${widget.name}');
+        print('start............');
+
+
         if (imageFile != null) {
           request.files.add(
               await http.MultipartFile.fromPath('Attachment', '$imageFile'));
@@ -155,7 +180,8 @@ print('${widget.item}');
           var route = MaterialPageRoute(
             builder: (context) => KhataReport(),
           );
-          Navigator.pushReplacement(context, route);
+          //Navigator.push(context,route);
+         // Navigator.pushReplacement(context, route);
 
           print(decode);
           return decode;

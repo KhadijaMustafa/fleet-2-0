@@ -11,7 +11,8 @@ import 'package:xtreme_fleet/utilities/my_navigation.dart';
 
 class KhataReport extends StatefulWidget {
   final item;
-  KhataReport({Key? key, this.item}) : super(key: key);
+  final amount;
+  KhataReport({Key? key, this.item,this.amount}) : super(key: key);
 
   @override
   State<KhataReport> createState() => _KhataReportState();
@@ -32,52 +33,44 @@ class _KhataReportState extends State<KhataReport> {
   DateTime startDate = DateTime.utc(2022);
   DateTime selectedDate = DateTime.now();
   var selectItem;
+  var  customername;
 
   double totalAmount = 0.0;
   List reportList = [];
-  List listvalues = [];
+  var listvalues;
 
- getListValues() async{
-   try {
-       var response = await http.post(
+  getListValues() async {
+    try {
+      var response = await http.post(
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
             "type": "KhataCustomer_GetById",
-            "value": {
-              "Language": "en-US",
-              "Id": '${widget.item['id']}'
-            }
+            "value": {"Language": "en-US", "Id": '${widget.item['id']}'}
           }));
 
       var decode = json.decode(response.body);
       print('Successssssssssssssss');
       print(decode['Value']);
       print(response.body);
-     
-       listvalues = json.decode(decode['Value']);
-      // khata=listvalues[index]
-     
-   
-    
 
+      listvalues = json.decode(decode['Value']);
 
-      
-      print('dribver');
-      
-   
+      khata = listvalues["khataNumber"];
+      contact = listvalues["contactNumber"];
+customername=listvalues["name"];
+      nameeng = listvalues["nameEng"];
+      nameurd = listvalues["nameUrd"];
+      addresseng = listvalues["addressEng"];
+      addressurd = listvalues["addressUrd"];
+
       print('//////////////////////////////////');
       print(listvalues);
-      
-      print('//////////////////////////////////');
-setState(() {
-  
-});
-     
-   } catch (e) {
-   }
 
- }
+      print('//////////////////////////////////');
+      setState(() {});
+    } catch (e) {}
+  }
 
   getCustomerReportList() async {
     try {
@@ -104,6 +97,8 @@ setState(() {
         print(decode['Value']);
         print(response.body);
         return json.decode(decode['Value']);
+     
+        
       }
     } catch (e) {
       print(e);
@@ -114,20 +109,16 @@ setState(() {
     reportList = await getCustomerReportList();
     loading = false;
     calculateTotal();
-   
-
-
 
     setState(() {});
   }
 
   @override
   void initState() {
-   
-getListValues();
+    getListValues();
     reportApiCall();
     print('totalAmount');
-
+    
     print(totalAmount);
 
     super.initState();
@@ -140,9 +131,11 @@ getListValues();
       credit = credit - element['credit'];
       print(totalAmount);
       print('totalAmount');
+
       setState(() {});
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +146,8 @@ getListValues();
           MyNavigation().push(
               context,
               AddCustomerTransaction(
-                item: widget.item['id'],
+                item:'${widget.item["id"]}',
+                name: widget.item['name'],
               ));
         },
         child: Icon(Icons.add),
@@ -388,11 +382,12 @@ getListValues();
                         itemBuilder: (BuildContext context, int index) {
                           int indexx = index + 1;
                           var item = reportList[index];
+                          var amount=reportList[index]['amount'];
 
                           // return Container();
                           return vehExpCont(
                               '$indexx',
-                              '${item['customer']} ',
+                              '$nameeng ',
                               '${item['date']}',
                               '${item['reason']}',
                               '${item['debit']}',
