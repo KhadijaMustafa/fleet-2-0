@@ -150,21 +150,21 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
               ),
             ),
-            // InkWell(
-            //   onTap: () {
-            //       setState(() {
-            //       indexcolor = 5;
-            //     });
-            //     MyNavigation().push(context, ProjectList());
-            //   },
-            //   child: Container(
-            //     child: menuCont(FontAwesomeIcons.productHunt, 'Project',
-            //         EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 20,
-            //             iconcolor: indexcolor == 5? MyColors.yellow : MyColors.black,
-            //       textcolor: indexcolor == 5 ? MyColors.yellow : MyColors.black,
-            //         ),
-            //   ),
-            // ),
+            InkWell(
+              onTap: () {
+                  setState(() {
+                  indexcolor = 5;
+                });
+                MyNavigation().push(context, ProjectList());
+              },
+              child: Container(
+                child: menuCont(FontAwesomeIcons.productHunt, 'Project',
+                    EdgeInsets.only(left: 12, top: 20), FontWeight.bold, 16, 20,
+                        iconcolor: indexcolor == 5? MyColors.yellow : MyColors.black,
+                  textcolor: indexcolor == 5 ? MyColors.yellow : MyColors.black,
+                    ),
+              ),
+            ),
             // Theme(
             //   data: ThemeData().copyWith(dividerColor: Colors.transparent),
             //   child: ExpansionTile(
@@ -405,7 +405,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       },
                       child: Container(
                         child: menuCont(
-                            FontAwesomeIcons.carSide,
+                            FontAwesomeIcons.locationDot,
                             'Site',
                             EdgeInsets.only(left: 50, top: 10),
                             FontWeight.w400,
@@ -423,7 +423,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       },
                       child: Container(
                         child: menuCont(
-                            FontAwesomeIcons.userGroup,
+                            FontAwesomeIcons.locationDot,
                             'Vahicle Type',
                             EdgeInsets.only(left: 50, top: 10),
                             FontWeight.w400,

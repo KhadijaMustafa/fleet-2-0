@@ -12,9 +12,10 @@ import 'package:xtreme_fleet/utilities/pickers.dart';
 import 'package:http/http.dart' as http;
 
 class AddCustomerTransaction extends StatefulWidget {
-  final item;
-  final name;
-  AddCustomerTransaction({Key? key,this.item,this.name}) : super(key: key);
+  final items;
+ 
+final cusid;
+  AddCustomerTransaction({Key? key,this.items,this.cusid }) : super(key: key);
 
   @override
   State<AddCustomerTransaction> createState() => _AddCustomerTransactionState();
@@ -35,13 +36,13 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
   bool setdate = false;
   double debit = 0;
   double credit = 0;
-  double total=0;
+  double total = 0;
 
   List customerList = [];
 
   List<String> transactionList = [
-    'Debit (+)',
-    'Credit (-)',
+    'Debit',
+    'Credit',
   ];
 
   String? imageFile;
@@ -87,13 +88,17 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
   void initState() {
     super.initState();
     getListCall();
-print('${widget.item}');
+    print('{widget.item}');
+    print('${widget.cusid}');
+
+    print('${widget.items}');
+    print('{widget.item}');
 
   }
 
-   
-
   addTransaction() async {
+      print('start////////');
+
     FocusManager.instance.primaryFocus?.unfocus();
     if (transaction == null) {
       setState(() {
@@ -112,16 +117,17 @@ print('${widget.item}');
         remark = true;
       });
     } else {
-      Map<String,String> body={
-            'type': 'Transaction_Save',
-  'Id': '00000000-0000-0000-0000-000000000000',
-  'TransactionType': transaction,
-  'AmountPaid': amountController.text,
-  'PaidDate': CusDateFormat.getDate(selectedDate),
-  'Reason': remarksController.text,
-  'KhataCustomerId': '${widget.item}',
-  'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
-  'Language': 'en-US'
+      print('start////////');
+      Map<String, String> body = {
+        'type': 'Transaction_Save',
+        'Id': '00000000-0000-0000-0000-000000000000',
+        'TransactionType': transaction,
+        'AmountPaid': amountController.text,
+        'PaidDate': CusDateFormat.getDate(selectedDate),
+        'Reason': remarksController.text,
+        'KhataCustomerId':' db387df6-eadc-ec11-9169-00155d12d305',
+        'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
+        'Language': 'en-US'
       };
       print(body);
       try {
@@ -131,29 +137,24 @@ print('${widget.item}');
             Uri.parse(
                 'https://fleet.xtremessoft.com/services/Xtreme/multipart'));
         request.fields.addAll({
-       'type': 'Transaction_Save',
-  'Id': '00000000-0000-0000-0000-000000000000',
-  'TransactionType': transaction,
-  'AmountPaid':transaction=='credit'? amountController.text:transaction=='debit'?amountController.text:'',
-  'PaidDate': CusDateFormat.getDate(selectedDate),
-  'Reason': remarksController.text,
-  'KhataCustomerId': '${widget.item}',
-  'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
-  'Language': 'en-US'
-
-
-
-          
-
-    
+          'type': 'Transaction_Save',
+          'Id': '00000000-0000-0000-0000-000000000000',
+          'TransactionType': transaction,
+          'AmountPaid': amountController.text,
+          'PaidDate': CusDateFormat.getDate(selectedDate),
+          'Reason': remarksController.text,
+          'KhataCustomerId': '${widget.cusid}',
+          'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
+          'Language': 'en-US'
         });
         print(request.fields);
         print('start............');
+        print(amountController.text);
+        print(transaction);
 
-print('${widget.item}');
-print('${widget.name}');
+        print('${widget.items}');
+       
         print('start............');
-
 
         if (imageFile != null) {
           request.files.add(
@@ -178,15 +179,13 @@ print('${widget.name}');
           Navigator.pop(context);
 
           var route = MaterialPageRoute(
-            builder: (context) => KhataReport(),
+            builder: (context) => KhataReport(item: '${widget.items}',),
           );
-          //Navigator.push(context,route);
-         // Navigator.pushReplacement(context, route);
+           Navigator.pushReplacement(context, route);
 
           print(decode);
           return decode;
         } else {
-          print('falseeeeeeeeeeeeeeeeeeee');
           print(response.reasonPhrase);
         }
       } catch (e) {
@@ -238,8 +237,9 @@ print('${widget.name}');
                   });
                 },
                 items: transactionList
-                    .map((expenseTitle) => DropdownMenuItem(
-                        value: expenseTitle, child: Text("$expenseTitle")))
+                    .map((transactionTitle) => DropdownMenuItem(
+                        value: transactionTitle,
+                        child: Text("$transactionTitle")))
                     .toList(),
               ),
             ),
@@ -349,7 +349,9 @@ print('${widget.name}');
               child: Row(
                 children: [
                   InkWell(
-                    onTap: () {addTransaction();},
+                    onTap: () {
+                      addTransaction();
+                    },
                     child: Container(
                       height: 45,
                       width: 170,

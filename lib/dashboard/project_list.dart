@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:xtreme_fleet/utilities/my_colors.dart';
+
 class ProjectList extends StatefulWidget {
   ProjectList({Key? key}) : super(key: key);
 
@@ -12,8 +13,8 @@ class ProjectList extends StatefulWidget {
 }
 
 class _ProjectListState extends State<ProjectList> {
-    TextEditingController searchController = TextEditingController();
- 
+  TextEditingController searchController = TextEditingController();
+
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
@@ -59,11 +60,11 @@ class _ProjectListState extends State<ProjectList> {
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-         "type": "Project_GetAll",
-  "value": {
-    "Language": "en-US",
-    "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
-  }
+        "type": "Project_GetAll",
+        "value": {
+          "Language": "en-US",
+          "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
+        }
       });
 
       request.headers.addAll(headers);
@@ -83,8 +84,7 @@ class _ProjectListState extends State<ProjectList> {
   }
 
   projectApiCall() async {
-    projectList =
-     await getProjectList();
+    projectList = await getProjectList();
     loading = false;
 
     setState(() {});
@@ -96,12 +96,14 @@ class _ProjectListState extends State<ProjectList> {
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-         // MyNavigation().push(context, AddVehicleList());
+          // MyNavigation().push(context, AddVehicleList());
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -129,47 +131,57 @@ class _ProjectListState extends State<ProjectList> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                      Container(
+                                    Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                             InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bgred
-                                        ),
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                 
-                                          child: Text('No',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
-
-                                            TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                              context, deleteProject());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Container(
-                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bggreen
-                                        ),
-                                
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                         
-
-                                          child: Text(
-                                            'Yes',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context, deleteProject());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
@@ -182,8 +194,6 @@ class _ProjectListState extends State<ProjectList> {
                         )),
                     GestureDetector(
                       onTap: () {
-                       
-                      
                         // MyNavigation().push(
                         //     context,
                         //     UpdateVehicle(
@@ -243,11 +253,7 @@ class _ProjectListState extends State<ProjectList> {
 
                                         List filtered = projectList
                                             .where((item) =>
-                                                '${item['code']}'
-                                                    .toLowerCase()
-                                                    .contains(searchController
-                                                        .text
-                                                        .toLowerCase()) ||
+                                                '${item['code']}'.toLowerCase().contains(searchController.text.toLowerCase()) ||
                                                 '${item['name']}'
                                                     .toLowerCase()
                                                     .contains(searchController
@@ -273,51 +279,68 @@ class _ProjectListState extends State<ProjectList> {
                       ),
                     ),
                   ),
-                  Container(
-                    // padding: EdgeInsets.only(left: 10),
-                    color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('#','Code', ' Name',
-                        'From Site', 'Trips','Date','Customer', 14, FontWeight.bold),
-                  ),
-
-                 
-                  Container(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount:
-                          isSearching ? filterList.length : projectList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int indexx=index+1;
-                        var item = isSearching
-                            ? filterList[index]
-                            : projectList[index];
-                        return vehicleListCont(
-                          '$indexx',
-                          '${item['code']}',
-                          '${item['name']}',
-                          '${item['fromSite']}',
-                          '${item['totalTrips']}',
-                          '${item['startDate']}',
-                          '${item['customerName']}',
-                          12,
-                          FontWeight.w400,
-                          onLongPress: () {
-                            print('object');
-                            print(item);
-
-                            setState(() {
-                              print('???///////////');
-                              print(selectedItem);
-                              selectedItem = item;
-                              itemIndex = index;
-                            });
-                          },
-                          bgColor: '${selectedItem}' == '${item}'
-                              ? MyColors.yellow
-                              : Colors.white,
-                        );
-                      },
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: width+200,
+                      child: Column(
+                        children: [
+                          Container(
+                            // padding: EdgeInsets.only(left: 10),
+                            color: Color.fromARGB(255, 234, 227, 227),
+                            child: vehicleListCont(
+                                '#',
+                                'Code',
+                                ' Name',
+                                'From Site',
+                                'Trips',
+                                'Date',
+                                'Customer',
+                                14,
+                                FontWeight.bold),
+                          ),
+                          Container(
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: isSearching
+                                  ? filterList.length
+                                  : projectList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                int indexx = index + 1;
+                                var item = isSearching
+                                    ? filterList[index]
+                                    : projectList[index];
+                                return vehicleListCont(
+                                  '$indexx',
+                                  '${item['code']}',
+                                  '${item['name']}',
+                                  '${item['fromSite']}',
+                                  '${item['totalTrips']}',
+                                  '${item['startDate']}',
+                                  '${item['customerName']}',
+                                  12,
+                                  FontWeight.w400,
+                                  onLongPress: () {
+                                    print('object');
+                                    print(item);
+                  
+                                    setState(() {
+                                      print('???///////////');
+                                      print(selectedItem);
+                                      selectedItem = item;
+                                      itemIndex = index;
+                                    });
+                                  },
+                                  bgColor: '${selectedItem}' == '${item}'
+                                      ? MyColors.yellow
+                                      : Colors.white,
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -325,7 +348,8 @@ class _ProjectListState extends State<ProjectList> {
             )),
     );
   }
-    actionIcon(IconData) {
+
+  actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -359,9 +383,9 @@ class _ProjectListState extends State<ProjectList> {
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Container(
+          Container(
             width: 15,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 8, right: 8),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -383,28 +407,28 @@ class _ProjectListState extends State<ProjectList> {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+             
               child: Text(fromsite,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+        
               child: Text(trips,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
-           Expanded(
+          Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+             
               child: Text(date,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
-           Expanded(
+          Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+             
               child: Text(customer,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),

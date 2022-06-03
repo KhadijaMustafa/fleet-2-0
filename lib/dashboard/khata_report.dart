@@ -11,12 +11,17 @@ import 'package:xtreme_fleet/utilities/my_navigation.dart';
 
 class KhataReport extends StatefulWidget {
   final item;
-  final amount;
-  KhataReport({Key? key, this.item,this.amount}) : super(key: key);
+
+  KhataReport({
+    Key? key,
+    this.item,
+    
+  }) : super(key: key);
 
   @override
   State<KhataReport> createState() => _KhataReportState();
 }
+var listitem;
 
 class _KhataReportState extends State<KhataReport> {
   var khata;
@@ -33,44 +38,46 @@ class _KhataReportState extends State<KhataReport> {
   DateTime startDate = DateTime.utc(2022);
   DateTime selectedDate = DateTime.now();
   var selectItem;
-  var  customername;
+  var customername;
 
   double totalAmount = 0.0;
   List reportList = [];
   var listvalues;
 
-  getListValues() async {
-    try {
-      var response = await http.post(
-          Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-            "type": "KhataCustomer_GetById",
-            "value": {"Language": "en-US", "Id": '${widget.item['id']}'}
-          }));
+  // getListValues() async {
+  //   try {
+  //     var response = await http.post(
+  //         Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
+  //         headers: {'Content-Type': 'application/json'},
+  //         body: json.encode({
+  //           "type": "KhataCustomer_GetById",
+  //           "value": {"Language": "en-US", "Id": '${widget.item['id']}'}
+  //         }));
 
-      var decode = json.decode(response.body);
-      print('Successssssssssssssss');
-      print(decode['Value']);
-      print(response.body);
+  //     var decode = json.decode(response.body);
+  //     print('Successssssssssssssss');
+  //     print(decode['Value']);
+  //     print(response.body);
 
-      listvalues = json.decode(decode['Value']);
+  //     listvalues = json.decode(decode['Value']);
 
-      khata = listvalues["khataNumber"];
-      contact = listvalues["contactNumber"];
-customername=listvalues["name"];
-      nameeng = listvalues["nameEng"];
-      nameurd = listvalues["nameUrd"];
-      addresseng = listvalues["addressEng"];
-      addressurd = listvalues["addressUrd"];
+  //     khata = listvalues["khataNumber"];
+  //     contact = listvalues["contactNumber"];
 
-      print('//////////////////////////////////');
-      print(listvalues);
+  //     nameeng = listvalues["nameEng"];
+  //     nameurd = listvalues["nameUrd"];
+  //     addresseng = listvalues["addressEng"];
+  //     addressurd = listvalues["addressUrd"];
 
-      print('//////////////////////////////////');
-      setState(() {});
-    } catch (e) {}
-  }
+  //     print('//////////////////////////////////');
+  //     print(listvalues);
+
+  //     print('//////////////////////////////////');
+  //     setState(() {
+  //       listvalues;
+  //     });
+  //   } catch (e) {}
+  // }
 
   getCustomerReportList() async {
     try {
@@ -97,8 +104,6 @@ customername=listvalues["name"];
         print(decode['Value']);
         print(response.body);
         return json.decode(decode['Value']);
-     
-        
       }
     } catch (e) {
       print(e);
@@ -109,18 +114,27 @@ customername=listvalues["name"];
     reportList = await getCustomerReportList();
     loading = false;
     calculateTotal();
+    print('totalAmount');
 
+    print('totalAmount');
     setState(() {});
   }
 
   @override
   void initState() {
-    getListValues();
+   // getListValues();
     reportApiCall();
-    print('totalAmount');
-    
-    print(totalAmount);
+print('listitem');
+print('${widget.item['id']}');
+print('listitem');
+ khata = widget.item["khataNumber"];
+      contact = widget.item["contactNumber"];
 
+      nameeng = widget.item["nameEng"];
+      nameurd = widget.item["nameUrd"];
+      addresseng = widget.item["addressEng"];
+      addressurd = widget.item["addressUrd"];
+calculateTotal();
     super.initState();
   }
 
@@ -136,7 +150,6 @@ customername=listvalues["name"];
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -146,8 +159,8 @@ customername=listvalues["name"];
           MyNavigation().push(
               context,
               AddCustomerTransaction(
-                item:'${widget.item["id"]}',
-                name: widget.item['name'],
+                items: '${widget.item}',cusid:'${widget.item['id']}' ,
+               // data: listvalues,
               ));
         },
         child: Icon(Icons.add),
@@ -156,10 +169,10 @@ customername=listvalues["name"];
       bottomNavigationBar: BottomAppBar(
         child: Container(
           padding: EdgeInsets.all(8),
-          height: 70,
+          height: 80,
           color: MyColors.yellow,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
                 child: Row(
@@ -174,18 +187,7 @@ customername=listvalues["name"];
                     ),
                     Container(
                         margin: EdgeInsets.only(left: 15),
-                        child: textCont('$debit', 20, color: MyColors.red)),
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      child: textCont(
-                        'Remaining :',
-                        16,
-                      ),
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(left: 15),
-                        child:
-                            textCont('$totalAmount', 20, color: MyColors.red)),
+                        child: textCont('$debit', 18, color: MyColors.red)),
                   ],
                 ),
               ),
@@ -200,8 +202,19 @@ customername=listvalues["name"];
                         )),
                     Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: textCont('$credit', 20, color: MyColors.red),
+                      child: textCont('$credit', 18, color: MyColors.red),
                     ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15),
+                      child: textCont(
+                        'Remaining :',
+                        16,
+                      ),
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child:
+                            textCont('$totalAmount', 18, color: MyColors.red)),
                   ],
                 ),
               )
@@ -219,200 +232,220 @@ customername=listvalues["name"];
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Container(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 20, left: 5),
-              child: Column(children: [
-                detailsCont('Khata #', '$khata'),
-                detailsCont('Contact Number', '$contact'),
-                detailsCont('Name (English)', '$nameeng'),
-                detailsCont('Name (Urdu)', '$nameurd'),
-                detailsCont('Address (English)', '$addresseng'),
-                detailsCont('Address (Urdu)', '$addressurd'),
-              ]),
-            ),
-            Container(
-              width: width,
-              margin: EdgeInsets.only(top: 10, right: 5, left: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  cardCont(MyColors.bgyellow, ' Debit', '$debit',
-                      debit == 0 ? valuee = 0 : valuee = 1),
-                  cardCont(MyColors.bgyellow, ' Credit', '$credit',
-                      credit == 0 ? valuee = 0 : valuee = 1),
-                  cardCont(MyColors.bgyellow, ' Remaining', '$totalAmount',
-                      credit == 0 ? valuee = 0 : valuee = 1),
-                ],
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: MyColors.yellow,
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            )
+          : Container(
+              child: SingleChildScrollView(
+              child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(
-                      left: 10,
+                    margin: EdgeInsets.only(top: 20, left: 5, bottom: 10),
+                    child: Column(children: [
+                      detailsCont('Khata #', '$khata'),
+                      detailsCont('Contact Number', '$contact'),
+                      detailsCont('Name (English)', '$nameeng'),
+                      detailsCont('Name (Urdu)', '$nameurd'),
+                      detailsCont('Address (English)', '$addresseng'),
+                      detailsCont('Address (Urdu)', '$addressurd'),
+                    ]),
+                  ),
+                  // Container(
+                  //   width: width,
+                  //   margin: EdgeInsets.only(top: 10, right: 5, left: 5),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       cardCont( ' Debit', '$debit',
+                  //       ),
+                  //       cardCont( ' Credit', '$credit',
+                  //           ),
+                  //       cardCont( ' Remaining', '$totalAmount',
+                  //           ),
+                  //     ],
+                  //   ),
+                  // ),
+                  Divider(
+                    endIndent: 10,
+                    indent: 10,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20, left: 10),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      '$nameeng  khata Detail',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    height: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.black)),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 15),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          //child: Text('day-mon-year'),
-                          child: Text('${CusDateFormat.getDate(startDate)}'),
+                          padding: EdgeInsets.only(
+                            left: 10,
+                          ),
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Colors.black)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                //child: Text('day-mon-year'),
+                                child:
+                                    Text('${CusDateFormat.getDate(startDate)}'),
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  DateTime? date = await showDatePicker(
+                                      context: context,
+                                      fieldHintText: 'day-mon-year',
+                                      initialDate: DateTime.utc(2022),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2025));
+                                  if (date != null) {
+                                    setState(() {
+                                      startDate = date;
+                                    });
+                                    print(date);
+                                    print(CusDateFormat.getDate(date));
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 35, right: 5),
+                                  child: Icon(
+                                    Icons.calendar_month,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(
+                            left: 10,
+                          ),
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Colors.black)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                //child: Text('day-mon-year'),
+                                child: Text(
+                                    '${CusDateFormat.getDate(selectedDate)}'),
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  DateTime? date = await showDatePicker(
+                                      context: context,
+                                      fieldHintText: 'year-mon-day',
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2025));
+                                  if (date != null) {
+                                    setState(() {
+                                      selectedDate = date;
+                                    });
+                                    print(date);
+                                    print(CusDateFormat.getDate(date));
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 35, right: 5),
+                                  child: Icon(Icons.calendar_month),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                         InkWell(
-                          onTap: () async {
-                            DateTime? date = await showDatePicker(
-                                context: context,
-                                fieldHintText: 'day-mon-year',
-                                initialDate: DateTime.utc(2022),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2025));
-                            if (date != null) {
-                              setState(() {
-                                startDate = date;
-                              });
-                              print(date);
-                              print(CusDateFormat.getDate(date));
-                            }
+                          onTap: () {
+                            reportApiCall();
                           },
                           child: Container(
-                            margin: EdgeInsets.only(left: 35, right: 5),
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: MyColors.yellow),
                             child: Icon(
-                              Icons.calendar_month,
+                              Icons.search,
+                              color: Colors.white,
                             ),
                           ),
                         )
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                      left: 10,
-                    ),
-                    height: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.black)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          //child: Text('day-mon-year'),
-                          child: Text('${CusDateFormat.getDate(selectedDate)}'),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            DateTime? date = await showDatePicker(
-                                context: context,
-                                fieldHintText: 'year-mon-day',
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2025));
-                            if (date != null) {
-                              setState(() {
-                                selectedDate = date;
-                              });
-                              print(date);
-                              print(CusDateFormat.getDate(date));
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 35, right: 5),
-                            child: Icon(Icons.calendar_month),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      reportApiCall();
-                    },
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
                     child: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: MyColors.yellow),
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.white,
+                      margin: EdgeInsets.only(top: 20),
+                      width: width + 260,
+                      child: Column(
+                        children: [
+                          Container(
+                            //padding: EdgeInsets.all(5),
+                            //margin: EdgeInsets.all(5),
+                            color: Color.fromARGB(255, 234, 227, 227),
+                            child: vehExpCont(
+                                '#',
+                                'Customer',
+                                ' Paid Date',
+                                ' Remarks',
+                                'Debit',
+                                'Credit',
+                                'Total',
+                                15,
+                                FontWeight.bold),
+                          ),
+                          Container(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              // scrollDirection: Axis.vertical,
+                              itemCount: reportList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                int indexx = index + 1;
+                                var item = reportList[index];
+
+                                // return Container();
+                                return vehExpCont(
+                                    '$indexx',
+                                    '$nameeng} ',
+                                    '${item['date']}',
+                                    '${item['reason']}',
+                                    '${item['debit']}',
+                                    '${item['credit']}',
+                                    '${item['total']}',
+                                    12,
+                                    FontWeight.normal, onLongPress: () {
+                                  setState(() {
+                                    selectItem = item;
+                                    print('selectItem');
+
+                                    print(selectItem);
+                                    print('selectItem');
+                                  });
+                                });
+                              },
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   )
                 ],
               ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                margin: EdgeInsets.only(top: 20),
-                width: width + 260,
-                child: Column(
-                  children: [
-                    Container(
-                      //padding: EdgeInsets.all(5),
-                      //margin: EdgeInsets.all(5),
-                      color: Color.fromARGB(255, 234, 227, 227),
-                      child: vehExpCont(
-                          '#',
-                          'Customer',
-                          ' Paid Date',
-                          ' Remarks',
-                          'Debit',
-                          'Credit',
-                          'Total',
-                          15,
-                          FontWeight.bold),
-                    ),
-                    Container(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        // scrollDirection: Axis.vertical,
-                        itemCount: reportList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          int indexx = index + 1;
-                          var item = reportList[index];
-                          var amount=reportList[index]['amount'];
-
-                          // return Container();
-                          return vehExpCont(
-                              '$indexx',
-                              '$nameeng ',
-                              '${item['date']}',
-                              '${item['reason']}',
-                              '${item['debit']}',
-                              '${item['credit']}',
-                              '${item['total']}',
-                              12,
-                              FontWeight.normal, onLongPress: () {
-                            setState(() {
-                              selectItem = item;
-                              print('selectItem');
-
-                              print(selectItem);
-                              print('selectItem');
-                            });
-                          });
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      )),
+            )),
     );
   }
 
@@ -449,7 +482,10 @@ customername=listvalues["name"];
     );
   }
 
-  cardCont(Color bgcolor, String text, String count, double valuee) {
+  cardCont(
+    String text,
+    String count,
+  ) {
     return Card(
       // color: Color.fromRGBO(104, 191, 123, 1),
       shadowColor: Colors.white.withOpacity(0.2),
