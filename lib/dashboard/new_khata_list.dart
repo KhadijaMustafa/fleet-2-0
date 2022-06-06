@@ -97,7 +97,7 @@ if(response.statusCode==200){
   }
 
   customerKhataApiCall() async {
-    customerKhataList = await getCustometKhata();
+    customerKhataList = await getCustometKhata()??[];
     loading = false;
 
     setState(() {});

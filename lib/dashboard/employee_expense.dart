@@ -29,10 +29,11 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
   TextEditingController searchController = TextEditingController();
 
   bool isDownloading = false;
+  double totalAmount = 0.0;
   List filterList = [];
   bool isSearching = false;
   String? image;
-  double totalAmount = 0.0;
+  
 
   imageDownload(String url) async {
     PermissionStatus status = await Permission.storage.status;
@@ -221,9 +222,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
           id.value = li[i][keys[j]];
         }
       }
-      // var exits = await getExternalStorageDirectory();
-      // (await getApplicationDocumentsDirectory()).path;
-      // print(exits);
+     
       var documentDirectory = await getExternalStorageDirectory();
       var parent = documentDirectory!.path;
 
@@ -511,7 +510,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
-                        width: width+290,
+                        width: width+320,
                           child: Column(
                         children: [
                           Container(
@@ -616,23 +615,31 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
+          SizedBox(width: 5,),
+
           Container(
             width: 120,
             child: Text(document,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
+          SizedBox(width: 5,),
+          
           Container(
-            width: 100,
+            width: 120,
 
             //margin: EdgeInsets.only(left: 10),
             child: Text(expiryDate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
+          SizedBox(width: 5,),
+
           Container(
             width: 100,
             child: Text(amount,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
+          SizedBox(width: 5,),
+
           Container(
             width: 120,
             child: Text(remarks,

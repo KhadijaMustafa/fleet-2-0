@@ -7,31 +7,31 @@ import 'package:xtreme_fleet/dashboard/file_attachment.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
 
-class MonthlyRent extends StatefulWidget {
-  MonthlyRent({Key? key}) : super(key: key);
+class TripManagement extends StatefulWidget {
+  TripManagement({Key? key}) : super(key: key);
 
   @override
-  State<MonthlyRent> createState() => _MonthlyRentState();
+  State<TripManagement> createState() => _TripManagementState();
 }
 
-class _MonthlyRentState extends State<MonthlyRent> {
-  TextEditingController searchController = TextEditingController();
+class _TripManagementState extends State<TripManagement> {
+   TextEditingController searchController = TextEditingController();
 
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
   var selectedItem;
   int itemIndex = 0;
-  List rentList = [];
+  List tripList = [];
 
-  deleteRent() async {
+  deleteTripRecord() async {
     print('Delete');
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-        "type": "MonthlyRent_Delete",
+        "type": "Trip_Delete",
         "value": {"Id": "${selectedItem['id']}", "Language": "en-US"}
       });
       request.headers.addAll(headers);
@@ -46,7 +46,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
             content: Text('Record succesfully deleted.')));
-        rentList.removeAt(itemIndex);
+        tripList.removeAt(itemIndex);
 
         setState(() {
           selectedItem = null;
@@ -59,13 +59,13 @@ class _MonthlyRentState extends State<MonthlyRent> {
     }
   }
 
-  getMonthlyRentList() async {
+  getTriptList() async {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-        "type": "MonthlyRent_GetAll",
+        "type": "Trip_GetAll",
         "value": {
           "Language": "en-US",
           "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
@@ -88,8 +88,8 @@ class _MonthlyRentState extends State<MonthlyRent> {
     }
   }
 
-  monthlyRentApiCall() async {
-    rentList = await getMonthlyRentList();
+  tripApiCall() async {
+    tripList = await getTriptList();
     loading = false;
 
     setState(() {});
@@ -97,11 +97,10 @@ class _MonthlyRentState extends State<MonthlyRent> {
 
   @override
   void initState() {
-    monthlyRentApiCall();
+    tripApiCall();
 
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -116,7 +115,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
-        title: selectedItem == null ? Text('Monthly Rent List') : Container(),
+        title: selectedItem == null ? Text('Trip List') : Container(),
         actions: [
           selectedItem == null
               ? Container()
@@ -163,7 +162,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
                                           TextButton(
                                               onPressed: () {
                                                 Navigator.pop(
-                                                    context, deleteRent());
+                                                    context, deleteTripRecord());
                                                 setState(
                                                     () => selectedItem = null);
                                               },
@@ -255,9 +254,9 @@ class _MonthlyRentState extends State<MonthlyRent> {
                                           filterList.clear();
                                         });
 
-                                        List filtered = rentList
+                                        List filtered = tripList
                                             .where((item) =>
-                                                '${item['monthlyRentDate']}'
+                                                '${item['tripNumber']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
@@ -267,7 +266,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
                                                     .contains(searchController
                                                         .text
                                                         .toLowerCase()) ||
-                                                '${item['monthlyRentNumber']}'
+                                                '${item['tripDate']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
@@ -290,21 +289,22 @@ class _MonthlyRentState extends State<MonthlyRent> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width + 390,
+                      width: width + 500,
                       child: Column(
                         children: [
                           Container(
                             // padding: EdgeInsets.only(left: 10),
                             color: Color.fromARGB(255, 234, 227, 227),
-                            child: vehicleListCont(
+                            child: tripListCont(
                                 '#',
-                                ' Rent #',
-                                'Rent Date',
-                                'Manifesto #',
+                                ' Trip #',
+                                'Trip Date',
+                                'Manifesto#',
                                 'Plate #',
-                                'Project Code',
-                                'Hour(s)',
+                                'P. Code',
+                               
                                 'DM/TC',
+                                'Trip Rate','Expense','Remaining ',
                                 15,
                                 FontWeight.bold),
                           ),
@@ -314,21 +314,25 @@ class _MonthlyRentState extends State<MonthlyRent> {
                               shrinkWrap: true,
                               itemCount: isSearching
                                   ? filterList.length
-                                  : rentList.length,
+                                  : tripList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 int indexx = index + 1;
                                 var item = isSearching
                                     ? filterList[index]
-                                    : rentList[index];
-                                return vehicleListCont(
+                                    : tripList[index];
+                                return tripListCont(
                                   '$indexx',
-                                  '${item['monthlyRentNumber']}',
-                                  '${item['monthlyRentDate']}',
+                                  '${item['tripNumber']}',
+                                  '${item['tripDate']}',
                                   '${item['manifestoNumber']}',
                                   '${item['vehiclePlatNumber']}',
                                   '${item['projectCode']}',
-                                  '${item['hours']}',
                                   '${item['dmtcNumber']}',
+                                  '${item['projectTripRate']}',
+                                  '${item['tripExpense']}',
+                                  '${item['remainingExpense']}',
+
+
                                   12,
                                   FontWeight.w400,
                                   onLongPress: () {
@@ -367,8 +371,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
             )),
     );
   }
-
-  actionIcon(IconData) {
+   actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -379,15 +382,17 @@ class _MonthlyRentState extends State<MonthlyRent> {
     );
   }
 
-  vehicleListCont(
+  tripListCont(
     String serial,
-    String rentnumber,
+    String tripN,
     String date,
     String manifesto,
     String platnumber,
     String projectCode,
-    String hour,
-    String dmTc,
+    String dmtc,
+    String triprate,
+    String expense,
+    String remaining,
     double size,
     FontWeight fontWeight, {
     // String? project,
@@ -416,7 +421,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
           Container(
             width: 100,
             child: Text(
-              rentnumber,
+              tripN,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
@@ -429,8 +434,8 @@ class _MonthlyRentState extends State<MonthlyRent> {
           ),
           Expanded(
             child: Container(
-              width: 100,
-              margin: EdgeInsets.only(left: 5),
+              width: 110,
+             
               child: Text(manifesto,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
@@ -438,7 +443,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
           Expanded(
             child: Container(
               width: 100,
-              margin: EdgeInsets.only(left: 5),
+           margin: EdgeInsets.only(left: 5),
               child: Text(platnumber,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
@@ -446,7 +451,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
           Expanded(
             child: Container(
               width: 100,
-              margin: EdgeInsets.only(left: 5),
+           
               child: Text(projectCode,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
@@ -454,16 +459,32 @@ class _MonthlyRentState extends State<MonthlyRent> {
           Expanded(
             child: Container(
               width: 100,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(hour,
+             
+              child: Text(dmtc,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
           Expanded(
             child: Container(
               width: 100,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(dmTc,
+          
+              child: Text(triprate,
+                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+            ),
+          ),
+           Expanded(
+            child: Container(
+              width: 100,
+           
+              child: Text(expense,
+                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+            ),
+          ),
+           Expanded(
+            child: Container(
+              width: 100,
+            
+              child: Text(remaining,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),

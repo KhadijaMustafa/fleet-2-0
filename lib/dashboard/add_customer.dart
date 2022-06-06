@@ -1,48 +1,54 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:one_context/one_context.dart';
 import 'package:http/http.dart' as http;
-import 'package:xtreme_fleet/dashboard/setup_site.dart';
+import 'package:one_context/one_context.dart';
+import 'package:xtreme_fleet/dashboard/customer_list.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
-class SiteAdd extends StatefulWidget {
-  SiteAdd({Key? key}) : super(key: key);
+class AddCustomer extends StatefulWidget {
+  AddCustomer({Key? key}) : super(key: key);
 
   @override
-  State<SiteAdd> createState() => _SiteAddState();
+  State<AddCustomer> createState() => _AddCustomerState();
 }
 
-class _SiteAddState extends State<SiteAdd> {
-  TextEditingController englishnameController=TextEditingController();
-  TextEditingController urdunameController=TextEditingController();
-     OneContext _context = OneContext.instance;
-var customer;
-bool custo=false;
+class _AddCustomerState extends State<AddCustomer> {
+   OneContext _context = OneContext.instance;
 
-  bool engname=false;
-  bool urdname=false;
-List customerList=[];
+  TextEditingController contactNumber = TextEditingController();
+  TextEditingController nameEngController = TextEditingController();
+  TextEditingController nameUrduController = TextEditingController();
+  TextEditingController addressUrdController = TextEditingController();
+  TextEditingController addressEngController = TextEditingController();
+  var customerName;
+   bool contact = false;
+  bool name = false;
+  bool nameurd = false;
+  bool addressUr = false;
+  bool addressEng = false;
+  bool customer = false;
+  List customerTypeDropdown=[];
 
-  getDropDownValues() async {
+   getDropDownValues() async {
     try {
       var response = await http.post(
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
-            "type": "Customer_DropdownList_Get",
+            "type": "Setup_CustomerType_DropdownList_Get",
             "value": {"Language": "en-US"}
           }));
       print(response.body);
       print(response.statusCode);
 
       var decode = json.decode(response.body);
-      customerList = json.decode(decode['Value']);
+      customerTypeDropdown = json.decode(decode['Value']);
 
-      print(customerList);
+      print(customerTypeDropdown);
 
       setState(() {});
 
-      return customerList;
+      return customerTypeDropdown;
     } catch (e) {
       print(e);
     }
@@ -50,54 +56,70 @@ List customerList=[];
   }
 
   getListCall() async {
-    customerList = await getDropDownValues();
-    
-
+    customerTypeDropdown = await getDropDownValues();
 
   }
-  @override
-  void initState() {
-    super.initState();
-    getListCall();
-  }
 
-   addSetupSite() async {
+ addCustomerType() async {
     FocusManager.instance.primaryFocus?.unfocus();
     print('starttttt..................');
-   if(customer==null){
-     custo=true;
-   }else if (englishnameController.text.isEmpty) {
+   if (nameEngController.text.isEmpty) {
       setState(() {
-        engname = true;
+        name = true;
       });
-    } else if(urdunameController.text.isEmpty){
+    } else if (nameUrduController.text.isEmpty) {
       setState(() {
-        urdname=true;
+        nameurd = true;
       });
-    } else {
+    } 
+    else if (contactNumber.text.isEmpty) {
+      setState(() {
+        contact = true;
+      });
+    }
+    else if (addressEngController.text.isEmpty) {
+      setState(() {
+        addressEng = true;
+      });
+    }
+    else if (addressUrdController.text.isEmpty) {
+      setState(() {
+        addressUr = true;
+      });
+    }
+    else if (customerName == null) {
+      setState(() {
+        customer = true;
+      });
+    }  else {
+      Map<String, String> body={
+           'type': 'Customer_Save',
+  'Id': '00000000-0000-0000-0000-000000000000',
+  'NameEng': nameEngController.text,
+  'NameUrd': nameUrduController.text,
+  'Contact': contactNumber.text,
+  'AddressEng': addressEngController.text,
+  'AddressUrd': addressUrdController.text,
+  'SetupCustomerTypeId': customerName['value'],
+  'Language': 'en-US'
+        };
+        print(body);
       try {
         var request = http.MultipartRequest(
             'POST',
             Uri.parse(
                 'https://fleet.xtremessoft.com/services/Xtreme/multipart'));
-        request.fields.addAll({
-          'type': 'Site_Save',
-          'Id': '00000000-0000-0000-0000-000000000000',
-          'NameEng': englishnameController.text,
-          'NameUrd': urdunameController.text,
-          'CustomerName':customer['value'],
-          
-          
-          'Language': 'en-US'
-        });
-    
+        request.fields.addAll(body);
 
         _context.showProgressIndicator(
             circularProgressIndicatorColor: Color.fromARGB(255, 98, 61, 12));
         http.StreamedResponse streamResponse = await request.send();
         http.Response response = await http.Response.fromStream(streamResponse);
         _context.hideProgressIndicator();
+        print('object');
         if (response.statusCode == 200) {
+        print('object');
+
           var decode = json.decode(response.body);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
@@ -105,14 +127,11 @@ List customerList=[];
           ));
           Navigator.pop(context);
           var route = MaterialPageRoute(
-            builder: (context) => SetUpSite(),
+            builder: (context) => CustomerList(),
           );
           Navigator.pushReplacement(context, route);
           print(decode);
           print('decode');
-          setState(() {
-            
-          });
         }
       } catch (e) {
         _context.hideProgressIndicator();
@@ -120,58 +139,105 @@ List customerList=[];
       }
     }
   }
+
+  @override
+  void initState() {
+    getDropDownValues();
+    super.initState();
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-       
+       appBar: AppBar(
+     
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Vehicle Type',
+          'Add Customer',
           style: TextStyle(color: Colors.white),
         ),
       ),
       body: Container(
         child: SingleChildScrollView(child: Column(
           children: [
-
- dropdownComp(
-                  customer == null
-                      ? "Customer Name"
-                      : customer["text"],
-                  custo ? Colors.red : Colors.black, onchanged: (value) {
+             textFieldCont(
+              'Name (English)',
+              nameEngController,
+              name ? Colors.red : Colors.black,
+              onChanged: (value) {
                 setState(() {
-                  customer = value;
-                  custo = false;
-              
+                  name = false;
                 });
-              }, list: customerList, dropdowntext: "text"),
-              custo ? validationCont() : Container(),
-
-             textFieldCont('Site Name (English)', englishnameController,
-                  engname ? Colors.red : Colors.black, onChanged: (value) {
+              },
+            ),
+            name ? validationCont() : Container(),
+            
+              textFieldCont(
+              'Name (Urdu)',
+              nameUrduController,
+              nameurd ? Colors.red : Colors.black,
+              onChanged: (value) {
                 setState(() {
-                  engname = false;
+                  nameurd = false;
                 });
-              }),
-              engname ? validationCont() : Container(),
-                textFieldCont('Site Name (Urdu)', urdunameController,
-                  urdname ? Colors.red : Colors.black, onChanged: (value) {
+              },
+            ),
+            nameurd ? validationCont() : Container(),
+             textFieldCont(
+              'Contact Number',
+              contactNumber,
+              contact ? Colors.red : Colors.black,
+              onChanged: (value) {
                 setState(() {
-                  urdname = false;
+                  contact = false;
                 });
-              }),
-              urdname ? validationCont() : Container(),
+              },keyboard: TextInputType.number
+            ),
+            contact ? validationCont() : Container(),
+             textFieldCont(
+              'Address (English)',
+              addressEngController,
+              addressEng ? Colors.red : Colors.black,
+              onChanged: (value) {
+                setState(() {
+                  addressEng = false;
+                });
+              },
+            ),
+            addressEng ? validationCont() : Container(),
+             textFieldCont(
+              'Address (Urdu)',
+              addressUrdController,
+              addressUr ? Colors.red : Colors.black,
+              onChanged: (value) {
+                setState(() {
+                  addressUr = false;
+                });
+              },
+            ),
+            addressUr ? validationCont() : Container(),
+            dropdownComp(
+                customerName == null ? "Customer Type" : customerName["text"],
+                customer ? Colors.red : Colors.black, onchanged: (value) {
+              setState(() {
+                customerName = value;
+                customer = false;
+              });
+            }, list: customerTypeDropdown, dropdowntext: "text"),
+            customer ? validationCont() : Container(),
                InkWell(
                 onTap: () {
-                  addSetupSite();
-
+                  addCustomerType();
                 },
                 child: Container(
                   height: 50,
-                  margin:
-                      EdgeInsets.only(left: 20, top: 40, right: 20, bottom: 20),
+                  margin: EdgeInsets.only(
+                    left: 20,
+                    top: 40,
+                    right: 20,
+                  ),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: MyColors.yellow,
@@ -188,10 +254,10 @@ List customerList=[];
           ],
         )),
       ),
+
     );
   }
-
-   dropdownComp(String hinttext, Color bordercolor,
+    dropdownComp(String hinttext, Color bordercolor,
       {Function? onchanged, List? list, String? dropdowntext}) {
     return Container(
         height: 50,
@@ -218,7 +284,8 @@ List customerList=[];
               .toList(),
         ));
   }
-   validationCont() {
+
+  validationCont() {
     return Container(
       margin: EdgeInsets.only(left: 35),
       alignment: Alignment.topLeft,
@@ -251,4 +318,4 @@ List customerList=[];
       ),
     );
   }
-  }
+}

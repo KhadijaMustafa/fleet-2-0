@@ -14,8 +14,7 @@ import 'package:http/http.dart' as http;
 class AddCustomerTransaction extends StatefulWidget {
   final items;
  
-final cusid;
-  AddCustomerTransaction({Key? key,this.items,this.cusid }) : super(key: key);
+  AddCustomerTransaction({Key? key,this.items }) : super(key: key);
 
   @override
   State<AddCustomerTransaction> createState() => _AddCustomerTransactionState();
@@ -88,8 +87,6 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
   void initState() {
     super.initState();
     getListCall();
-    print('{widget.item}');
-    print('${widget.cusid}');
 
     print('${widget.items}');
     print('{widget.item}');
@@ -125,7 +122,7 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
         'AmountPaid': amountController.text,
         'PaidDate': CusDateFormat.getDate(selectedDate),
         'Reason': remarksController.text,
-        'KhataCustomerId':' db387df6-eadc-ec11-9169-00155d12d305',
+        'KhataCustomerId':'${widget.items['id']}',
         'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
         'Language': 'en-US'
       };
@@ -136,17 +133,7 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
             'POST',
             Uri.parse(
                 'https://fleet.xtremessoft.com/services/Xtreme/multipart'));
-        request.fields.addAll({
-          'type': 'Transaction_Save',
-          'Id': '00000000-0000-0000-0000-000000000000',
-          'TransactionType': transaction,
-          'AmountPaid': amountController.text,
-          'PaidDate': CusDateFormat.getDate(selectedDate),
-          'Reason': remarksController.text,
-          'KhataCustomerId': '${widget.cusid}',
-          'UserId': 'f14198a1-1a9a-ec11-8327-74867ad401de',
-          'Language': 'en-US'
-        });
+        request.fields.addAll(body);
         print(request.fields);
         print('start............');
         print(amountController.text);
@@ -177,9 +164,9 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
               backgroundColor: MyColors.bggreen,
               content: Text('Record succesfully added.')));
           Navigator.pop(context);
-
+            
           var route = MaterialPageRoute(
-            builder: (context) => KhataReport(item: '${widget.items}',),
+            builder: (context) => KhataReport(item: widget.items,),
           );
            Navigator.pushReplacement(context, route);
 
@@ -250,7 +237,7 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
               setState(() {
                 amount = false;
               });
-            }, keyboard: TextInputType.number),
+            }, keyboard: TextInputType.number,collapse: false),
             amount ? validationCont() : Container(),
             Container(
               margin: EdgeInsets.only(left: 20, top: 25, right: 20),
@@ -343,7 +330,8 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
               setState(() {
                 remark = false;
               });
-            }),
+            },maxline: null, collapse: true, keyboard: TextInputType.multiline
+            ),
             remark ? validationCont() : Container(),
             Container(
               child: Row(
@@ -448,7 +436,7 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
   }
 
   textFieldCont(String hint, TextEditingController controller, Color,
-      {Function(String)? onChanged, TextInputType? keyboard}) {
+      {Function(String)? onChanged, TextInputType? keyboard,int? maxline,bool? collapse}) {
     return Container(
       padding: EdgeInsets.only(left: 20, right: 10),
       margin: EdgeInsets.only(left: 20, top: 25, right: 20),
@@ -457,10 +445,13 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
           borderRadius: BorderRadius.circular(30),
           border: Border.all(color: Color)),
       child: TextFormField(
+        maxLines: maxline,
+        
         keyboardType: keyboard,
         controller: controller,
         cursorColor: Colors.black,
         decoration: InputDecoration(
+          isCollapsed: collapse!,
             hintText: hint,
             hintStyle: TextStyle(color: MyColors.black, fontSize: 14),
             border: InputBorder.none),

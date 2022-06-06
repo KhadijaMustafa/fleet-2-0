@@ -15,12 +15,12 @@ class KhataReport extends StatefulWidget {
   KhataReport({
     Key? key,
     this.item,
-    
   }) : super(key: key);
 
   @override
   State<KhataReport> createState() => _KhataReportState();
 }
+
 var listitem;
 
 class _KhataReportState extends State<KhataReport> {
@@ -122,19 +122,19 @@ class _KhataReportState extends State<KhataReport> {
 
   @override
   void initState() {
-   // getListValues();
+    // getListValues();
     reportApiCall();
-print('listitem');
-print('${widget.item['id']}');
-print('listitem');
- khata = widget.item["khataNumber"];
-      contact = widget.item["contactNumber"];
+    print('listitem');
+    print('${widget.item['id']}');
+    print('listitem');
+    khata = widget.item["khataNumber"];
+    contact = widget.item["contactNumber"];
 
-      nameeng = widget.item["nameEng"];
-      nameurd = widget.item["nameUrd"];
-      addresseng = widget.item["addressEng"];
-      addressurd = widget.item["addressUrd"];
-calculateTotal();
+    nameeng = widget.item["nameEng"];
+    nameurd = widget.item["nameUrd"];
+    addresseng = widget.item["addressEng"];
+    addressurd = widget.item["addressUrd"];
+    calculateTotal();
     super.initState();
   }
 
@@ -159,8 +159,8 @@ calculateTotal();
           MyNavigation().push(
               context,
               AddCustomerTransaction(
-                items: '${widget.item}',cusid:'${widget.item['id']}' ,
-               // data: listvalues,
+                items: widget.item,
+                // data: listvalues,
               ));
         },
         child: Icon(Icons.add),

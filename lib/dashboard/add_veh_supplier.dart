@@ -35,6 +35,7 @@ class _AddVehicleSupplierState extends State<AddVehicleSupplier> {
   checkbox(bool value) {
     print(value);
     _addkhata = value;
+    
     setState(() {});
   }
 
@@ -85,7 +86,7 @@ class _AddVehicleSupplierState extends State<AddVehicleSupplier> {
           'ContactPersonUrd': contactpersonurdu.text,
           'AddressEng': address.text,
           'AddressUrd': addressurdu.text,
-          'AddToKhata': 'No',
+          'AddToKhata':_addkhata?'Yes': 'No',
           'Language': 'en-US'
         });
         _context.showProgressIndicator(

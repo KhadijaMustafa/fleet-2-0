@@ -308,7 +308,7 @@ class _AddEmployeeExpenseState extends State<AddEmployeeExpense> {
                     Container(
                       //child: Text('day-mon-year'),
                       child: Text(
-                        CusDateFormat.getDate(selectedDate) == null
+                        selectedDate == null
                             ? 'Expense Date'
                             : '${CusDateFormat.getDate(selectedDate)}',
                         style: TextStyle(color: MyColors.black),

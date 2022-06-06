@@ -3,19 +3,22 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:xtreme_fleet/dashboard/add_company_document.dart';
 import 'package:xtreme_fleet/dashboard/file_attachment.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
+
 class CompanyDocument extends StatefulWidget {
-  CompanyDocument({Key? key}) : super(key: key);
+ 
+  CompanyDocument({Key? key,}) : super(key: key);
 
   @override
   State<CompanyDocument> createState() => _CompanyDocumentState();
 }
 
 class _CompanyDocumentState extends State<CompanyDocument> {
-   TextEditingController searchController = TextEditingController();
-  
+  TextEditingController searchController = TextEditingController();
+
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
@@ -31,12 +34,14 @@ class _CompanyDocumentState extends State<CompanyDocument> {
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
         "type": "CompanyDocument_Delete",
-        "value": {"Id": "${selectedItem['id']}"}
+        "value": {"Id": "${selectedItem['id']}", "Language": "en-US"}
       });
       request.headers.addAll(headers);
 
       http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
+        print('???????????????????');
+        print('${selectedItem['id']}');
 
       if (response.statusCode == 200) {
         print('???????????????????');
@@ -61,11 +66,11 @@ class _CompanyDocumentState extends State<CompanyDocument> {
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-         "type": "CompanyDocument_GetAll",
-  "value": {
-    "Language": "en-US",
-    "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
-  }
+        "type": "CompanyDocument_GetAll",
+        "value": {
+          "Language": "en-US",
+          "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
+        }
       });
 
       request.headers.addAll(headers);
@@ -85,8 +90,7 @@ class _CompanyDocumentState extends State<CompanyDocument> {
   }
 
   documentApiCall() async {
-    documentList =
-     await getDocumentList();
+    documentList = await getDocumentList();
     loading = false;
 
     setState(() {});
@@ -98,12 +102,14 @@ class _CompanyDocumentState extends State<CompanyDocument> {
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-         // MyNavigation().push(context, AddVehicleList());
+           MyNavigation().push(context, AddCompanyDocument(title:'Add Company Document'));
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -111,7 +117,8 @@ class _CompanyDocumentState extends State<CompanyDocument> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
-        title: selectedItem == null ? Text('Company Document List') : Container(),
+        title:
+            selectedItem == null ? Text('Company Document List') : Container(),
         actions: [
           selectedItem == null
               ? Container()
@@ -125,53 +132,63 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                 return AlertDialog(
                                   //title: Text('data'),
                                   content: Text(
-                                    'Delete this record?',
+                                    'Do you want to delete this record?',
                                     style: TextStyle(
                                         color: MyColors.yellow,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                   Container(
+                                    Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                             InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bgred
-                                        ),
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                 
-                                          child: Text('No',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
-
-                                            TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                              context, deleteDocument());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Container(
-                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bggreen
-                                        ),
-                                
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                         
-
-                                          child: Text(
-                                            'Yes',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context, deleteDocument());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
@@ -184,13 +201,11 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                         )),
                     GestureDetector(
                       onTap: () {
-                       
-                      
-                        // MyNavigation().push(
-                        //     context,
-                        //     UpdateVehicle(
-                        //       item: selectedItem,
-                        //     ));
+                        MyNavigation().push(
+                            context,
+                            AddCompanyDocument(
+                              items: selectedItem,title:'Update Company Document'
+                            ));
                       },
                       child: actionIcon(FontAwesomeIcons.penToSquare),
                     ),
@@ -245,17 +260,17 @@ class _CompanyDocumentState extends State<CompanyDocument> {
 
                                         List filtered = documentList
                                             .where((item) =>
-                                                '${item['monthlyRentDate']}'
+                                                '${item['nameEng']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
                                                         .toLowerCase()) ||
-                                                '${item['projectCode']}'
+                                                '${item['issueDate']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
                                                         .toLowerCase()) ||
-                                                '${item['monthlyRentNumber']}'
+                                                '${item['expiryDate']}'
                                                     .toLowerCase()
                                                     .contains(searchController
                                                         .text
@@ -275,60 +290,77 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                       ),
                     ),
                   ),
-                  Container(
-                    // padding: EdgeInsets.only(left: 10),
-                    color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('#','Name', 
-                        'Description','Issue','Expiry', 14, FontWeight.bold),
-                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                      width: width + 410,
+                      child: Column(
+                        children: [
+                          Container(
+                            // padding: EdgeInsets.only(left: 10),
+                            color: Color.fromARGB(255, 234, 227, 227),
+                            child: vehicleListCont(
+                                '#',
+                                'Name (Eng)',
+                                'Name (Urdu)',
+                                'Description (Eng)',
+                                'Description (Urdu)',
+                                'Issue Date',
+                                'Expiry Date',
+                                14,
+                                FontWeight.bold),
+                          ),
+                          Container(
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: isSearching
+                                  ? filterList.length
+                                  : documentList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                int indexx = index + 1;
+                                var item = isSearching
+                                    ? filterList[index]
+                                    : documentList[index];
+                                return vehicleListCont(
+                                    '$indexx',
+                                    '${item['nameEng']}',
+                                    '${item['nameUrd']}',
+                                    '${item['descriptionEng']}',
+                                    '${item['descriptionUrd']}',
+                                    '${item['issueDate']}',
+                                    '${item['expiryDate']}',
+                                    10,
+                                    FontWeight.w400,
+                                    onLongPress: () {
+                                      print('object');
+                                      print(item);
 
-                 
-                  Container(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount:
-                          isSearching ? filterList.length : documentList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int indexx=index+1;
-                        var item = isSearching
-                            ? filterList[index]
-                            : documentList[index];
-                        return vehicleListCont(
-                          '$indexx',
-                          '${item['nameEng']}',
-                          '${item['descriptionEng']}',
-                          '${item['issueDate']}',
-                          '${item['expiryDate']}',
-                          
-                       
-                          10,
-                          FontWeight.w400,
-                          onLongPress: () {
-                            print('object');
-                            print(item);
-
-                            setState(() {
-                              print('???///////////');
-                              print(selectedItem);
-                              selectedItem = item;
-                              itemIndex = index;
-                            });
-                          },
-                          bgColor: '${selectedItem}' == '${item}'
-                              ? MyColors.yellow
-                              : Colors.white,
-                               IconData: Icons.attachment,
-                              onTab: () {
-                                print('${item['currentFileName']}');
-                                MyNavigation().push(
-                                    context,
-                                    FileAttachment(
-                                      image: '${item['currentFileName']}',
-                                    ));
-                              }
-                        );
-                      },
+                                      setState(() {
+                                        print('???///////////');
+                                       
+                                        selectedItem = item;
+                                        itemIndex = index;
+                                         print(selectedItem);
+                                      });
+                                    },
+                                    bgColor: '${selectedItem}' == '${item}'
+                                        ? MyColors.yellow
+                                        : Colors.white,
+                                    IconData: Icons.attachment,
+                                    onTab: () {
+                                      print('${item['currentFileName']}');
+                                      MyNavigation().push(
+                                          context,
+                                          FileAttachment(
+                                            image: '${item['currentFileName']}',
+                                          ));
+                                    });
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -336,7 +368,8 @@ class _CompanyDocumentState extends State<CompanyDocument> {
             )),
     );
   }
-   actionIcon(IconData) {
+
+  actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -348,21 +381,21 @@ class _CompanyDocumentState extends State<CompanyDocument> {
   }
 
   vehicleListCont(
-    String serial,
-    String name,
-    String description,
-    String issuedate,
-    String expirydate,
-   
- 
-    double size,
-    FontWeight fontWeight, {
-    // String? project,
-    Function? onLongPress,
-    bgColor,
-    IconData,
-      Function? onTab
-  }) {
+      String serial,
+      String name,
+      String nameurd,
+      String description,
+      String descriptionurd,
+      String issuedate,
+      String expirydate,
+      double size,
+      FontWeight fontWeight,
+      {
+      // String? project,
+      Function? onLongPress,
+      bgColor,
+      IconData,
+      Function? onTab}) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
       child: Container(
@@ -372,64 +405,59 @@ class _CompanyDocumentState extends State<CompanyDocument> {
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Container(
-            width: 15,
-            margin: EdgeInsets.only(left: 8,right: 8),
+          Container(
+            width: 25,
+            margin: EdgeInsets.only(left: 8, right: 8),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
+          Container(
+            width: 110,
+            child: Text(
+              name,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
+          Container(
+            width: 110,
+            child: Text(
+              nameurd,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
+          Container(
+            width: 130,
+            child: Text(description,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          Container(
+            width: 130,
+            child: Text(
+              descriptionurd,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            ),
+          ),
+          Container(
+            width: 100,
+            margin: EdgeInsets.only(left: 5),
+            child: Text(issuedate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          Container(
+            width: 100,
+            margin: EdgeInsets.only(left: 5),
+            child: Text(expirydate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          GestureDetector(
+            onTap: () => onTab!(),
             child: Container(
-              child: Text(
-                name,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+              width: 80,
+              child: Icon(IconData),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(description,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(issuedate,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Text(expirydate,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-            Expanded(
-            child: GestureDetector(
-              onTap: () => onTab!(),
-              child: Container(
-                child: Icon(IconData),
-              ),
-            ),
-          ),
-          //   Expanded(
-          //   child: Container(
-          //     margin: EdgeInsets.only(left: 5),
-          //     child: Text(hour,
-          //         style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-          //   ),
-          // ),
-          //   Expanded(
-          //   child: Container(
-          //     margin: EdgeInsets.only(left: 5),
-          //     child: Text(dmTc,
-          //         style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-          //   ),
-          // ),
         ]),
       ),
     );

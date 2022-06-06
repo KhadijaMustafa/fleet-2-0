@@ -1,20 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:one_context/one_context.dart';
 import 'package:xtreme_fleet/dashboard/project_list.dart';
 import 'package:xtreme_fleet/utilities/CusDateFormat.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
-import 'package:http/http.dart' as http;
 
-class AddProjectList extends StatefulWidget {
-  AddProjectList({Key? key}) : super(key: key);
+class UpdateProject extends StatefulWidget {
+  final item;
+  UpdateProject({Key? key, this.item}) : super(key: key);
 
   @override
-  State<AddProjectList> createState() => _AddProjectListState();
+  State<UpdateProject> createState() => _UpdateProjectState();
 }
 
-class _AddProjectListState extends State<AddProjectList> {
+class _UpdateProjectState extends State<UpdateProject> {
   OneContext _context = OneContext.instance;
 
   TextEditingController codeController = TextEditingController();
@@ -42,7 +43,7 @@ class _AddProjectListState extends State<AddProjectList> {
   List customerDropdown = [];
   List siteDropdown = [];
   List projectList = [];
-  List tositedropdown=[];
+  List tositedropdown = [];
   getDropDownValues(String valueType) async {
     try {
       var response = await http.post(
@@ -72,10 +73,9 @@ class _AddProjectListState extends State<AddProjectList> {
   getListCall() async {
     customerDropdown = await getDropDownValues('Customer_DropdownList_Get');
     siteDropdown = await getDropDownValues('Site_DropdownList_GetByCustomerId');
-
   }
 
-  addProject() async {
+  updateProject() async {
     FocusManager.instance.primaryFocus?.unfocus();
     print('starttttt..................');
     if (codeController.text.isEmpty) {
@@ -119,22 +119,22 @@ class _AddProjectListState extends State<AddProjectList> {
         rate = true;
       });
     } else {
-      Map<String, String> body={
-          'type': 'Project_Save',
-          'Id': '00000000-0000-0000-0000-000000000000',
-          'Code': codeController.text,
-          'NameEng': nameEngController.text,
-          'NameUrd': nameUrduController.text,
-          'StartDate': CusDateFormat.getDate(dateFrom!),
-          'EndDate': CusDateFormat.getDate(dateTo!),
-          'CustomerId': customer['value'],
-          'FromSiteId': fromsite['value'],
-          'ToSiteId': tosite['value'],
-          'TotalTrips': tripController.text,
-          'TripRate': rateController.text,
-          'Language': 'en-US'
-        };
-        print(body);
+      Map<String, String> body = {
+        'type': 'Project_Save',
+        'Id': '${widget.item['id']}',
+        'Code': codeController.text,
+        'NameEng': nameEngController.text,
+        'NameUrd': nameUrduController.text,
+        'StartDate': CusDateFormat.getDate(dateFrom!),
+        'EndDate': CusDateFormat.getDate(dateTo!),
+        'CustomerId': customer['value'],
+        'FromSiteId': fromsite['value'],
+        'ToSiteId': tosite['value'],
+        'TotalTrips': tripController.text,
+        'TripRate': rateController.text,
+        'Language': 'en-US'
+      };
+      print(body);
       try {
         var request = http.MultipartRequest(
             'POST',
@@ -149,12 +149,12 @@ class _AddProjectListState extends State<AddProjectList> {
         _context.hideProgressIndicator();
         print('object');
         if (response.statusCode == 200) {
-        print('object');
+          print('object');
 
           var decode = json.decode(response.body);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
-            content: Text('Record succesfully added.'),
+            content: Text('Record succesfully updated.'),
           ));
           Navigator.pop(context);
           var route = MaterialPageRoute(
@@ -173,7 +173,40 @@ class _AddProjectListState extends State<AddProjectList> {
 
   @override
   void initState() {
+    print('object');
+    print('object');
+    print('object');
+
+    print(widget.item['code']);
+    print(widget.item['name']);
+    print(widget.item['customerId']);
+    print(widget.item['customerName']);
+
+    print('object');
+
     getListCall();
+    codeController.text = widget.item['code'];
+    nameEngController.text = widget.item['name'];
+    nameUrduController.text = widget.item!['name'];
+
+    customer = {
+      'value': widget.item['customerId'],
+      'text': widget.item['customerName']
+    };
+    fromsite = {
+      'value': widget.item['fromSiteId'],
+      'text': widget.item['fromSite']
+    };
+    tosite = {
+      'value': widget.item['toSiteId'],
+      'text': widget.item['toSite']
+    };
+
+    dateFrom = DateTime.parse(widget.item['startDate']);
+    dateTo = DateTime.parse(widget.item['endDate']);
+    tripController.text = widget.item['totalTrips'].toString();
+    rateController.text = widget.item['tripRate'].toString();
+
     super.initState();
   }
 
@@ -280,7 +313,7 @@ class _AddProjectListState extends State<AddProjectList> {
                 setState(() {
                   trip = false;
                 });
-              },keyboard: TextInputType.number
+              },
             ),
             trip ? validationCont() : Container(),
             textFieldCont(
@@ -291,12 +324,12 @@ class _AddProjectListState extends State<AddProjectList> {
                 setState(() {
                   rate = false;
                 });
-              },keyboard: TextInputType.number
+              },
             ),
             rate ? validationCont() : Container(),
             InkWell(
               onTap: () {
-                addProject();
+                updateProject();
               },
               child: Container(
                 height: 50,

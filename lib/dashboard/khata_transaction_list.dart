@@ -296,7 +296,7 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
                     child: vehicleListCont('#','Customer', 'Amount',
-                        'Transac.', 'Paid Date','Remarks', 14, FontWeight.bold),
+                        'Transaction', 'Paid Date','Remarks', 14, FontWeight.bold),
                   ),
                      Container(
                     child: ListView.builder(
@@ -419,7 +419,7 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-            width: 70,
+            width: 80,
 
             margin: EdgeInsets.only(left: 5),
             child: Text(transaction,

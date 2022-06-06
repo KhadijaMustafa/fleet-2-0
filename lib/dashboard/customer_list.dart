@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:xtreme_fleet/dashboard/add_customer.dart';
+import 'package:xtreme_fleet/dashboard/update_customer.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
+import 'package:xtreme_fleet/utilities/my_navigation.dart';
 class CustomerList extends StatefulWidget {
   CustomerList({Key? key}) : super(key: key);
 
@@ -102,7 +105,7 @@ class _CustomerListState extends State<CustomerList> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-         // MyNavigation().push(context, AddVehicleList());
+       MyNavigation().push(context, AddCustomer());
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -185,11 +188,11 @@ class _CustomerListState extends State<CustomerList> {
                       onTap: () {
                        
                       
-                        // MyNavigation().push(
-                        //     context,
-                        //     UpdateVehicle(
-                        //       item: selectedItem,
-                        //     ));
+                        MyNavigation().push(
+                            context,
+                            UpdateCustomer(
+                              item: selectedItem,
+                            ));
                       },
                       child: actionIcon(FontAwesomeIcons.penToSquare),
                     ),

@@ -33,8 +33,8 @@ class _AddKhataTransactionState extends State<AddKhataTransaction> {
    List customerList=[];
    
     List<String> transactionList = [
-    'Debit (+)',
-    'Credit (-)',
+    'Debit ',
+    'Credit ',
    
   ];
   
@@ -237,7 +237,7 @@ class _AddKhataTransactionState extends State<AddKhataTransaction> {
                 setState(() {
                   amount = false;
                 });
-              },keyboard: TextInputType.number),
+              },keyboard: TextInputType.number,collapse: false),
               amount ? validationCont() : Container(),
 
                 Container(
@@ -331,7 +331,8 @@ class _AddKhataTransactionState extends State<AddKhataTransaction> {
                 setState(() {
                   remark = false;
                 });
-              }),
+              },keyboard: TextInputType.multiline,maxline: null,collapse: true),
+
               remark ? validationCont() : Container(),
 
 
@@ -404,7 +405,7 @@ class _AddKhataTransactionState extends State<AddKhataTransaction> {
   }
 
   textFieldCont(String hint, TextEditingController controller, Color,
-      {Function(String)? onChanged, TextInputType? keyboard}) {
+      {Function(String)? onChanged, TextInputType? keyboard,int? maxline,bool? collapse}) {
     return Container(
       padding: EdgeInsets.only(left: 20, right: 10),
       margin: EdgeInsets.only(left: 20, top: 25, right: 20),
@@ -413,10 +414,12 @@ class _AddKhataTransactionState extends State<AddKhataTransaction> {
           borderRadius: BorderRadius.circular(30),
           border: Border.all(color: Color)),
       child: TextFormField(
+        maxLines: maxline,
         keyboardType: keyboard,
         controller: controller,
         cursorColor: Colors.black,
         decoration: InputDecoration(
+          isCollapsed: collapse!,
             hintText: hint,
             hintStyle: TextStyle(color: MyColors.black, fontSize: 14),
             border: InputBorder.none),

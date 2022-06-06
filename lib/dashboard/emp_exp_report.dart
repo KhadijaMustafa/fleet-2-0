@@ -130,7 +130,7 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                                     }
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(left: 20, right: 5),
+                                    margin: EdgeInsets.only(left: 30, right: 5),
                                     child: Icon(
                                       Icons.calendar_month,
                                     ),
@@ -175,7 +175,7 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                                     }
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(left: 20, right: 5),
+                                    margin: EdgeInsets.only(left: 30, right: 5),
                                     child: Icon(Icons.calendar_month),
                                   ),
                                 )

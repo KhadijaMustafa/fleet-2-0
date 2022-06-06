@@ -35,7 +35,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
   bool contactper = false;
   bool contactperurdu = false;
 
-   bool _addkhata = false;
+  bool _addkhata = false;
   bool get addkhata => _addkhata;
   checkbox(bool value) {
     print(value);
@@ -43,18 +43,17 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
     setState(() {});
   }
 
-
   addVehSupplier() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (username.text.isEmpty) {
       setState(() {
         name = true;
       });
-    }else if (usernameurdu.text.isEmpty) {
+    } else if (usernameurdu.text.isEmpty) {
       setState(() {
         nameurdu = true;
       });
-    }  else if (contact.text.isEmpty) {
+    } else if (contact.text.isEmpty) {
       setState(() {
         contactnumber = true;
       });
@@ -70,7 +69,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
       setState(() {
         addressfield = true;
       });
-    }else if (addressurdu.text.isEmpty) {
+    } else if (addressurdu.text.isEmpty) {
       setState(() {
         addressfieldurdu = true;
       });
@@ -91,7 +90,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
           'ContactPersonUrd': contactpersonurdu.text,
           'AddressEng': address.text,
           'AddressUrd': addressurdu.text,
-          'AddToKhata': 'No',
+          'AddToKhata': _addkhata ? 'Yes' : 'No',
           'Language': 'en-US'
         });
         _context.showProgressIndicator(
@@ -122,14 +121,13 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
     username.text = widget.item!['name'];
     usernameurdu.text = widget.item!['nameUrd'];
 
-    
     contact.text = widget.item!['contactNumber'];
     contactperson.text = widget.item!['contactPerson'];
     contactpersonurdu.text = widget.item!['contactPersonUrd'];
 
     address.text = widget.item!['addressEng'];
     addressurdu.text = widget.item!['addressUrd'];
-
+    _addkhata = widget.item!['addToKhata'] == 'Yes' ? true : false;
 
     super.initState();
   }
@@ -153,19 +151,17 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
             children: [
               //addExpCont('Name', '*', ':', Colors.red),
               Container(
-                child: textFieldCont(
-                    'Name (English)', username, name ? Colors.red : Colors.black,
-                    onChanged: ((value) {
+                child: textFieldCont('Name (English)', username,
+                    name ? Colors.red : Colors.black, onChanged: ((value) {
                   setState(() {
                     name = false;
                   });
                 })),
               ),
               name ? validationCont() : Container(),
-               Container(
-                child: textFieldCont(
-                    'Name (Urdu)', usernameurdu, nameurdu ? Colors.red : Colors.black,
-                    onChanged: ((value) {
+              Container(
+                child: textFieldCont('Name (Urdu)', usernameurdu,
+                    nameurdu ? Colors.red : Colors.black, onChanged: ((value) {
                   setState(() {
                     nameurdu = false;
                   });
@@ -173,8 +169,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
               ),
               nameurdu ? validationCont() : Container(),
 
-          
-             // addExpCont('Contact Number', '*', ':', Colors.red),
+              // addExpCont('Contact Number', '*', ':', Colors.red),
               Container(
                 child: textFieldCont('Contact Number', contact,
                     contactnumber ? Colors.red : Colors.black,
@@ -196,7 +191,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
                 })),
               ),
               contactper ? validationCont() : Container(),
-                Container(
+              Container(
                 child: textFieldCont('Contact Person (Urdu)', contactpersonurdu,
                     contactperurdu ? Colors.red : Colors.black,
                     onChanged: ((value) {
@@ -206,7 +201,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
                 })),
               ),
               contactperurdu ? validationCont() : Container(),
-                 // addExpCont('Address', '*', ':', Colors.red),
+              // addExpCont('Address', '*', ':', Colors.red),
               Container(
                 child: textFieldCont('Address (English)', address,
                     addressfield ? Colors.red : Colors.black,
@@ -217,7 +212,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
                 })),
               ),
               addressfield ? validationCont() : Container(),
-                 // addExpCont('Address', '*', ':', Colors.red),
+              // addExpCont('Address', '*', ':', Colors.red),
               Container(
                 child: textFieldCont('Address (Urdu)', addressurdu,
                     addressfieldurdu ? Colors.red : Colors.black,
@@ -228,19 +223,18 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
                 })),
               ),
               addressfieldurdu ? validationCont() : Container(),
-               Container(
-                margin: EdgeInsets.only(left: 20,top: 25),
+              Container(
+                margin: EdgeInsets.only(left: 20, top: 25),
                 child: Row(
                   children: [
-                     Container(
-                       margin: EdgeInsets.only(right: 10,left: 10),
+                    Container(
+                      margin: EdgeInsets.only(right: 10, left: 10),
                       child: Text(
                         'Add to Khata',
                         style: TextStyle(color: MyColors.black),
                       ),
                     ),
                     checkboxCont(addkhata, onTab: (value) => checkbox(value)),
-                   
                   ],
                 ),
               ),
@@ -272,6 +266,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
       ),
     );
   }
+
   checkboxCont(bool ischecked, {Function(bool)? onTab}) {
     return GestureDetector(
       onTap: () => onTab!(!ischecked),
@@ -279,9 +274,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
         Container(
           margin: EdgeInsets.only(right: 10),
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color:  MyColors.black)),
+          decoration: BoxDecoration(border: Border.all(color: MyColors.black)),
           height: 20,
           width: 18,
         ),
@@ -295,7 +288,7 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
             color: MyColors.yellow,
           )
       ]),
-      );
+    );
   }
 
   validationCont() {
@@ -313,8 +306,8 @@ class _UpdateVehicleSupplierState extends State<UpdateVehicleSupplier> {
   textFieldCont(String hint, TextEditingController controller, Color,
       {Function(String)? onChanged, TextInputType? keyboard}) {
     return Container(
-     margin: EdgeInsets.only(left: 20, top: 25, right: 20),
-                padding: EdgeInsets.only(left: 20, right: 10),
+      margin: EdgeInsets.only(left: 20, top: 25, right: 20),
+      padding: EdgeInsets.only(left: 20, right: 10),
       height: 50,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
