@@ -25,7 +25,7 @@ class _AddCompanyDocumentState extends State<AddCompanyDocument> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController descriptionUrdController = TextEditingController();
   OneContext _context = OneContext.instance;
-
+String? currentImage;
   DateTime? issueDate;
   DateTime? expiryDate;
   bool name = false;
@@ -54,11 +54,12 @@ bool file=false;
 
   addDocument()async{
     FocusManager.instance.primaryFocus?.unfocus();
-    // if (imageFile == null) {
-    //   setState(() {
-    //     file = true;
-    //   });
-    // } else
+    if (imageFile == null && currentImage==null) {
+      setState(() {
+        file = true;
+      });
+    }
+     else
      if(nameEngController.text.isEmpty){
       setState(() {
         name=true;
@@ -95,7 +96,7 @@ bool file=false;
            "DescriptionEng": descriptionController.text,
           "DescriptionUrd": descriptionUrdController.text,
           "IssueDate": CusDateFormat.getDate(issueDate!),
-          "ExpiryDate":_expiry? null: CusDateFormat.getDate(expiryDate!),
+          "ExpiryDate":_expiry? 'year-month-day': CusDateFormat.getDate(expiryDate!),
           'Language': 'en-US'
         } ;
         print(body);
@@ -122,7 +123,7 @@ bool file=false;
 
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
-            content: Text('Record succesfully added.'),
+            content: Text(widget.title=='Update Company Document'?'Record succesfully updated.':'Record succesfully added.'),
           ));
           Navigator.pop(context);
           var route = MaterialPageRoute(
@@ -150,7 +151,15 @@ bool file=false;
   descriptionController.text=widget.items['descriptionEng'];
   descriptionUrdController.text=widget.items['descriptionUrd'];
   issueDate= DateTime.parse(widget.items['issueDate']) ;
-  //expiryDate= DateTime.parse(widget.items['expiryDate']) ;
+if(expiryDate != null){
+  
+  expiryDate= DateTime.parse(widget.items['expiryDate']);
+
+
+}else{_expiry=true;}
+// if (imageFile != null) {
+     currentImage = widget.items['currentFileName'];
+  // }
 
     }
 
@@ -182,7 +191,7 @@ bool file=false;
               height: 50,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.black)),
+                  border: Border.all(color:file?Colors.red: Colors.black)),
               child: Row(
                 children: [
                   Container(
@@ -196,18 +205,18 @@ bool file=false;
                         onTap: () {
                           pickImageFomG(ImageSource.gallery);
                           setState(() {
-                           //  file = false;
+                            file = false;
                           });
                         },
                         child:
                             Text('Choose Doc', style: TextStyle(fontSize: 11))),
                   ),
-                  imageFile != null
+                  imageFile != null ||currentImage!=null
                       ? Expanded(
                           child: Container(
                             height: 20,
                             child: Text(
-                              imageFile!.split('/').last,
+                              imageFile?.split('/').last??currentImage??"",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
@@ -217,6 +226,8 @@ bool file=false;
                 ],
               ),
             ),
+            file ? validationCont() : Container(),
+
 
             textFieldCont(
               50,
@@ -258,6 +269,7 @@ bool file=false;
                     ? 'Expiry Date'
                     : '${CusDateFormat.getDate(expiryDate!)}',
                 (date) => setState(() {
+                  _expiry? expiryDate=null:
                       expiryDate = date;
 
                       expDate = false;

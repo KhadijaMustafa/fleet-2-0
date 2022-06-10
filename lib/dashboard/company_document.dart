@@ -36,12 +36,13 @@ class _CompanyDocumentState extends State<CompanyDocument> {
         "type": "CompanyDocument_Delete",
         "value": {"Id": "${selectedItem['id']}", "Language": "en-US"}
       });
+         print('${selectedItem['id']}');
       request.headers.addAll(headers);
 
       http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
         print('???????????????????');
-        print('${selectedItem['id']}');
+     
 
       if (response.statusCode == 200) {
         print('???????????????????');

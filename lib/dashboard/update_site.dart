@@ -5,6 +5,7 @@ import 'package:one_context/one_context.dart';
 import 'package:xtreme_fleet/dashboard/setup_site.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:http/http.dart' as http;
+
 class UpdateSite extends StatefulWidget {
   final item;
   UpdateSite({Key? key, this.item}) : super(key: key);
@@ -14,15 +15,15 @@ class UpdateSite extends StatefulWidget {
 }
 
 class _UpdateSiteState extends State<UpdateSite> {
-    TextEditingController englishnameController=TextEditingController();
-  TextEditingController urdunameController=TextEditingController();
-     OneContext _context = OneContext.instance;
-var customer;
-bool custo=false;
+  TextEditingController englishnameController = TextEditingController();
+  TextEditingController urdunameController = TextEditingController();
+  OneContext _context = OneContext.instance;
+  var customer;
+  bool custo = false;
 
-  bool engname=false;
-  bool urdname=false;
-List customerList=[];
+  bool engname = false;
+  bool urdname = false;
+  List customerList = [];
 
   getDropDownValues() async {
     try {
@@ -52,34 +53,35 @@ List customerList=[];
 
   getListCall() async {
     customerList = await getDropDownValues();
-    
-
-
   }
+
   @override
   void initState() {
     super.initState();
-    englishnameController.text=widget.item['site'];
-    urdunameController.text=widget.item['site'];
-    customer={'vale':widget.item['customerId'],'text':widget.item['customerName']};
-    
+    englishnameController.text = widget.item['site'];
+    urdunameController.text = widget.item['site'];
+    customer = {
+      'vale': widget.item['customerId'],
+      'text': widget.item['customerName']
+    };
+
     getListCall();
   }
 
-   addSetupSite() async {
+  addSetupSite() async {
     FocusManager.instance.primaryFocus?.unfocus();
     print('starttttt..................');
-   if(customer==null){
-     custo=true;
-   }else if (englishnameController.text.isEmpty) {
+     if (englishnameController.text.isEmpty) {
       setState(() {
         engname = true;
       });
-    } else if(urdunameController.text.isEmpty){
+    } else if (urdunameController.text.isEmpty) {
       setState(() {
-        urdname=true;
+        urdname = true;
       });
-    } else {
+    } else if (customer == null) {
+      custo = true;
+    } else{
       try {
         var request = http.MultipartRequest(
             'POST',
@@ -88,13 +90,12 @@ List customerList=[];
         request.fields.addAll({
           'type': 'Site_Save',
           'Id': '00000000-0000-0000-0000-000000000000',
-          'nameEng': englishnameController.text,
+          'Site': englishnameController.text,
           'nameUrd': urdunameController.text,
-          'customerName':customer['value'],
-          
+          'customerName': customer['value'],
+
           'Language': 'en-US'
         });
-    
 
         _context.showProgressIndicator(
             circularProgressIndicatorColor: Color.fromARGB(255, 98, 61, 12));
@@ -114,9 +115,7 @@ List customerList=[];
           Navigator.pushReplacement(context, route);
           print(decode);
           print('decode');
-          setState(() {
-            
-          });
+          setState(() {});
         }
       } catch (e) {
         _context.hideProgressIndicator();
@@ -124,11 +123,11 @@ List customerList=[];
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-       
+      appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
@@ -137,64 +136,60 @@ List customerList=[];
         ),
       ),
       body: Container(
-        child: SingleChildScrollView(child: Column(
+        child: SingleChildScrollView(
+            child: Column(
           children: [
-
- dropdownComp(
-                  customer == null
-                      ? "Customer Name"
-                      : customer["text"],
-                  custo ? Colors.red : Colors.black, onchanged: (value) {
-                setState(() {
-                  customer = value;
-                  custo = false;
-              
-                });
-              }, list: customerList, dropdowntext: "text"),
-              custo ? validationCont() : Container(),
-
-             textFieldCont('Site Name (English)', englishnameController,
-                  engname ? Colors.red : Colors.black, onChanged: (value) {
-                setState(() {
-                  engname = false;
-                });
-              }),
-              engname ? validationCont() : Container(),
-                textFieldCont('Site Name (Urdu)', urdunameController,
-                  urdname ? Colors.red : Colors.black, onChanged: (value) {
-                setState(() {
-                  urdname = false;
-                });
-              }),
-              urdname ? validationCont() : Container(),
-               InkWell(
-                onTap: () {
-                  addSetupSite();
-
-                },
-                child: Container(
-                  height: 50,
-                  margin:
-                      EdgeInsets.only(left: 20, top: 40, right: 20, bottom: 20),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: MyColors.yellow,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Text(
-                    'Save',
-                    style: TextStyle(
-                        color: MyColors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24),
-                  ),
+          
+            custo ? validationCont() : Container(),
+            textFieldCont('Site Name (English)', englishnameController,
+                engname ? Colors.red : Colors.black, onChanged: (value) {
+              setState(() {
+                engname = false;
+              });
+            }),
+            engname ? validationCont() : Container(),
+            textFieldCont('Site Name (Urdu)', urdunameController,
+                urdname ? Colors.red : Colors.black, onChanged: (value) {
+              setState(() {
+                urdname = false;
+              });
+            }),
+            urdname ? validationCont() : Container(),
+              dropdownComp(customer == null ? "Customer Name" : customer["text"],
+                custo ? Colors.red : Colors.black, onchanged: (value) {
+              setState(() {
+                customer = value;
+                custo = false;
+              });
+            }, list: customerList, dropdowntext: "text"),
+            InkWell(
+              onTap: () {
+                addSetupSite();
+              },
+              child: Container(
+                height: 50,
+                margin:
+                    EdgeInsets.only(left: 20, top: 40, right: 20, bottom: 20),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: MyColors.yellow,
+                    borderRadius: BorderRadius.circular(30)),
+                child: Text(
+                  'Save',
+                  style: TextStyle(
+                      color: MyColors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24),
                 ),
-              )
+              ),
+            )
           ],
         )),
       ),
     );
   }
-     dropdownComp(String hinttext, Color bordercolor,
+
+  dropdownComp(String hinttext, Color bordercolor,
       {Function? onchanged, List? list, String? dropdowntext}) {
     return Container(
         height: 50,
@@ -221,7 +216,8 @@ List customerList=[];
               .toList(),
         ));
   }
-   validationCont() {
+
+  validationCont() {
     return Container(
       margin: EdgeInsets.only(left: 35),
       alignment: Alignment.topLeft,

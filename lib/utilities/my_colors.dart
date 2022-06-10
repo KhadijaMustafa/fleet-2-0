@@ -18,6 +18,7 @@ class MyColors {
   static const Color cardwhite=Color.fromRGBO(249, 251, 250, 1);
   static const Color cardtxtgreen=Color.fromRGBO(7, 79, 77, 1);
   static const Color cardtxtwhite=Color.fromRGBO(166, 167, 172, 1);
+  static const Color red3= Color.fromARGB(255, 61, 13, 8);
 
 
 

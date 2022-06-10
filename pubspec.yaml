@@ -49,6 +49,7 @@ dependencies:
 
   
   excel: ^1.1.5
+  hive: ^1.4.4+1
   #syncfusion_flutter_datagrid: ^20.1.50
   #syncfusion_flutter_xlsio: ^20.1.50-beta
 

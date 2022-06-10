@@ -104,7 +104,7 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
        floatingActionButton: FloatingActionButton(
         onPressed: () {
    
-      MyNavigation().push(context, AddVehicleType());
+      MyNavigation().push(context, AddVehicleType(title: 'Add Vehicle Type',));
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -196,11 +196,11 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
                         )),
                     GestureDetector(
                         onTap: () {
-                          // MyNavigation().push(
-                          //     context,
-                          //     UpdateVehicleSupplier(
-                          //       item: selectedItem,
-                          //     ));
+                          MyNavigation().push(
+                              context,
+                              AddVehicleType(
+                                item: selectedItem,title: 'Update Vehicle Type',
+                              ));
                         },
                         child: actionIcon(FontAwesomeIcons.penToSquare)),
                     GestureDetector(

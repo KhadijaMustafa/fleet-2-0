@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:one_context/one_context.dart';
 import 'package:xtreme_fleet/dashboard/dashboard.dart';
 import 'package:xtreme_fleet/resources/app_data.dart';
@@ -146,7 +147,15 @@ class _LoginState extends State<Login> {
       MyNavigation().push(context, Dashboard());
     }
   }
+final Box _box=Hive.box('LOGSCREEN');
+@override
+void initState() {
+  emailController.text=_box.get('username',defaultValue: '');
+  passController.text=_box.get('password',defaultValue: '');
 
+  super.initState();
+  
+}
   @override
   Widget build(BuildContext context) {
     //AuthProvider _authpro = Provider.of(context, listen: false);
@@ -204,7 +213,11 @@ class _LoginState extends State<Login> {
               //   ),
               // ),
               InkWell(
-                onTap: () => userLogin(),
+                onTap: (){
+                  _box.put('username',emailController.text);
+                  _box.put('password',passController.text);
+
+                   userLogin();},
                 child: Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.symmetric(vertical: 30),

@@ -118,7 +118,9 @@ class _AddProjectListState extends State<AddProjectList> {
       setState(() {
         rate = true;
       });
-    } else {
+    }
+    //else if(dateFrom < dateTo){} 
+    else {
       Map<String, String> body={
           'type': 'Project_Save',
           'Id': '00000000-0000-0000-0000-000000000000',

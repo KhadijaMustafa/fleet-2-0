@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:one_context/one_context.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:xtreme_fleet/auth/splash_screenn.dart';
 import 'package:xtreme_fleet/components/main_provider.dart';
@@ -11,8 +15,12 @@ import 'package:xtreme_fleet/login.dart';
 
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Directory directory=await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  await Hive.openBox('LOGSCREEN');
+  
   AwesomeNotifications().initialize('resource://drawable/res_app_icon', [
     NotificationChannel(
         channelGroupKey: 'layout_tests',

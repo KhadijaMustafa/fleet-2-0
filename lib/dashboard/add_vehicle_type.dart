@@ -6,7 +6,9 @@ import 'package:xtreme_fleet/dashboard/setup_vehicle_type.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:http/http.dart' as http;
 class AddVehicleType extends StatefulWidget {
-  AddVehicleType({Key? key}) : super(key: key);
+  final title;
+  final item;
+  AddVehicleType({Key? key,this.item,this.title}) : super(key: key);
 
   @override
   State<AddVehicleType> createState() => _AddVehicleTypeState();
@@ -39,7 +41,7 @@ class _AddVehicleTypeState extends State<AddVehicleType> {
                 'https://fleet.xtremessoft.com/services/Xtreme/multipart'));
         request.fields.addAll({
           'type': 'Setup_VehicleType_Save',
-          'Id': '00000000-0000-0000-0000-000000000000',
+          'Id':widget.title=='Update Vehicle Type'?'${widget.item['id']}': '00000000-0000-0000-0000-000000000000',
           'nameEng': englishnameController.text,
           'nameUrd': urdunameController.text,
           
@@ -56,7 +58,7 @@ class _AddVehicleTypeState extends State<AddVehicleType> {
           var decode = json.decode(response.body);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
-            content: Text('Record succesfully added.'),
+            content: Text(widget.title=='Update Vehicle Type'?'Record succesfully updated.':'Record succesfully added.'),
           ));
           Navigator.pop(context);
           var route = MaterialPageRoute(
@@ -72,6 +74,16 @@ class _AddVehicleTypeState extends State<AddVehicleType> {
       }
     }
   }
+  @override
+  void initState() {
+    if(widget.title=='Update Vehicle Type'){
+      englishnameController.text=widget.item['nameEng'];
+      urdunameController.text=widget.item['nameUrd'];
+
+    }
+    super.initState();
+    
+  }
 
 
   @override
@@ -82,7 +94,7 @@ class _AddVehicleTypeState extends State<AddVehicleType> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Vehicle Type',
+          widget.title,
           style: TextStyle(color: Colors.white),
         ),
       ),
