@@ -102,6 +102,7 @@ class _CustomerListState extends State<CustomerList> {
 
   @override
   Widget build(BuildContext context) {
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -277,11 +278,17 @@ class _CustomerListState extends State<CustomerList> {
                       ),
                     ),
                   ),
-                  Container(
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    width: width+100,
+                    child: Column(
+                    children: [
+                        Container(
                     // padding: EdgeInsets.only(left: 10),
                     color: Color.fromARGB(255, 234, 227, 227),
                     child: vehicleListCont('#','Name', 'Contact',
-                        'Address', 'Cus Type', 14, FontWeight.bold),
+                        'Address', 'Customer Type', 14, FontWeight.bold),
                   ),
 
                  
@@ -322,6 +329,9 @@ class _CustomerListState extends State<CustomerList> {
                       },
                     ),
                   )
+                    ],
+                  )),
+                )
                 ],
               ),
             )),
@@ -360,7 +370,7 @@ class _CustomerListState extends State<CustomerList> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Container(
-            width: 15,
+            width: 20,
             margin: EdgeInsets.only(left: 8,right: 8),
             child: Text(
               serial,
@@ -369,6 +379,9 @@ class _CustomerListState extends State<CustomerList> {
           ),
           Expanded(
             child: Container(
+              margin: EdgeInsets.only(left: 5),
+
+              width: 100,
               child: Text(
                 name,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -377,12 +390,16 @@ class _CustomerListState extends State<CustomerList> {
           ),
           Expanded(
             child: Container(
+              margin: EdgeInsets.only(left: 5),
+
+              width: 100,
               child: Text(contact,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
           Expanded(
             child: Container(
+              width: 120,
               margin: EdgeInsets.only(left: 5),
               child: Text(address,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
@@ -390,6 +407,7 @@ class _CustomerListState extends State<CustomerList> {
           ),
           Expanded(
             child: Container(
+              width: 100,
               margin: EdgeInsets.only(left: 5),
               child: Text(customertype,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),

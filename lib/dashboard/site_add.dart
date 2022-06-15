@@ -63,7 +63,7 @@ class _SiteAddState extends State<SiteAdd> {
   addSetupSite() async {
     FocusManager.instance.primaryFocus?.unfocus();
     print('starttttt..................');
-     if (englishnameController.text.isEmpty) {
+    if (englishnameController.text.isEmpty) {
       setState(() {
         engname = true;
       });
@@ -73,18 +73,18 @@ class _SiteAddState extends State<SiteAdd> {
       });
     } else if (customer == null) {
       custo = true;
-    } else{
-      Map<String,String> body={
-          'type': 'Site_Save',
-          'Id': '00000000-0000-0000-0000-000000000000',
-          "SiteEng": englishnameController.text,
-          "SiteUrd": urdunameController.text,
-
-          'CustomerName': customer['value'],
-          "Contact": "03112525336",
-          'Language': 'en-US'
-        };
-        print(body);
+    } else {
+      Map<String, String> body = {
+        'type': 'Site_Save',
+        'Id': ' 00000000-0000-0000-0000-000000000000',
+        'UserId': ' f14198a1-1a9a-ec11-8327-74867ad401de',
+        'Language': ' en-US',
+        'NameEng': englishnameController.text,
+        'NameUrd': urdunameController.text,
+        'CustomerId': customer['value']
+      };
+      print(body);
+      
       try {
         var request = http.MultipartRequest(
             'POST',
@@ -134,7 +134,6 @@ class _SiteAddState extends State<SiteAdd> {
         child: SingleChildScrollView(
             child: Column(
           children: [
-         
             textFieldCont('Site Name (English)', englishnameController,
                 engname ? Colors.red : Colors.black, onChanged: (value) {
               setState(() {
@@ -149,7 +148,7 @@ class _SiteAddState extends State<SiteAdd> {
               });
             }),
             urdname ? validationCont() : Container(),
-               dropdownComp(customer == null ? "Customer Name" : customer["text"],
+            dropdownComp(customer == null ? "Customer Name" : customer["text"],
                 custo ? Colors.red : Colors.black, onchanged: (value) {
               setState(() {
                 customer = value;

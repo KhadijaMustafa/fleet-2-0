@@ -109,7 +109,7 @@ class _VehicleListState extends State<VehicleList> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          MyNavigation().push(context, AddVehicleList());
+          MyNavigation().push(context, AddVehicleList(item: selectedItem,));
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,

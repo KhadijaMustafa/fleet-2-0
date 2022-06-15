@@ -44,6 +44,65 @@ class _UpdateProjectState extends State<UpdateProject> {
   List siteDropdown = [];
   List projectList = [];
   List tositedropdown = [];
+   var listvalues;
+  getValue() async {
+      print('//////////////////////////////////11111111111');
+
+    try {
+      var response = await http.post(
+          Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            "type": "Project_GetById",
+            "value": {
+              "Language": "en-US",
+              "Id": '${widget.item['id']}'
+            }
+          }));
+
+      var decode = json.decode(response.body);
+      print('Successssssssssssssss');
+      print(decode['Value']);
+      print(response.body);
+     
+       listvalues = json.decode(decode['Value']);
+     codeController.text = listvalues['code'];
+    nameEngController.text =listvalues['name'];
+    nameUrduController.text = listvalues['nameUrd'];
+
+    customer = {
+      'value': listvalues['customerId'],
+      'text': listvalues['customerName']
+    };
+    fromsite = {
+      'value': listvalues['fromSiteId'],
+      'text': listvalues['fromSite']
+    };
+    tosite = {'value':listvalues['toSiteId'], 'text': listvalues['toSite']};
+
+    dateFrom = DateTime.parse(listvalues['startDate']);
+    dateTo = DateTime.parse(listvalues['endDate']);
+    tripController.text = listvalues['totalTrips'].toString();
+    rateController.text = listvalues['tripRate'].toString();
+
+   
+   
+  
+      print('listvalue');
+     
+   
+      print('//////////////////////////////////');
+      print(listvalues);
+     
+      print('//////////////////////////////////');
+setState(() {
+  
+});
+      
+    } catch (e) {
+      print(e);
+    }
+  }
   getDropDownValues(String valueType) async {
     try {
       var response = await http.post(
@@ -174,38 +233,13 @@ class _UpdateProjectState extends State<UpdateProject> {
   @override
   void initState() {
     print('object');
-    print('object');
-    print('object');
+ getValue();
+  
 
-    print(widget.item['code']);
-    print(widget.item['name']);
-    print(widget.item['customerId']);
-    print(widget.item['customerName']);
-
-    print('object');
+   
 
     getListCall();
-    codeController.text = widget.item['code'];
-    nameEngController.text = widget.item['name'];
-    nameUrduController.text = widget.item!['name'];
-
-    customer = {
-      'value': widget.item['customerId'],
-      'text': widget.item['customerName']
-    };
-    fromsite = {
-      'value': widget.item['fromSiteId'],
-      'text': widget.item['fromSite']
-    };
-    tosite = {
-      'value': widget.item['toSiteId'],
-      'text': widget.item['toSite']
-    };
-
-    dateFrom = DateTime.parse(widget.item['startDate']);
-    dateTo = DateTime.parse(widget.item['endDate']);
-    tripController.text = widget.item['totalTrips'].toString();
-    rateController.text = widget.item['tripRate'].toString();
+    
 
     super.initState();
   }
@@ -217,7 +251,7 @@ class _UpdateProjectState extends State<UpdateProject> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Project',
+          'Update Project',
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -258,8 +292,7 @@ class _UpdateProjectState extends State<UpdateProject> {
               },
             ),
             nameurd ? validationCont() : Container(),
-            dropdownComp(
-                customer == null ? "Customer" : customer["text"],
+            dropdownComp(customer == null ? "Customer" : customer["text"],
                 custo ? Colors.red : Colors.black, onchanged: (value) {
               setState(() {
                 customer = value;
@@ -267,8 +300,7 @@ class _UpdateProjectState extends State<UpdateProject> {
               });
             }, list: customerDropdown, dropdowntext: "text"),
             custo ? validationCont() : Container(),
-            dropdownComp(
-                fromsite == null ? "From Site" : fromsite["text"],
+            dropdownComp(fromsite == null ? "From Site" : fromsite["text"],
                 fsite ? Colors.red : Colors.black, onchanged: (value) {
               setState(() {
                 fromsite = value;
@@ -276,8 +308,7 @@ class _UpdateProjectState extends State<UpdateProject> {
               });
             }, list: siteDropdown, dropdowntext: "text"),
             fsite ? validationCont() : Container(),
-            dropdownComp(
-                tosite == null ? "To Site" : tosite["text"],
+            dropdownComp(tosite == null ? "To Site" : tosite["text"],
                 tsite ? Colors.red : Colors.black, onchanged: (value) {
               setState(() {
                 tosite = value;

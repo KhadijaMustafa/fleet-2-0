@@ -24,6 +24,52 @@ class _UpdateSiteState extends State<UpdateSite> {
   bool engname = false;
   bool urdname = false;
   List customerList = [];
+  var listvalues;
+  getValue() async {
+      print('//////////////////////////////////11111111111');
+
+    try {
+      var response = await http.post(
+          Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            "type": "Site_GetById",
+            "value": {
+              "Language": "en-US",
+              "Id": '${widget.item['id']}'
+            }
+          }));
+
+      var decode = json.decode(response.body);
+      print('Successssssssssssssss');
+      print(decode['Value']);
+      print(response.body);
+     
+       listvalues = json.decode(decode['Value']);
+     englishnameController.text = listvalues["nameEng"];
+     urdunameController.text = listvalues["nameUrd"];
+
+     customer = {
+      'value': listvalues['customerId'],
+      'text': listvalues['customerName']
+    };
+   
+  
+      print('listvalue');
+     
+   
+      print('//////////////////////////////////');
+      print(listvalues);
+     
+      print('//////////////////////////////////');
+setState(() {
+  
+});
+      
+    } catch (e) {
+      print(e);
+    }
+  }
 
   getDropDownValues() async {
     try {
@@ -58,12 +104,11 @@ class _UpdateSiteState extends State<UpdateSite> {
   @override
   void initState() {
     super.initState();
-    englishnameController.text = widget.item['site'];
-    urdunameController.text = widget.item['site'];
-    customer = {
-      'vale': widget.item['customerId'],
-      'text': widget.item['customerName']
-    };
+    print('object');
+    print('${widget.item['id']}');
+    print('object');
+
+   getValue();
 
     getListCall();
   }
@@ -88,13 +133,13 @@ class _UpdateSiteState extends State<UpdateSite> {
             Uri.parse(
                 'https://fleet.xtremessoft.com/services/Xtreme/multipart'));
         request.fields.addAll({
-          'type': 'Site_Save',
-          'Id': '00000000-0000-0000-0000-000000000000',
-          'Site': englishnameController.text,
-          'nameUrd': urdunameController.text,
-          'customerName': customer['value'],
-
-          'Language': 'en-US'
+        'type': 'Site_Save',
+        'Id': ' ${widget.item['id']}',
+        'UserId': ' f14198a1-1a9a-ec11-8327-74867ad401de',
+        'Language': ' en-US',
+        'NameEng': englishnameController.text,
+        'NameUrd': urdunameController.text,
+        'CustomerId': customer['value']
         });
 
         _context.showProgressIndicator(
@@ -106,7 +151,7 @@ class _UpdateSiteState extends State<UpdateSite> {
           var decode = json.decode(response.body);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
-            content: Text('Record succesfully added.'),
+            content: Text('Record succesfully updated.'),
           ));
           Navigator.pop(context);
           var route = MaterialPageRoute(
@@ -131,7 +176,7 @@ class _UpdateSiteState extends State<UpdateSite> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Vehicle Type',
+          'Update Site',
           style: TextStyle(color: Colors.white),
         ),
       ),

@@ -294,7 +294,7 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width + 410,
+                      width: width + 510,
                       child: Column(
                         children: [
                           Container(
@@ -309,7 +309,8 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                 'Issue Date',
                                 'Expiry Date',
                                 14,
-                                FontWeight.bold),
+                                FontWeight.bold,attachment: 'Attachment',width: 100,iconwidth: 0 ),
+                                
                           ),
                           Container(
                             child: ListView.builder(
@@ -343,7 +344,7 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                         selectedItem = item;
                                         itemIndex = index;
                                          print(selectedItem);
-                                      });
+                                      },);
                                     },
                                     bgColor: '${selectedItem}' == '${item}'
                                         ? MyColors.yellow
@@ -356,7 +357,7 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                           FileAttachment(
                                             image: '${item['currentFileName']}',
                                           ));
-                                    });
+                                    },attachment: '',width: 0,iconwidth: 70);
                               },
                             ),
                           )
@@ -392,11 +393,12 @@ class _CompanyDocumentState extends State<CompanyDocument> {
       double size,
       FontWeight fontWeight,
       {
+        
       // String? project,
       Function? onLongPress,
       bgColor,
       IconData,
-      Function? onTab}) {
+      Function? onTab,String? attachment,double? iconwidth,double? width}) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
       child: Container(
@@ -452,10 +454,17 @@ class _CompanyDocumentState extends State<CompanyDocument> {
             child: Text(expirydate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
+            Container(
+            width: width,
+            margin: EdgeInsets.only(left: 5),
+            child: Text(attachment!,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          
           GestureDetector(
             onTap: () => onTab!(),
             child: Container(
-              width: 80,
+              width: iconwidth,
               child: Icon(IconData),
             ),
           ),

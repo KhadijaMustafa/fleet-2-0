@@ -119,7 +119,16 @@ class _AddProjectListState extends State<AddProjectList> {
         rate = true;
       });
     }
-    //else if(dateFrom < dateTo){} 
+    else if(dateFrom!.isAfter(dateTo!) ){
+       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: MyColors.bgred,
+          content: Text(
+            'Start date should be less than end date.',
+          ),
+          duration: Duration(seconds: 3),
+        ));
+
+    } 
     else {
       Map<String, String> body={
           'type': 'Project_Save',

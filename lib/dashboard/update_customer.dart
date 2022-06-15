@@ -162,7 +162,7 @@ class _UpdateCustomerState extends State<UpdateCustomer> {
         elevation: 0,
         backgroundColor: MyColors.yellow,
         title: Text(
-          'Add Customer',
+          'Update Customer',
           style: TextStyle(color: Colors.white),
         ),
       ),

@@ -250,7 +250,7 @@ class _MenuScreenState extends State<MenuScreen> {
               },
               child: Container(
                 child: menuCont(FontAwesomeIcons.truck, 'Monthly Rent',
-                    EdgeInsets.only(left: 12, top: 18), FontWeight.bold, 16, 20,iconcolor: indexcolor == 8? MyColors.yellow : MyColors.red3,
+                    EdgeInsets.only(left: 12, top: 18), FontWeight.bold, 16, 18,iconcolor: indexcolor == 8? MyColors.yellow : MyColors.red3,
                   textcolor: indexcolor == 8? MyColors.yellow : MyColors.black,),
               ),
             ),

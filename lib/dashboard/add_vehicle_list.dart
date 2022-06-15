@@ -8,7 +8,8 @@ import 'package:http/http.dart' as http;
 
 class AddVehicleList extends StatefulWidget {
   final List? suppliername;
-  AddVehicleList({Key? key, this.suppliername}) : super(key: key);
+  final item;
+  AddVehicleList({Key? key, this.suppliername,this.item}) : super(key: key);
 
   @override
   State<AddVehicleList> createState() => _AddVehicleListState();
@@ -65,6 +66,7 @@ class _AddVehicleListState extends State<AddVehicleList> {
   addVehicle() async {
     FocusManager.instance.primaryFocus?.unfocus();
     print('starttttt..................');
+    print(widget.item);
     if (platenumber.text.isEmpty) {
       setState(() {
         pltnumber = true;
@@ -81,7 +83,18 @@ class _AddVehicleListState extends State<AddVehicleList> {
       setState(() {
         drivername = true;
       });
-    } else {
+    }
+    // else if(){
+    //    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //       backgroundColor: MyColors.bgred,
+    //       content: Text(
+    //         "$platenumber already exist ",
+    //       ),
+    //       duration: Duration(seconds: 3),
+    //     ));
+
+    // } 
+    else {
       try {
         var request = http.MultipartRequest(
             'POST',

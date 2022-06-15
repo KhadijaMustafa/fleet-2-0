@@ -287,7 +287,7 @@ class _ProjectListState extends State<ProjectList> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width+200,
+                      width: width+600,
                       child: Column(
                         children: [
                           Container(
@@ -298,8 +298,11 @@ class _ProjectListState extends State<ProjectList> {
                                 'Code',
                                 ' Name',
                                 'From Site',
-                                'Trips',
-                                'Date',
+                                'To Site',
+                                'Total Trips',
+                                'Trip Rate',
+                                'Start Date',
+                                'End Date',
                                 'Customer',
                                 14,
                                 FontWeight.bold),
@@ -321,8 +324,14 @@ class _ProjectListState extends State<ProjectList> {
                                   '${item['code']}',
                                   '${item['name']}',
                                   '${item['fromSite']}',
+                                  '${item['toSite']}',
+
                                   '${item['totalTrips']}',
+                                  '${item['tripRate']}',
+
                                   '${item['startDate']}',
+                                  '${item['endDate']}',
+
                                   '${item['customerName']}',
                                   12,
                                   FontWeight.w400,
@@ -370,8 +379,11 @@ class _ProjectListState extends State<ProjectList> {
     String code,
     String name,
     String fromsite,
+    String tosite,
     String trips,
+    String rate,
     String date,
+    String enddate,
     String customer,
     double size,
     FontWeight fontWeight, {
@@ -389,54 +401,85 @@ class _ProjectListState extends State<ProjectList> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
-            width: 15,
+            width: 20,
             margin: EdgeInsets.only(left: 8, right: 8),
             child: Text(
+              
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(
-                code,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+          Container(
+            width: 100,
+           margin: EdgeInsets.only(left: 5),
+
+            child: Text(
+              
+              code,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(name,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+           margin: EdgeInsets.only(left: 5),
+
+            width: 120,
+            child: Text(name,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-             
-              child: Text(fromsite,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 100,
+
+           margin: EdgeInsets.only(left: 5),
+           
+            child: Text(fromsite,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
+           Container(
+             width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+            
+             child: Text(tosite,
+                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+           ),
+          Container(
+            width: 70,
+
+           margin: EdgeInsets.only(left: 5),
         
-              child: Text(trips,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+            child: Text(trips,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-             
-              child: Text(date,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+           Container(
+             width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+        
+             child: Text(rate,
+                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+           ),
+          Container(
+            width: 100,
+
+           margin: EdgeInsets.only(left: 5),
+           
+            child: Text(date,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-             
-              child: Text(customer,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+           Container(
+             width: 100,
+
+            margin: EdgeInsets.only(left: 5),
+            
+             child: Text(enddate,
+                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+           ),
+          Container(
+            width: 100,
+
+           margin: EdgeInsets.only(left: 5),
+            child: Text(customer,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
         ]),
       ),

@@ -40,9 +40,8 @@ class _TripReportState extends State<TripReport> {
   }
 
   tripReports() async {
-    print("StartDate" + CusDateFormat.getDate(startDate));
-    print("EndDate" + CusDateFormat.getDate(endDate));
-    // return;
+   
+    
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST',
@@ -69,7 +68,7 @@ class _TripReportState extends State<TripReport> {
     } catch (e) {}
   }
 
-  vehicleReport() async {
+  reportList() async {
     tripreportList = await tripReports();
 calculateTotal();
     setState(() {});
@@ -79,7 +78,7 @@ calculateTotal();
   @override
   void initState() {
     super.initState();
-    vehicleReport();
+    reportList();
   }
  
 
@@ -307,7 +306,7 @@ calculateTotal();
                           })),
                             InkWell(
                             onTap: () {
-                              tripReports();
+                              reportList();
                             },
                             child: Container(
                               padding: EdgeInsets.all(8),
