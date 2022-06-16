@@ -111,7 +111,7 @@ class _AddVehicleListState extends State<AddVehicleList> {
         });
         print(platenumber.text);
         print(driver['value']);
-
+var plate=platenumber.text;
         print(vehiclesupplier['value']);
 
         _context.showProgressIndicator(
@@ -121,7 +121,31 @@ class _AddVehicleListState extends State<AddVehicleList> {
         _context.hideProgressIndicator();
         if (response.statusCode == 200) {
           var decode = json.decode(response.body);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          var dodecode=json.decode(decode)['result'];
+          print('object');
+
+          print(dodecode);
+          print('object');
+          if(dodecode=='Exist'){
+          
+             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            content: Container(
+              padding: EdgeInsets.all(10),
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(left: 20,right: 20,bottom: 50),
+              decoration: BoxDecoration(
+
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(10)
+              ),
+              height: 70,
+              child: Text('Plate number $plate already exist please try another')),
+          ));
+
+          }else{
+             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
             content: Text('Record succesfully added.'),
           ));
@@ -132,6 +156,8 @@ class _AddVehicleListState extends State<AddVehicleList> {
           Navigator.pushReplacement(context, route);
           print(decode);
           print('decode');
+          }
+         
         }
       } catch (e) {
         _context.hideProgressIndicator();
@@ -149,6 +175,8 @@ class _AddVehicleListState extends State<AddVehicleList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            backgroundColor: Colors.white,
+
       appBar: AppBar(
         // centerTitle: true,
         elevation: 0,

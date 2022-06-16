@@ -151,7 +151,7 @@ bool file=false;
   descriptionController.text=widget.items['descriptionEng'];
   descriptionUrdController.text=widget.items['descriptionUrd'];
   issueDate= DateTime.parse(widget.items['issueDate']) ;
-if(expiryDate != null){
+if(widget.items['expiryDate'] != null){
   
   expiryDate= DateTime.parse(widget.items['expiryDate']);
 
