@@ -18,6 +18,18 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
 
   bool loading = true;
   List recordList = [];
+    double totalAmount = 0.0;
+
+   calculateAmount() {
+    totalAmount = 0.0;
+    recordList.forEach((element) {
+      totalAmount = totalAmount + element['amount'];
+      print(totalAmount);
+      print('totalAmount');
+      setState(() {});
+    });
+  } 
+
 
   empExpenseReport() async {
     try {
@@ -48,8 +60,10 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
 
   employeeReport() async {
     recordList = await empExpenseReport();
-    loading = false;
+    calculateAmount();
+   
     setState(() {});
+     loading = false;
   }
 
   @override
@@ -62,6 +76,34 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
     return Scaffold(
+        bottomNavigationBar: BottomAppBar(
+        child: Container(
+                padding: EdgeInsets.only(right: 25),
+
+          alignment: Alignment.centerLeft,
+          height: 40,
+          color: MyColors.yellow,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                child: Text(
+                  'Tatal : ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Text('$totalAmount'.split('.').first),
+              ),
+              //calculateAmount()
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
@@ -90,7 +132,7 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 15),
+                      margin: EdgeInsets.only(top: 15,bottom: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -229,7 +271,7 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                               '${item['name']} ',
                               '${item['expenseType']}',
                               '${item['expenseDate']}',
-                              '${item['amount']}',
+                              '${item['amount']}'.split('.').first,
                               '${item['remarks']}',
                               12,
                               FontWeight.normal,

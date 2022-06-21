@@ -637,7 +637,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
-                        width: width+300,
+                        width: width+310,
                         child: Column(
                         children: [
                            Container(
@@ -733,7 +733,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 5,right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -741,6 +741,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
           ),
           Container(
             width: 100,
+margin: EdgeInsets.only(right: 10),
 
             child: Text(
               platenmbr,
@@ -749,6 +750,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
           ),
           Container(
             width: 120,
+margin: EdgeInsets.only(right: 10),
 
             child: Text(expType,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
@@ -756,12 +758,14 @@ class _VehicleExpenseState extends State<VehicleExpense> {
           Container(
             width: 100,
 
-            margin: EdgeInsets.only(left: 5),
+margin: EdgeInsets.only(right: 10),
+            
             child: Text(expiryDate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 80,
+margin: EdgeInsets.only(right: 10),
 
             alignment: Alignment.bottomRight,
           
@@ -770,6 +774,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
           ),
           Container(
             width: 120,
+margin: EdgeInsets.only(right: 10),
 
             alignment: Alignment.bottomRight,
            

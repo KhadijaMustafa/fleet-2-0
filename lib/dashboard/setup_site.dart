@@ -393,7 +393,7 @@ class _SetUpSiteState extends State<SetUpSite> {
 
           Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8,),
+            margin: EdgeInsets.only(left: 5,right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -401,6 +401,7 @@ class _SetUpSiteState extends State<SetUpSite> {
           ),
           Container(
             width: 120,
+            margin: EdgeInsets.only(right: 10),
 
             child: Text(
               site,
@@ -408,7 +409,8 @@ class _SetUpSiteState extends State<SetUpSite> {
             ),
           ),
           Container(
-            width: 150,
+            width: 130,
+            margin: EdgeInsets.only(right: 10),
 
             child: Text(customer,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),

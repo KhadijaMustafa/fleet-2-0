@@ -289,7 +289,7 @@ class _TripManagementState extends State<TripManagement> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width + 500,
+                      width: width + 630,
                       child: Column(
                         children: [
                           Container(
@@ -411,87 +411,90 @@ class _TripManagementState extends State<TripManagement> {
           Container(
             width: 25,
             margin: EdgeInsets.only(
-              left: 8,
+              left: 5,right: 10,
             ),
             child: Text(
+              
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 100,
+            margin: EdgeInsets.only(right: 10),
+            width: 90,
             child: Text(
               tripN,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
-              child: Text(date,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+          margin: EdgeInsets.only(right: 10),
+
+            width: 90,
+            child: Text(date,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 110,
-             
-              child: Text(manifesto,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              width: 100,
-           margin: EdgeInsets.only(left: 5),
-              child: Text(platnumber,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              width: 100,
+          Container(
+            margin: EdgeInsets.only(right: 10),
+
+            width: 100,
            
-              child: Text(projectCode,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+            child: Text(manifesto,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
-             
-              child: Text(dmtc,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+
+            width: 100,
+         
+            child: Text(platnumber,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
+          Container(
+            width: 90,
+          margin: EdgeInsets.only(right: 10),
+           
+           
+           
+            child: Text(projectCode,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+
+            width: 90,
+           
+            child: Text(dmtc,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+
+            width: 90,
           
-              child: Text(triprate,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+            child: Text(triprate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-           Expanded(
-            child: Container(
-              width: 100,
+           Container(
+            margin: EdgeInsets.only(right: 10),
+
+             width: 90,
            
-              child: Text(expense,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
-           Expanded(
-            child: Container(
-              width: 100,
-            
-              child: Text(remaining,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
-          ),
+             child: Text(expense,
+                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+           ),
+           Container(
+            margin: EdgeInsets.only(right: 10),
+
+             width: 90,
+           
+             child: Text(remaining,
+                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+           ),
           GestureDetector(
             onTap: () => onTab!(),
             child: Container(
-            width: 90,
+            width: 70,
 
               child: Icon(IconData),
             ),

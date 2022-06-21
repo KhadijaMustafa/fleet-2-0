@@ -23,6 +23,17 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
   bool isSearching = false;
   bool _loading = true;
   List reportList = [];
+  double totalAmount = 0.0;
+
+   calculateAmount() {
+    totalAmount = 0.0;
+    reportList.forEach((element) {
+      totalAmount = totalAmount + element['amount'];
+      print(totalAmount);
+      print('totalAmount');
+      setState(() {});
+    });
+  } 
 
   expenseReport() async {
     print("StartDate" + CusDateFormat.getDate(startDate));
@@ -56,7 +67,7 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
 
   vehicleReport() async {
     reportList = await expenseReport();
-
+calculateAmount();
     setState(() {});
     _loading = false;
   }
@@ -71,6 +82,34 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
     return Scaffold(
+         bottomNavigationBar: BottomAppBar(
+        child: Container(
+                padding: EdgeInsets.only(right: 25),
+
+          alignment: Alignment.centerLeft,
+          height: 40,
+          color: MyColors.yellow,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                child: Text(
+                  'Tatal : ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Text('$totalAmount'.split('.').first),
+              ),
+             
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
@@ -300,7 +339,7 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Container(
             width: 15,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 5,right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -308,6 +347,8 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
           ),
           Expanded(
             child: Container(
+margin: EdgeInsets.only(right: 10),
+
               child: Text(
                 platenmbr,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -322,21 +363,24 @@ class _VehicleExpenseReportState extends State<VehicleExpenseReport> {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+             margin: EdgeInsets.only(right: 10),
+
               child: Text(expiryDate,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+            margin: EdgeInsets.only(right: 10),
+
               child: Text(amount,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+             margin: EdgeInsets.only(right: 10),
+
               child: Text(remarks,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),

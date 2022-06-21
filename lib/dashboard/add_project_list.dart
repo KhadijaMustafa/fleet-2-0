@@ -8,7 +8,8 @@ import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:http/http.dart' as http;
 
 class AddProjectList extends StatefulWidget {
-  AddProjectList({Key? key}) : super(key: key);
+  
+  AddProjectList({Key? key,}) : super(key: key);
 
   @override
   State<AddProjectList> createState() => _AddProjectListState();
@@ -28,6 +29,7 @@ class _AddProjectListState extends State<AddProjectList> {
   var customer;
   var tosite;
   var fromsite;
+  var cusId;
 
   bool code = false;
   bool name = false;
@@ -42,38 +44,72 @@ class _AddProjectListState extends State<AddProjectList> {
   List customerDropdown = [];
   List siteDropdown = [];
   List projectList = [];
-  List tositedropdown=[];
-  getDropDownValues(String valueType) async {
+  List tositedropdown = [];
+  var pro;
+  getDropDownValues() async {
     try {
       var response = await http.post(
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
-            "type": "$valueType",
+            "type": "Customer_DropdownList_Get",
             "value": {"Language": "en-US"}
           }));
       print(response.body);
       print(response.statusCode);
 
       var decode = json.decode(response.body);
-      projectList = json.decode(decode['Value']);
+      customerDropdown = json.decode(decode['Value']);
+   
+   
 
-      print(projectList);
+      print('projectList');
+
+      print(customerDropdown);
 
       setState(() {});
 
-      return projectList;
+      return customerDropdown;
     } catch (e) {
       print(e);
     }
     ;
   }
 
-  getListCall() async {
-    customerDropdown = await getDropDownValues('Customer_DropdownList_Get');
-    siteDropdown = await getDropDownValues('Site_DropdownList_GetByCustomerId');
+  siteDropDownValues() async {
+    try {
+      var response = await http.post(
+          Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            "type": "Site_DropdownList_GetByCustomerId",
+            "value": {
+               "CustomerId":customer['value'],
+              "Language": "en-US"
+            }
+          }));
+      print(response.body);
+      print(response.statusCode);
 
+      var decode = json.decode(response.body);
+       siteDropdown = json.decode(decode['Value']);
+      
+
+      print(siteDropdown);
+
+      setState(() {});
+
+    
+    } catch (e) {
+      print(e);
+    }
+    ;
   }
+
+  // getListCall() async {
+ 
+  //   customerDropdown = await getDropDownValues();
+  // }
 
   addProject() async {
     FocusManager.instance.primaryFocus?.unfocus();
@@ -118,34 +154,32 @@ class _AddProjectListState extends State<AddProjectList> {
       setState(() {
         rate = true;
       });
-    }
-    else if(dateFrom!.isAfter(dateTo!) ){
-       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: MyColors.bgred,
-          content: Text(
-            'Start date should be less than end date.',
-          ),
-          duration: Duration(seconds: 3),
-        ));
-
-    } 
-    else {
-      Map<String, String> body={
-          'type': 'Project_Save',
-          'Id': '00000000-0000-0000-0000-000000000000',
-          'Code': codeController.text,
-          'NameEng': nameEngController.text,
-          'NameUrd': nameUrduController.text,
-          'StartDate': CusDateFormat.getDate(dateFrom!),
-          'EndDate': CusDateFormat.getDate(dateTo!),
-          'CustomerId': customer['value'],
-          'FromSiteId': fromsite['value'],
-          'ToSiteId': tosite['value'],
-          'TotalTrips': tripController.text,
-          'TripRate': rateController.text,
-          'Language': 'en-US'
-        };
-        print(body);
+    } else if (dateFrom!.isAfter(dateTo!)) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: MyColors.bgred,
+        content: Text(
+          'Start date should be less than end date.',
+        ),
+        duration: Duration(seconds: 3),
+      ));
+    } else {
+      Map<String, String> body = {
+        'type': 'Project_Save',
+        'Id': '00000000-0000-0000-0000-000000000000',
+        'Code': codeController.text,
+        'NameEng': nameEngController.text,
+        'NameUrd': nameUrduController.text,
+        'StartDate': CusDateFormat.getDate(dateFrom!),
+        'EndDate': CusDateFormat.getDate(dateTo!),
+        'CustomerId': customer['value'],
+        'FromSiteId': fromsite['value'],
+        'ToSiteId': tosite['value'],
+        'TotalTrips': tripController.text,
+        'TripRate': rateController.text,
+        'Language': 'en-US'
+      };
+      print(body);
+   
       try {
         var request = http.MultipartRequest(
             'POST',
@@ -160,7 +194,7 @@ class _AddProjectListState extends State<AddProjectList> {
         _context.hideProgressIndicator();
         print('object');
         if (response.statusCode == 200) {
-        print('object');
+          print('object');
 
           var decode = json.decode(response.body);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -184,7 +218,9 @@ class _AddProjectListState extends State<AddProjectList> {
 
   @override
   void initState() {
-    getListCall();
+ 
+
+  getDropDownValues();
     super.initState();
   }
 
@@ -236,17 +272,16 @@ class _AddProjectListState extends State<AddProjectList> {
               },
             ),
             nameurd ? validationCont() : Container(),
-            dropdownComp(
-                customer == null ? "Customer" : customer["text"],
+            dropdownComp(customer == null ? "Customer" : customer["text"],
                 custo ? Colors.red : Colors.black, onchanged: (value) {
               setState(() {
                 customer = value;
                 custo = false;
+             siteDropDownValues();
               });
             }, list: customerDropdown, dropdowntext: "text"),
             custo ? validationCont() : Container(),
-            dropdownComp(
-                fromsite == null ? "From Site" : fromsite["text"],
+            dropdownComp(fromsite == null ? "From Site" : fromsite["text"],
                 fsite ? Colors.red : Colors.black, onchanged: (value) {
               setState(() {
                 fromsite = value;
@@ -254,8 +289,7 @@ class _AddProjectListState extends State<AddProjectList> {
               });
             }, list: siteDropdown, dropdowntext: "text"),
             fsite ? validationCont() : Container(),
-            dropdownComp(
-                tosite == null ? "To Site" : tosite["text"],
+            dropdownComp(tosite == null ? "To Site" : tosite["text"],
                 tsite ? Colors.red : Colors.black, onchanged: (value) {
               setState(() {
                 tosite = value;
@@ -284,26 +318,20 @@ class _AddProjectListState extends State<AddProjectList> {
                       fdate = false;
                     })),
             textFieldCont(
-              'Total Trips',
-              tripController,
-              trip ? Colors.red : Colors.black,
-              onChanged: (value) {
-                setState(() {
-                  trip = false;
-                });
-              },keyboard: TextInputType.number
-            ),
+                'Total Trips', tripController, trip ? Colors.red : Colors.black,
+                onChanged: (value) {
+              setState(() {
+                trip = false;
+              });
+            }, keyboard: TextInputType.number),
             trip ? validationCont() : Container(),
             textFieldCont(
-              'Trip Rate',
-              rateController,
-              rate ? Colors.red : Colors.black,
-              onChanged: (value) {
-                setState(() {
-                  rate = false;
-                });
-              },keyboard: TextInputType.number
-            ),
+                'Trip Rate', rateController, rate ? Colors.red : Colors.black,
+                onChanged: (value) {
+              setState(() {
+                rate = false;
+              });
+            }, keyboard: TextInputType.number),
             rate ? validationCont() : Container(),
             InkWell(
               onTap: () {

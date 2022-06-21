@@ -287,7 +287,7 @@ class _VehicleListState extends State<VehicleList> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width +100,
+                      width: width +110,
                       child: Column(
                       children: [
                         Container(
@@ -389,7 +389,7 @@ class _VehicleListState extends State<VehicleList> {
 
           Container(
             width: 110,
-
+margin: EdgeInsets.only(right: 10),
             child: Text(
               platenumber,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -397,6 +397,8 @@ class _VehicleListState extends State<VehicleList> {
           ),
           Container(
             width: 120,
+margin: EdgeInsets.only(right: 10),
+
 
             child: Text(suppliername,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
@@ -404,14 +406,16 @@ class _VehicleListState extends State<VehicleList> {
           Container(
             width: 100,
 
-            margin: EdgeInsets.only(left: 5),
+            margin: EdgeInsets.only(right: 10),
+
             child: Text(vehicletype,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
 
-            margin: EdgeInsets.only(left: 5),
+            margin: EdgeInsets.only(right: 10),
+
             child: Text(driver,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),

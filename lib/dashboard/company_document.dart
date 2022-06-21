@@ -303,13 +303,13 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                             child: vehicleListCont(
                                 '#',
                                 'Name (Eng)',
-                                'Name (Urdu)',
+                                'Name (Urd)',
                                 'Description (Eng)',
-                                'Description (Urdu)',
+                                'Description (Urd)',
                                 'Issue Date',
                                 'Expiry Date',
                                 14,
-                                FontWeight.bold,attachment: 'Attachment',width: 100,iconwidth: 0 ),
+                                FontWeight.bold,attachment: 'Attachment',width: 90,iconwidth: 0 ),
                                 
                           ),
                           Container(
@@ -332,7 +332,7 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                     '${item['descriptionUrd']}',
                                     '${item['issueDate']}',
                                     '${item['expiryDate']}',
-                                    10,
+                                    12,
                                     FontWeight.w400,
                                     onLongPress: () {
                                       print('object');
@@ -357,7 +357,7 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                           FileAttachment(
                                             image: '${item['currentFileName']}',
                                           ));
-                                    },attachment: '',width: 0,iconwidth: 70);
+                                    },attachment: '',width: 0,iconwidth: 90);
                               },
                             ),
                           )
@@ -417,26 +417,34 @@ class _CompanyDocumentState extends State<CompanyDocument> {
             ),
           ),
           Container(
-            width: 110,
+            margin: EdgeInsets.only(right: 10),
+
+            width: 100,
             child: Text(
               name,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 110,
+            margin: EdgeInsets.only(right: 10),
+
+            width: 100,
             child: Text(
               nameurd,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 130,
+            margin: EdgeInsets.only(right: 10),
+
+            width: 110,
             child: Text(description,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-            width: 130,
+            margin: EdgeInsets.only(right: 10),
+
+            width: 110,
             child: Text(
               descriptionurd,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -444,19 +452,21 @@ class _CompanyDocumentState extends State<CompanyDocument> {
           ),
           Container(
             width: 100,
-            margin: EdgeInsets.only(left: 5),
+                     margin: EdgeInsets.only(right: 10),
+
             child: Text(issuedate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
-            margin: EdgeInsets.only(left: 5),
+                        margin: EdgeInsets.only(right: 10),
+
             child: Text(expirydate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
             Container(
             width: width,
-            margin: EdgeInsets.only(left: 5),
+           // margin: EdgeInsets.only(right: 10),
             child: Text(attachment!,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
@@ -464,6 +474,8 @@ class _CompanyDocumentState extends State<CompanyDocument> {
           GestureDetector(
             onTap: () => onTab!(),
             child: Container(
+           // margin: EdgeInsets.only(right: 10),
+
               width: iconwidth,
               child: Icon(IconData),
             ),

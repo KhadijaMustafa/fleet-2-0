@@ -211,7 +211,7 @@ class _AddEmployeeListState extends State<AddEmployeeList> {
             ),
             contact ? validationCont() : Container(),
             dropdownComp(
-                positiontype == null ? "Vehicle Type" : positiontype["text"],
+                positiontype == null ? "Position" : positiontype["text"],
                 position ? Colors.red : Colors.black, onchanged: (value) {
               setState(() {
                 positiontype = value;

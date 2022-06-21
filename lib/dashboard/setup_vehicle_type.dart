@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:xtreme_fleet/dashboard/add_vehicle_type.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
+
 class SetUpVehicleType extends StatefulWidget {
   SetUpVehicleType({Key? key}) : super(key: key);
 
@@ -14,7 +15,7 @@ class SetUpVehicleType extends StatefulWidget {
 }
 
 class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
-   TextEditingController searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   List setvehicleList = [];
   bool loading = true;
   List filterList = [];
@@ -73,38 +74,45 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
         "type": "Setup_VehicleType_Delete",
-        "value": {"Id": "${selectedItem['id']}"}
+        "value": {
+          "Id": "${selectedItem['id']}",
+          "UserId": "f14198a1-1a9a-ec11-8327-74867ad401de",
+          "Language": "en-US"
+        }
       });
       request.headers.addAll(headers);
 
       http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
 
-     // if (response.statusCode == 200) {
-        print('???????????????????');
-        var decode = json.decode(response.body);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: MyColors.bggreen,
-            content: Text('Record succesfully deleted.')));
-        setvehicleList.removeAt(itemIndex);
+      // if (response.statusCode == 200) {
+      print('???????????????????');
+      var decode = json.decode(response.body);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: MyColors.bggreen,
+          content: Text('Record succesfully deleted.')));
+      setvehicleList.removeAt(itemIndex);
 
-        setState(() {
-          selectedItem = null;
-        });
-        print('Deleted');
-        print(decode);
-     // }
+      setState(() {
+        selectedItem = null;
+      });
+      print('Deleted');
+      print(decode);
+      // }
     } catch (e) {}
   }
-  
+
   @override
   Widget build(BuildContext context) {
-   double width=MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-       floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
-   
-      MyNavigation().push(context, AddVehicleType(title: 'Add Vehicle Type',));
+          MyNavigation().push(
+              context,
+              AddVehicleType(
+                title: 'Add Vehicle Type',
+              ));
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -112,8 +120,7 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyColors.yellow,
-        title:
-            selectedItem == null ? Text('Vehicle Type') : Container(),
+        title: selectedItem == null ? Text('Vehicle Type') : Container(),
         actions: [
           selectedItem == null
               ? Container()
@@ -199,7 +206,8 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
                           MyNavigation().push(
                               context,
                               AddVehicleType(
-                                item: selectedItem,title: 'Update Vehicle Type',
+                                item: selectedItem,
+                                title: 'Update Vehicle Type',
                               ));
                         },
                         child: actionIcon(FontAwesomeIcons.penToSquare)),
@@ -259,7 +267,6 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
                                                     .contains(searchController
                                                         .text
                                                         .toLowerCase()) ||
-                                                
                                                 '${item['nameUrd']}'
                                                     .toLowerCase()
                                                     .contains(searchController
@@ -286,62 +293,56 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
                       width: width,
                       child: Column(
                         children: [
-                           Container(
-                    
-                      color: Color.fromARGB(255, 234, 227, 227),
-                      child: supplierCont('#', 'Name (English)', 'Name (Urdu)',
-                           14, FontWeight.bold),
-                  ),
-                       Container(
-                      //padding: EdgeInsets.only(left: 5, right: 5),
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount:
-                            isSearching ? filterList.length : setvehicleList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          int indexx = index + 1;
-                          var item = isSearching
-                              ? filterList[index]
-                              : setvehicleList[index];
-                          var supname = setvehicleList[index]['name'];
-                          return supplierCont(
-                            '$indexx',
-                            '${item['nameEng']}',
-                            '${item['nameUrd']}',
-                            
-                            12,
-                            FontWeight.normal,
-                            onLongPress: () {
-                          
-
-                              setState(() {
-                                selectedItem = item;
-                                itemIndex = index;
-                                suppliername = supname;
-                              });
-                            },
-                            bgColor: '${selectedItem}' == '${item}'
-                                ? MyColors.yellow
-                                : Colors.white,
-                          );
-                        },
-                      ),
-                  )
-
+                          Container(
+                            color: Color.fromARGB(255, 234, 227, 227),
+                            child: setupCont('#', 'Name (English)',
+                                'Name (Urdu)', 14, FontWeight.bold),
+                          ),
+                          Container(
+                            //padding: EdgeInsets.only(left: 5, right: 5),
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: isSearching
+                                  ? filterList.length
+                                  : setvehicleList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                int indexx = index + 1;
+                                var item = isSearching
+                                    ? filterList[index]
+                                    : setvehicleList[index];
+                                var supname = setvehicleList[index]['name'];
+                                return setupCont(
+                                  '$indexx',
+                                  '${item['nameEng']}',
+                                  '${item['nameUrd']}',
+                                  12,
+                                  FontWeight.normal,
+                                  onLongPress: () {
+                                    setState(() {
+                                      selectedItem = item;
+                                      itemIndex = index;
+                                      suppliername = supname;
+                                    });
+                                  },
+                                  bgColor: '${selectedItem}' == '${item}'
+                                      ? MyColors.yellow
+                                      : Colors.white,
+                                );
+                              },
+                            ),
+                          )
                         ],
                       ),
                     ),
                   )
-                 
-               
                 ],
               )),
             ),
-
     );
   }
-   actionIcon(IconData) {
+
+  actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -352,11 +353,10 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
     );
   }
 
-  supplierCont(
+  setupCont(
     String serial,
     String nameE,
     String nameU,
-   
     double size,
     FontWeight fontWeight, {
     // String? project,
@@ -370,37 +370,29 @@ class _SetUpVehicleTypeState extends State<SetUpVehicleType> {
             color: bgColor, borderRadius: BorderRadius.circular(10)),
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.all(5),
-        child:
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
-            children: [
-              
-
-
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8,),
+            margin: EdgeInsets.only(left: 5, right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 120,
-
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
             child: Text(
               nameE,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 150,
-
+            width: 130,
+            margin: EdgeInsets.only(right: 10),
             child: Text(nameU,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-         
-      
         ]),
       ),
     );

@@ -334,7 +334,8 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
             ),
             remark ? validationCont() : Container(),
             Container(
-              child: Row(
+              margin: EdgeInsets.only(left: 15,right: 15,top: 30,bottom: 20),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
                     onTap: () {
@@ -343,11 +344,7 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
                     child: Container(
                       height: 45,
                       width: 170,
-                      margin: EdgeInsets.only(
-                        left: 20,
-                        top: 40,
-                        right: 10,
-                      ),
+                    
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: MyColors.yellow,
@@ -368,11 +365,7 @@ class _AddCustomerTransactionState extends State<AddCustomerTransaction> {
                     child: Container(
                       height: 45,
                       width: 170,
-                      margin: EdgeInsets.only(
-                        left: 10,
-                        top: 40,
-                        right: 10,
-                      ),
+                    
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: MyColors.red,

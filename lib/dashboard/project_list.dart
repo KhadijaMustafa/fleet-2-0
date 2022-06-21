@@ -402,7 +402,7 @@ class _ProjectListState extends State<ProjectList> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
             width: 20,
-            margin: EdgeInsets.only(left: 8, right: 8),
+            margin: EdgeInsets.only(left: 5, right: 10),
             child: Text(
               
               serial,
@@ -410,8 +410,9 @@ class _ProjectListState extends State<ProjectList> {
             ),
           ),
           Container(
-            width: 100,
-           margin: EdgeInsets.only(left: 5),
+            width: 90,
+                      margin: EdgeInsets.only(right: 10),
+
 
             child: Text(
               
@@ -420,16 +421,18 @@ class _ProjectListState extends State<ProjectList> {
             ),
           ),
           Container(
-           margin: EdgeInsets.only(left: 5),
+                       margin: EdgeInsets.only(right: 10),
+
 
             width: 120,
             child: Text(name,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-            width: 100,
+            width: 95,
 
-           margin: EdgeInsets.only(left: 5),
+                       margin: EdgeInsets.only(right: 10),
+
            
             child: Text(fromsite,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
@@ -445,31 +448,35 @@ class _ProjectListState extends State<ProjectList> {
           Container(
             width: 70,
 
-           margin: EdgeInsets.only(left: 5),
+                       margin: EdgeInsets.only(right: 10),
+
         
             child: Text(trips,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
            Container(
-             width: 100,
+             width: 90,
 
-            margin: EdgeInsets.only(left: 5),
+                      margin: EdgeInsets.only(right: 10),
+
         
              child: Text(rate,
                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
            ),
           Container(
-            width: 100,
+            width: 90,
 
-           margin: EdgeInsets.only(left: 5),
+                      margin: EdgeInsets.only(right: 10),
+
            
             child: Text(date,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
            Container(
-             width: 100,
+             width: 90,
 
-            margin: EdgeInsets.only(left: 5),
+                        margin: EdgeInsets.only(right: 10),
+
             
              child: Text(enddate,
                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
@@ -477,7 +484,8 @@ class _ProjectListState extends State<ProjectList> {
           Container(
             width: 100,
 
-           margin: EdgeInsets.only(left: 5),
+                       margin: EdgeInsets.only(right: 10),
+
             child: Text(customer,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),

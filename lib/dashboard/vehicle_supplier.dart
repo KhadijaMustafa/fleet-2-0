@@ -291,7 +291,7 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width+10,
+                      width: width+15,
                       child: Column(
                         children: [
                            Container(
@@ -385,14 +385,15 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
 
           Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 5,right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 120,
+            width: 115,
+            margin: EdgeInsets.only(right: 10),
 
             child: Text(
               name,
@@ -400,7 +401,8 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
             ),
           ),
           Container(
-            width: 130,
+            width: 120,
+            margin: EdgeInsets.only(right: 10),
 
             child: Text(address,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
@@ -408,7 +410,7 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
           Container(
             width: 100,
 
-            margin: EdgeInsets.only(left: 5),
+            margin: EdgeInsets.only(right: 10),
             child: Text(contact,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),

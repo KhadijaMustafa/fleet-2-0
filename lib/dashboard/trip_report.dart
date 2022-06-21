@@ -327,7 +327,7 @@ calculateTotal();
                     scrollDirection: Axis.horizontal,
                     child: Container(
                       margin: EdgeInsets.only(top: 10),
-                      width: width + 660,
+                      width: width + 730,
                       child: Column(
                         children: [
                           Container(
@@ -478,7 +478,7 @@ calculateTotal();
           Container(
             width: 25,
             margin: EdgeInsets.only(
-              left: 8,
+              left: 5,right: 10,
             ),
             child: Text(
               serial,
@@ -487,6 +487,8 @@ calculateTotal();
           ),
           Container(
             width: 100,
+margin: EdgeInsets.only(right: 10),
+
             child: Text(
               tripN,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -494,47 +496,56 @@ calculateTotal();
           ),
           Container(
             width: 100,
+margin: EdgeInsets.only(right: 10),
+
             child: Text(date,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 110,
+margin: EdgeInsets.only(right: 10),
            
             child: Text(manifesto,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
-           margin: EdgeInsets.only(left: 5),
+           margin: EdgeInsets.only(right: 10),
+
             child: Text(platnumber,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
+margin: EdgeInsets.only(right: 10),
            
             child: Text(projectCode,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
+margin: EdgeInsets.only(right: 10),
            
             child: Text(dmtc,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
+margin: EdgeInsets.only(right: 10),
           
             child: Text(triprate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
            Container(
              width: 100,
+margin: EdgeInsets.only(right: 10),
            
              child: Text(expense,
                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
            ),
            Container(
              width: 100,
+margin: EdgeInsets.only(right: 10),
            
              child: Text(remaining,
                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
