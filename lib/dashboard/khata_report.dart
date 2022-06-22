@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xtreme_fleet/dashboard/add_customer_trans.dart';
+import 'package:xtreme_fleet/dashboard/file_attachment.dart';
 import 'package:xtreme_fleet/utilities/CusDateFormat.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
@@ -182,12 +183,12 @@ class _KhataReportState extends State<KhataReport> {
                       margin: EdgeInsets.only(left: 15),
                       child: textCont(
                         'Debit :',
-                        16,
+                        14,fontWeight: FontWeight.bold
                       ),
                     ),
                     Container(
                         margin: EdgeInsets.only(left: 15),
-                        child: textCont('$debit', 18, color: MyColors.red)),
+                        child: textCont('$debit'.split('.').first, 16, color: MyColors.red,fontWeight: FontWeight.normal)),
                   ],
                 ),
               ),
@@ -198,23 +199,23 @@ class _KhataReportState extends State<KhataReport> {
                         margin: EdgeInsets.only(left: 15),
                         child: textCont(
                           'Credit :',
-                          16,
+                          14,fontWeight: FontWeight.bold
                         )),
                     Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: textCont('$credit', 18, color: MyColors.red),
+                      child: textCont('$credit'.split('.').first, 16, color: MyColors.red,fontWeight: FontWeight.normal),
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 15),
                       child: textCont(
                         'Remaining :',
-                        16,
+                        14,fontWeight: FontWeight.bold
                       ),
                     ),
                     Container(
                         margin: EdgeInsets.only(left: 15),
                         child:
-                            textCont('$totalAmount', 18, color: MyColors.red)),
+                            textCont('$totalAmount'.split('.').first, 16, color: MyColors.red,fontWeight: FontWeight.normal)),
                   ],
                 ),
               )
@@ -389,7 +390,7 @@ class _KhataReportState extends State<KhataReport> {
                     scrollDirection: Axis.horizontal,
                     child: Container(
                       margin: EdgeInsets.only(top: 20),
-                      width: width + 260,
+                      width: width + 430,
                       child: Column(
                         children: [
                           Container(
@@ -405,7 +406,7 @@ class _KhataReportState extends State<KhataReport> {
                                 'Credit',
                                 'Total',
                                 15,
-                                FontWeight.bold),
+                                FontWeight.bold,textwidth: 80,iconwidth: 0,attachment: 'Attachment'),
                           ),
                           Container(
                             child: ListView.builder(
@@ -420,12 +421,12 @@ class _KhataReportState extends State<KhataReport> {
                                 // return Container();
                                 return vehExpCont(
                                     '$indexx',
-                                    '$nameeng} ',
+                                    '$nameeng ',
                                     '${item['date']}',
                                     '${item['reason']}',
-                                    '${item['debit']}',
-                                    '${item['credit']}',
-                                    '${item['total']}',
+                                    '${item['debit']}'.split('.').first,
+                                    '${item['credit']}'.split('.').first,
+                                    '${item['total']}'.split('.').first,
                                     12,
                                     FontWeight.normal, onLongPress: () {
                                   setState(() {
@@ -435,7 +436,16 @@ class _KhataReportState extends State<KhataReport> {
                                     print(selectItem);
                                     print('selectItem');
                                   });
-                                });
+                                }, IconData: Icons.attachment,
+                                        onTab: () {
+                                          print('${item['currentFileName']}');
+                                          MyNavigation().push(
+                                              context,
+                                              FileAttachment(
+                                                image:
+                                                    '${item['currentFileName']}',
+                                              ));
+                                        },textwidth: 0,iconwidth: 80,attachment: '');
                               },
                             ),
                           )
@@ -546,7 +556,8 @@ class _KhataReportState extends State<KhataReport> {
     FontWeight fontWeight, {
     String? project,
     Function? onLongPress,
-    bgColor,
+    bgColor,  IconData,
+      Function? onTab,double? textwidth,double? iconwidth,String? attachment
   }) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
@@ -560,7 +571,7 @@ class _KhataReportState extends State<KhataReport> {
           Container(
             width: 25,
             margin: EdgeInsets.only(
-              left: 8,
+              left: 10,right: 10,
             ),
             child: Text(
               serial,
@@ -568,6 +579,9 @@ class _KhataReportState extends State<KhataReport> {
             ),
           ),
           Container(
+              margin: EdgeInsets.only(
+            right: 10,
+            ),
             width: 100,
             child: Text(
               customer,
@@ -575,42 +589,73 @@ class _KhataReportState extends State<KhataReport> {
             ),
           ),
           Container(
+              margin: EdgeInsets.only(
+    right: 10,
+            ),
             width: 100,
             child: Text(date,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 110,
+              margin: EdgeInsets.only(
+         right: 10,
+            ),
             child: Text(remarks,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
+              margin: EdgeInsets.only(
+            right: 10,
+            ),
             child: Text(debit,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
+              margin: EdgeInsets.only(
+            right: 10,
+            ),
             child: Text(credit,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
+              margin: EdgeInsets.only(
+            right: 10,
+            ),
             width: 100,
             child: Text(total,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+           Container(
+            
+            width: textwidth,
+            margin: EdgeInsets.only(right: 10),
+        
+            child: Text(attachment!,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          GestureDetector(
+            onTap: () => onTab!(),
+            child: Container(
+              margin: EdgeInsets.only(right: 10),
+              width: iconwidth,
+              child: Icon(IconData),
+            ),
           ),
         ]),
       ),
     );
   }
 
-  textCont(String text, double size, {Color? color}) {
+  textCont(String text, double size, {Color? color, FontWeight? fontWeight}) {
     return Text(
       '$text  ',
       style: TextStyle(
         color: color,
         fontSize: size,
-        fontWeight: FontWeight.bold,
+        fontWeight:fontWeight,
       ),
     );
   }

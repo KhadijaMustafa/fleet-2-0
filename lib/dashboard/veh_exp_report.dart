@@ -103,7 +103,7 @@ calculateAmount();
               ),
               Container(
                 margin: EdgeInsets.only(left: 10),
-                child: Text('$totalAmount'.split('.').first),
+                child: Text('$totalAmount'.split('.').first,style: TextStyle(fontSize: 16, color: MyColors.red,),),
               ),
              
             ],
@@ -251,7 +251,7 @@ calculateAmount();
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
-                        width: width+100,
+                        width: width+190,
                         child: Column(
                         children: [
                             Container(
@@ -262,7 +262,7 @@ calculateAmount();
                             //padding: EdgeInsets.all(5),
                             //margin: EdgeInsets.all(5),
                             color: Color.fromARGB(255, 234, 227, 227),
-                            child: vehExpCont('#','Plate #', ' Type', ' Date',
+                            child: vehExpCont('#','Plate #', 'Expense Type', 'Expense Date',
                                 'Amount', 'Remarks', 15, FontWeight.bold),
                           ),
                           Container(
@@ -281,7 +281,7 @@ calculateAmount();
                                   '${item['platNumber']} ',
                                   '${item['expenseType']}',
                                   '${item['expenseDate']}',
-                                  '${item['amount']}',
+                                  '${item['amount']}'.split('.').first,
                                   '${item['remarks']}',
                                   12,
                                   FontWeight.normal,
@@ -338,52 +338,49 @@ calculateAmount();
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Container(
-            width: 15,
-            margin: EdgeInsets.only(left: 5,right: 10),
+            width: 20,
+            margin: EdgeInsets.only(left: 10,right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
+          Container(
 margin: EdgeInsets.only(right: 10),
-
-              child: Text(
-                platenmbr,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+width: 90,
+            child: Text(
+              platenmbr,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Text(expType,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 110,
+            child: Text(expType,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-             margin: EdgeInsets.only(right: 10),
+          Container(
+            width: 100,
 
-              child: Text(expiryDate,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+           margin: EdgeInsets.only(right: 10),
+
+            child: Text(expiryDate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-            margin: EdgeInsets.only(right: 10),
+          Container(
+            width: 90,
 
-              child: Text(amount,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          margin: EdgeInsets.only(right: 10),
+
+            child: Text(amount,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-             margin: EdgeInsets.only(right: 10),
+          Container(
+            width: 110,
 
-              child: Text(remarks,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+           margin: EdgeInsets.only(right: 10),
+
+            child: Text(remarks,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           // Expanded(
           //   child: GestureDetector(

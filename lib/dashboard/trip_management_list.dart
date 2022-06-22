@@ -289,7 +289,7 @@ class _TripManagementState extends State<TripManagement> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width + 630,
+                      width: width + 660,
                       child: Column(
                         children: [
                           Container(
@@ -306,7 +306,7 @@ class _TripManagementState extends State<TripManagement> {
                                 'DM/TC',
                                 'Trip Rate','Expense','Remaining ',
                                 15,
-                                FontWeight.bold),
+                                FontWeight.bold,textwidth: 80,iconwidth: 0,attachment: 'Attachment'),
                           ),
                           Container(
                             child: ListView.builder(
@@ -328,9 +328,9 @@ class _TripManagementState extends State<TripManagement> {
                                   '${item['vehiclePlatNumber']}',
                                   '${item['projectCode']}',
                                   '${item['dmtcNumber']}',
-                                  '${item['projectTripRate']}',
-                                  '${item['tripExpense']}',
-                                  '${item['remainingExpense']}',
+                                  '${item['projectTripRate']}'.split('.').first,
+                                  '${item['tripExpense']}'.split('.').first,
+                                  '${item['remainingExpense']}'.split('.').first,
 
 
                                   12,
@@ -357,7 +357,7 @@ class _TripManagementState extends State<TripManagement> {
                                           FileAttachment(
                                             image: '${item['currentFileName']}',
                                           ));
-                                    }
+                                    },textwidth: 0,iconwidth: 80,attachment: ''
                                 );
                               },
                             ),
@@ -397,7 +397,7 @@ class _TripManagementState extends State<TripManagement> {
     FontWeight fontWeight, {
     // String? project,
     Function? onLongPress,
-    bgColor,IconData,Function? onTab
+    bgColor,IconData,Function? onTab,double? textwidth, double? iconwidth, String? attachment
   }) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
@@ -491,10 +491,20 @@ class _TripManagementState extends State<TripManagement> {
              child: Text(remaining,
                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
            ),
+            Container(
+            margin: EdgeInsets.only(right: 10),
+
+             width: textwidth,
+           
+             child: Text(attachment!,
+                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+           ),
           GestureDetector(
             onTap: () => onTab!(),
             child: Container(
-            width: 70,
+            margin: EdgeInsets.only(right: 10),
+
+            width: iconwidth,
 
               child: Icon(IconData),
             ),

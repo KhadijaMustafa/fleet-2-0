@@ -291,7 +291,7 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width+15,
+                      width: width+23,
                       child: Column(
                         children: [
                            Container(
@@ -385,7 +385,7 @@ class _VehicleSupplierState extends State<VehicleSupplier> {
 
           Container(
             width: 25,
-            margin: EdgeInsets.only(left: 5,right: 10),
+            margin: EdgeInsets.only(left: 10,right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),

@@ -290,7 +290,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width + 390,
+                      width: width + 520,
                       child: Column(
                         children: [
                           Container(
@@ -306,7 +306,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
                                 'Hour(s)',
                                 'DM/TC',
                                 15,
-                                FontWeight.bold),
+                                FontWeight.bold,textwidth: 80,iconwidth: 0,attachment: 'Attachment'),
                           ),
                           Container(
                             child: ListView.builder(
@@ -321,31 +321,31 @@ class _MonthlyRentState extends State<MonthlyRent> {
                                     ? filterList[index]
                                     : rentList[index];
                                 return vehicleListCont(
-                                  '$indexx',
-                                  '${item['monthlyRentNumber']}',
-                                  '${item['monthlyRentDate']}',
-                                  '${item['manifestoNumber']}',
-                                  '${item['vehiclePlatNumber']}',
-                                  '${item['projectCode']}',
-                                  '${item['hours']}',
-                                  '${item['dmtcNumber']}',
-                                  12,
-                                  FontWeight.w400,
-                                  onLongPress: () {
-                                    print('object');
-                                    print(item);
+                                    '$indexx',
+                                    '${item['monthlyRentNumber']}',
+                                    '${item['monthlyRentDate']}',
+                                    '${item['manifestoNumber']}',
+                                    '${item['vehiclePlatNumber']}',
+                                    '${item['projectCode']}',
+                                    '${item['hours']}',
+                                    '${item['dmtcNumber']}',
+                                    12,
+                                    FontWeight.w400,
+                                    onLongPress: () {
+                                      print('object');
+                                      print(item);
 
-                                    setState(() {
-                                      print('???///////////');
-                                      print(selectedItem);
-                                      selectedItem = item;
-                                      itemIndex = index;
-                                    });
-                                  },
-                                  bgColor: '${selectedItem}' == '${item}'
-                                      ? MyColors.yellow
-                                      : Colors.white,
-                                         IconData: Icons.attachment,
+                                      setState(() {
+                                        print('???///////////');
+                                        print(selectedItem);
+                                        selectedItem = item;
+                                        itemIndex = index;
+                                      });
+                                    },
+                                    bgColor: '${selectedItem}' == '${item}'
+                                        ? MyColors.yellow
+                                        : Colors.white,
+                                    IconData: Icons.attachment,
                                     onTab: () {
                                       print('${item['currentFileName']}');
                                       MyNavigation().push(
@@ -353,8 +353,7 @@ class _MonthlyRentState extends State<MonthlyRent> {
                                           FileAttachment(
                                             image: '${item['currentFileName']}',
                                           ));
-                                    }
-                                );
+                                    },textwidth: 0,iconwidth: 80,attachment: '');
                               },
                             ),
                           )
@@ -380,20 +379,22 @@ class _MonthlyRentState extends State<MonthlyRent> {
   }
 
   vehicleListCont(
-    String serial,
-    String rentnumber,
-    String date,
-    String manifesto,
-    String platnumber,
-    String projectCode,
-    String hour,
-    String dmTc,
-    double size,
-    FontWeight fontWeight, {
-    // String? project,
-    Function? onLongPress,
-    bgColor,IconData,Function? onTab
-  }) {
+      String serial,
+      String rentnumber,
+      String date,
+      String manifesto,
+      String platnumber,
+      String projectCode,
+      String hour,
+      String dmTc,
+      double size,
+      FontWeight fontWeight,
+      {
+      // String? project,
+      Function? onLongPress,
+      bgColor,
+      IconData,
+      Function? onTab,double? textwidth, double? iconwidth, String? attachment}) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
       child: Container(
@@ -406,7 +407,8 @@ class _MonthlyRentState extends State<MonthlyRent> {
           Container(
             width: 25,
             margin: EdgeInsets.only(
-              left: 8,
+              left: 10,
+              right: 10,
             ),
             child: Text(
               serial,
@@ -414,64 +416,80 @@ class _MonthlyRentState extends State<MonthlyRent> {
             ),
           ),
           Container(
+            margin: EdgeInsets.only(
+              right: 10,
+            ),
             width: 100,
             child: Text(
               rentnumber,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
-              child: Text(date,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          Container(
+             margin: EdgeInsets.only(
+              right: 10,
             ),
+            width: 100,
+            child: Text(date,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(manifesto,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          Container(
+            width: 100,
+            margin: EdgeInsets.only(
+              right: 10,
             ),
+            child: Text(manifesto,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(platnumber,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          Container(
+            width: 100,
+           margin: EdgeInsets.only(
+              right: 10,
             ),
+            child: Text(platnumber,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(projectCode,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          Container(
+            width: 100,
+          margin: EdgeInsets.only(
+              right: 10,
             ),
+            child: Text(projectCode,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(hour,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          Container(
+            width: 100,
+           margin: EdgeInsets.only(
+              right: 10,
             ),
+            child: Text(hour,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 100,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(dmTc,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          Container(
+             margin: EdgeInsets.only(
+              right: 10,
             ),
+            width: 100,
+        
+            child: Text(dmTc,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+           Container(
+             margin: EdgeInsets.only(
+              right: 10,
+            ),
+            width: textwidth,
+        
+            child: Text(attachment!,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           GestureDetector(
             onTap: () => onTab!(),
             child: Container(
-            width: 90,
-
+               margin: EdgeInsets.only(
+              right: 10,
+            ),
+              width: iconwidth,
               child: Icon(IconData),
             ),
           ),

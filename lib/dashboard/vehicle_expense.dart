@@ -54,7 +54,6 @@ class _VehicleExpenseState extends State<VehicleExpense> {
 
     String wholeUrl = 'https://fleet.xtremessoft.com/UploadFile/' + url;
     try {
-     
       http.Response response = await http.get(Uri.parse(wholeUrl));
       // var documentDirectory = await getApplicationDocumentsDirectory();
       var documentDirectory = await getExternalStorageDirectory();
@@ -367,7 +366,6 @@ class _VehicleExpenseState extends State<VehicleExpense> {
       );
 
       print('Excel');
-      
     } catch (e) {
       setState(() {
         isDownloading = false;
@@ -401,7 +399,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
               ),
               Container(
                 margin: EdgeInsets.only(left: 10),
-                child: Text('$totalAmount '),
+                child: Text('$totalAmount '.split('.').first),
               ),
               //calculateAmount()
             ],
@@ -487,47 +485,57 @@ class _VehicleExpenseState extends State<VehicleExpense> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                      Container(
+                                    Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                             InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bgred
-                                        ),
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                 
-                                          child: Text('No',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
-
-                                            TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                              context, deleteItem());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Container(
-                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bggreen
-                                        ),
-                                
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                         
-
-                                          child: Text(
-                                            'Yes',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context, deleteItem());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
@@ -637,66 +645,74 @@ class _VehicleExpenseState extends State<VehicleExpense> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
-                        width: width+310,
-                        child: Column(
-                        children: [
-                           Container(
-                            //padding: EdgeInsets.all(5),
-                            //margin: EdgeInsets.all(5),
-                            color: Color.fromARGB(255, 234, 227, 227),
-                            child: vehExpCont('#','Plate #', 'Expense Type', 'Expense Date',
-                                'Amount', 'Remarks', 15, FontWeight.bold),
-                          ),
-                            Container(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              // scrollDirection: Axis.vertical,
-                              itemCount: isSearching
-                                  ? filterList.length
-                                  : expenseList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                int indexx=index+1;
-                                var item = isSearching
-                                    ? filterList[index]
-                                    : expenseList[index];
-                                // return Container();
-                                return vehExpCont('$indexx',
-                                    '${item['platNumber']} ',
-                                    '${item['expenseType']}',
-                                    '${item['expenseDate']}',
-                                    '${item['amount']}',
-                                    '${item['remarks']}',
-                                    12,
-                                    FontWeight.normal,
-                                    onLongPress: () {
-                                      print('object');
-                                      CupertinoColors.darkBackgroundGray;
-                                      setState(() {
-                                        selectedItem = item;
-                                        itemIndex = index;
-                                      });
-                                    },
-                                    bgColor: '${selectedItem}' == '${item}'
-                                        ? MyColors.yellow
-                                        : Colors.white,
-                                    IconData: Icons.attachment,
-                                    onTab: () {
-                                      print('${item['currentFileName']}');
-                                      MyNavigation().push(
-                                          context,
-                                          FileAttachment(
-                                            image: '${item['currentFileName']}',
-                                          ));
-                                    });
-                              },
-                            ),
-                          ),
-
-                        ],
-                      )),
+                          width: width + 310,
+                          child: Column(
+                            children: [
+                              Container(
+                                //padding: EdgeInsets.all(5),
+                                //margin: EdgeInsets.all(5),
+                                color: Color.fromARGB(255, 234, 227, 227),
+                                child: vehExpCont(
+                                    '#',
+                                    'Plate #',
+                                    'Expense Type',
+                                    'Expense Date',
+                                    'Amount',
+                                    'Remarks',
+                                    15,
+                                    FontWeight.bold,textwidth: 80,iconwidth: 0,attachment: 'Attachment'),
+                              ),
+                              Container(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  // scrollDirection: Axis.vertical,
+                                  itemCount: isSearching
+                                      ? filterList.length
+                                      : expenseList.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    int indexx = index + 1;
+                                    var item = isSearching
+                                        ? filterList[index]
+                                        : expenseList[index];
+                                    // return Container();
+                                    return vehExpCont(
+                                        '$indexx',
+                                        '${item['platNumber']} ',
+                                        '${item['expenseType']}',
+                                        '${item['expenseDate']}',
+                                        '${item['amount']}'.split('.').first,
+                                        '${item['remarks']}',
+                                        12,
+                                        FontWeight.normal,
+                                        onLongPress: () {
+                                          print('object');
+                                          CupertinoColors.darkBackgroundGray;
+                                          setState(() {
+                                            selectedItem = item;
+                                            itemIndex = index;
+                                          });
+                                        },
+                                        bgColor: '${selectedItem}' == '${item}'
+                                            ? MyColors.yellow
+                                            : Colors.white,
+                                        IconData: Icons.attachment,
+                                        onTab: () {
+                                          print('${item['currentFileName']}');
+                                          MyNavigation().push(
+                                              context,
+                                              FileAttachment(
+                                                image:
+                                                    '${item['currentFileName']}',
+                                              ));
+                                        },textwidth: 0,iconwidth: 80,attachment: '');
+                                  },
+                                ),
+                              ),
+                            ],
+                          )),
                     )
-                   
                   ],
                 ),
               ),
@@ -715,13 +731,13 @@ class _VehicleExpenseState extends State<VehicleExpense> {
     );
   }
 
-  vehExpCont(String serial,String platenmbr, String expType, String expiryDate, String amount,
-      String remarks, double size, FontWeight fontWeight,
+  vehExpCont(String serial, String platenmbr, String expType, String expiryDate,
+      String amount, String remarks, double size, FontWeight fontWeight,
       {String? project,
       Function? onLongPress,
       bgColor,
       IconData,
-      Function? onTab}) {
+      Function? onTab,double? textwidth,double? iconwidth,String? attachment}) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
       child: Container(
@@ -730,10 +746,12 @@ class _VehicleExpenseState extends State<VehicleExpense> {
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.all(5),
         child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Container(
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+          Container(
             width: 25,
-            margin: EdgeInsets.only(left: 5,right: 10),
+            margin: EdgeInsets.only(left: 5, right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -741,8 +759,7 @@ class _VehicleExpenseState extends State<VehicleExpense> {
           ),
           Container(
             width: 100,
-margin: EdgeInsets.only(right: 10),
-
+            margin: EdgeInsets.only(right: 10),
             child: Text(
               platenmbr,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -750,42 +767,42 @@ margin: EdgeInsets.only(right: 10),
           ),
           Container(
             width: 120,
-margin: EdgeInsets.only(right: 10),
-
+            margin: EdgeInsets.only(right: 10),
             child: Text(expType,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
-
-margin: EdgeInsets.only(right: 10),
-            
+            margin: EdgeInsets.only(right: 10),
             child: Text(expiryDate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 80,
-margin: EdgeInsets.only(right: 10),
-
-            alignment: Alignment.bottomRight,
-          
+            margin: EdgeInsets.only(right: 10),
+     
             child: Text(amount,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-            width: 120,
-margin: EdgeInsets.only(right: 10),
-
-            alignment: Alignment.bottomRight,
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
            
             child: Text(remarks,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+           Container(
+            width: textwidth,
+            margin: EdgeInsets.only(right: 10),
+        
+            child: Text(attachment!,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           GestureDetector(
             onTap: () => onTab!(),
             child: Container(
-            width: 100,
-
+              margin: EdgeInsets.only(right: 10),
+              width: iconwidth,
               child: Icon(IconData),
             ),
           ),

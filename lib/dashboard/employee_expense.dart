@@ -272,7 +272,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
               ),
               Container(
                 margin: EdgeInsets.only(left: 10),
-                child: Text('$totalAmount '),
+                child: Text('$totalAmount '.split('.').first),
               ),
               //calculateAmount()
             ],
@@ -518,7 +518,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
                             // margin: EdgeInsets.all(10),
                             color: Color.fromARGB(255, 234, 227, 227),
                             child: empExpCont('#', 'Name', 'Expense Type', 'Expense Date',
-                                'Amount', 'Remarks', 15, FontWeight.bold),
+                                'Amount', 'Remarks', 15, FontWeight.bold,textwidth: 80,iconwidth: 0,attachment: 'Attachment'),
                           ),
                           Container(
                             child: ListView.builder(
@@ -561,7 +561,7 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
                                           FileAttachment(
                                             image: '${item['currentFileName']}',
                                           ));
-                                    });
+                                    },textwidth: 0,iconwidth: 80,attachment: '');
                               },
                             ),
                           )
@@ -592,63 +592,82 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
       Function? onLongPress,
       bgColor,
       IconData,
-      Function? onTab}) {
+      Function? onTab,double? textwidth,double? iconwidth,String? attachment}) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
       child: Container(
         margin: EdgeInsets.only(top: 5),
         decoration: BoxDecoration(
             color: bgColor, borderRadius: BorderRadius.circular(10)),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+       // crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
           Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8, right: 8),
+            margin: EdgeInsets.only(left: 10, right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 110,
+            width: 100,
+            margin: EdgeInsets.only(right: 10),
             child: Text(
               title,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          SizedBox(width: 5,),
+    
 
           Container(
-            width: 120,
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
+
             child: Text(document,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          SizedBox(width: 5,),
+    
           
           Container(
-            width: 120,
+            width: 110,
 
-            //margin: EdgeInsets.only(left: 10),
+                      margin: EdgeInsets.only(right: 10),
+
             child: Text(expiryDate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          SizedBox(width: 5,),
+        
 
           Container(
-            width: 100,
+            width: 90,
+            margin: EdgeInsets.only(right: 10),
+
             child: Text(amount,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          SizedBox(width: 5,),
+     
 
           Container(
-            width: 120,
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
+
             child: Text(remarks,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+            Container(
+            width: textwidth,
+            margin: EdgeInsets.only(right: 10),
+
+            child: Text(attachment!,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           GestureDetector(
             onTap: () => onTab!(),
             child: Container(
-              width: 100,
+            margin: EdgeInsets.only(right: 10),
+
+              width: iconwidth,
               child: Icon(IconData),
             ),
           ),

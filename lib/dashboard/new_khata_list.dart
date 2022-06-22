@@ -421,7 +421,7 @@ if(response.statusCode==200){
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8, right: 8),
+            margin: EdgeInsets.only(left: 10, right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
@@ -431,6 +431,8 @@ if(response.statusCode==200){
             onTap: ()=>onTab!(),
             child: Container(
             width: 120,
+            margin: EdgeInsets.only( right: 10),
+
 
               child: Text(
                 khataNum,
@@ -440,6 +442,7 @@ if(response.statusCode==200){
           ),
           Container(
             width: 100,
+            margin: EdgeInsets.only( right: 10),
 
             child: Text(name,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight,)),
@@ -447,14 +450,16 @@ if(response.statusCode==200){
           Container(
             width: 100,
 
-            margin: EdgeInsets.only(left: 5),
+                        margin: EdgeInsets.only( right: 10),
+
             child: Text(contact,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
 
-            margin: EdgeInsets.only(left: 5),
+                        margin: EdgeInsets.only( right: 10),
+
             child: Text(address,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),

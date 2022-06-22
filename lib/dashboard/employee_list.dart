@@ -280,14 +280,14 @@ class _EmployeeListState extends State<EmployeeList> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                         width: width+65,
+                         width: width+100,
                       child: Column(
                       children: [
                          Container(
                 
                     color: Color.fromARGB(255, 234, 227, 227),
                     child: vehicleListCont( '#','Employee #', ' Name',
-                        'Contact Number', 'Position', 14, FontWeight.bold),
+                        'Contact #', 'Position', 14, FontWeight.bold),
                   ),
                   Container(
                     child: ListView.builder(
@@ -372,13 +372,15 @@ class _EmployeeListState extends State<EmployeeList> {
              children: [
                Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 10,right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
             Container(
+            margin: EdgeInsets.only(right: 10),
+
             width: 100,
               child: Text(
                 empnumber,
@@ -388,13 +390,15 @@ class _EmployeeListState extends State<EmployeeList> {
         
           Container(
             width: 110,
+            margin: EdgeInsets.only(right: 10),
                   
 
             child: Text(name,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-                     width: 115,
+                     width: 100,
+            margin: EdgeInsets.only(right: 10),
 
             child: Text(contact,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
@@ -402,6 +406,7 @@ class _EmployeeListState extends State<EmployeeList> {
           Container(
             width: 100,
 
+            margin: EdgeInsets.only(right: 10),
        
             child: Text(position,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),

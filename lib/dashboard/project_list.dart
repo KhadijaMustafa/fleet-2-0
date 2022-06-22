@@ -34,8 +34,6 @@ class _ProjectListState extends State<ProjectList> {
       request.body = json.encode({
         "type": "Project_Delete",
         "value": {"Id": "${selectedItem['id']}"}
-
-        
       });
       request.headers.addAll(headers);
 
@@ -104,7 +102,7 @@ class _ProjectListState extends State<ProjectList> {
 
   @override
   Widget build(BuildContext context) {
-    double width=MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -287,7 +285,7 @@ class _ProjectListState extends State<ProjectList> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width+600,
+                      width: width + 600,
                       child: Column(
                         children: [
                           Container(
@@ -325,20 +323,17 @@ class _ProjectListState extends State<ProjectList> {
                                   '${item['name']}',
                                   '${item['fromSite']}',
                                   '${item['toSite']}',
-
                                   '${item['totalTrips']}',
-                                  '${item['tripRate']}',
-
+                                  '${item['tripRate']}'.split('.').first,
                                   '${item['startDate']}',
                                   '${item['endDate']}',
-
                                   '${item['customerName']}',
                                   12,
                                   FontWeight.w400,
                                   onLongPress: () {
                                     print('object');
                                     print(item);
-                  
+
                                     setState(() {
                                       print('???///////////');
                                       print(selectedItem);
@@ -402,90 +397,65 @@ class _ProjectListState extends State<ProjectList> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
             width: 20,
-            margin: EdgeInsets.only(left: 5, right: 10),
+            margin: EdgeInsets.only(left: 10, right: 10),
             child: Text(
-              
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
             width: 90,
-                      margin: EdgeInsets.only(right: 10),
-
-
+            margin: EdgeInsets.only(right: 10),
             child: Text(
-              
               code,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-                       margin: EdgeInsets.only(right: 10),
-
-
+            margin: EdgeInsets.only(right: 10),
             width: 120,
             child: Text(name,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 95,
-
-                       margin: EdgeInsets.only(right: 10),
-
-           
+            margin: EdgeInsets.only(right: 10),
             child: Text(fromsite,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-           Container(
-             width: 100,
-
+          Container(
+            width: 100,
             margin: EdgeInsets.only(left: 5),
-            
-             child: Text(tosite,
-                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-           ),
+            child: Text(tosite,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
           Container(
             width: 70,
-
-                       margin: EdgeInsets.only(right: 10),
-
-        
+            margin: EdgeInsets.only(right: 10),
             child: Text(trips,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-           Container(
-             width: 90,
-
-                      margin: EdgeInsets.only(right: 10),
-
-        
-             child: Text(rate,
-                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-           ),
           Container(
             width: 90,
-
-                      margin: EdgeInsets.only(right: 10),
-
-           
+            margin: EdgeInsets.only(right: 10),
+            child: Text(rate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          Container(
+            width: 90,
+            margin: EdgeInsets.only(right: 10),
             child: Text(date,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-           Container(
-             width: 90,
-
-                        margin: EdgeInsets.only(right: 10),
-
-            
-             child: Text(enddate,
-                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-           ),
+          Container(
+            width: 90,
+            margin: EdgeInsets.only(right: 10),
+            child: Text(enddate,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
           Container(
             width: 100,
-
-                       margin: EdgeInsets.only(right: 10),
-
+            margin: EdgeInsets.only(right: 10),
             child: Text(customer,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),

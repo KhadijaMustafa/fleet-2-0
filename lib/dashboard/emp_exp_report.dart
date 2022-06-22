@@ -97,7 +97,7 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
               ),
               Container(
                 margin: EdgeInsets.only(left: 10),
-                child: Text('$totalAmount'.split('.').first),
+                child: Text('$totalAmount'.split('.').first,style: TextStyle(color: MyColors.red,fontSize: 16),),
               ),
               //calculateAmount()
             ],
@@ -245,15 +245,15 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Container(
-                        width: width+200,
+                        width: width+230,
                         child: Column(
                           children: [
                               Container(
                         //padding: EdgeInsets.all(5),
                         //margin: EdgeInsets.all(5),
                         color: Color.fromARGB(255, 234, 227, 227),
-                        child: vehExpCont('#','Name', ' Type', ' Date',
-                            'Amount', 'Remarks', 15, FontWeight.bold),
+                        child: vehExpCont('#','Name', 'Expense Type', 'Expense Date',
+                            'Amount', 'Remarks', 14, FontWeight.bold),
                     ),
                     Container(
                         child: ListView.builder(
@@ -327,27 +327,31 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 10,right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 110,
+            width: 100,
+            margin: EdgeInsets.only(right: 10),
+
             child: Text(
               name,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 120,
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
 
             child: Text(type,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
+            margin: EdgeInsets.only(right: 10),
 
     
             child: Text(expiryDate,
@@ -355,12 +359,14 @@ class _EmployeeExpenseReportState extends State<EmployeeExpenseReport> {
           ),
           Container(
             width: 100,
+            margin: EdgeInsets.only(right: 10),
         
             child: Text(amount,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-            width: 120,
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
           
             child: Text(remarks,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),

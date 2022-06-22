@@ -7,6 +7,7 @@ import 'package:xtreme_fleet/dashboard/add_customer.dart';
 import 'package:xtreme_fleet/dashboard/update_customer.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
+
 class CustomerList extends StatefulWidget {
   CustomerList({Key? key}) : super(key: key);
 
@@ -15,8 +16,8 @@ class CustomerList extends StatefulWidget {
 }
 
 class _CustomerListState extends State<CustomerList> {
-    TextEditingController searchController = TextEditingController();
-  
+  TextEditingController searchController = TextEditingController();
+
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
@@ -62,11 +63,11 @@ class _CustomerListState extends State<CustomerList> {
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-         "type": "Customer_GetAll",
-  "value": {
-    "Language": "en-US",
-    "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
-  }
+        "type": "Customer_GetAll",
+        "value": {
+          "Language": "en-US",
+          "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
+        }
       });
 
       request.headers.addAll(headers);
@@ -86,8 +87,7 @@ class _CustomerListState extends State<CustomerList> {
   }
 
   CustomerApiCall() async {
-    customerList =
-     await getCustomerList();
+    customerList = await getCustomerList();
     loading = false;
 
     setState(() {});
@@ -102,11 +102,11 @@ class _CustomerListState extends State<CustomerList> {
 
   @override
   Widget build(BuildContext context) {
-    double width=MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-       MyNavigation().push(context, AddCustomer());
+          MyNavigation().push(context, AddCustomer());
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -134,47 +134,57 @@ class _CustomerListState extends State<CustomerList> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                     Container(
+                                    Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                             InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bgred
-                                        ),
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                 
-                                          child: Text('No',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
-
-                                            TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                              context, deleteCustomer());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Container(
-                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bggreen
-                                        ),
-                                
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                         
-
-                                          child: Text(
-                                            'Yes',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context, deleteCustomer());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
@@ -187,8 +197,6 @@ class _CustomerListState extends State<CustomerList> {
                         )),
                     GestureDetector(
                       onTap: () {
-                       
-                      
                         MyNavigation().push(
                             context,
                             UpdateCustomer(
@@ -278,66 +286,72 @@ class _CustomerListState extends State<CustomerList> {
                       ),
                     ),
                   ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    width: width+100,
-                    child: Column(
-                    children: [
-                        Container(
-                    // padding: EdgeInsets.only(left: 10),
-                    color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('#','Name', 'Contact',
-                        'Address', 'Customer Type', 14, FontWeight.bold),
-                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Container(
+                        width: width + 100,
+                        child: Column(
+                          children: [
+                            Container(
+                              // padding: EdgeInsets.only(left: 10),
+                              color: Color.fromARGB(255, 234, 227, 227),
+                              child: vehicleListCont(
+                                  '#',
+                                  'Name',
+                                  'Contact',
+                                  'Address',
+                                  'Customer Type',
+                                  14,
+                                  FontWeight.bold),
+                            ),
+                            Container(
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: isSearching
+                                    ? filterList.length
+                                    : customerList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  int indexx = index + 1;
+                                  var item = isSearching
+                                      ? filterList[index]
+                                      : customerList[index];
+                                  return vehicleListCont(
+                                    '$indexx',
+                                    '${item['name']}',
+                                    '${item['contact']}',
+                                    '${item['address']}',
+                                    '${item['customerType']}',
+                                    12,
+                                    FontWeight.w400,
+                                    onLongPress: () {
+                                      print('object');
+                                      print(item);
 
-                 
-                  Container(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount:
-                          isSearching ? filterList.length : customerList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int indexx=index+1;
-                        var item = isSearching
-                            ? filterList[index]
-                            : customerList[index];
-                        return vehicleListCont(
-                          '$indexx',
-                          '${item['name']}',
-                          '${item['contact']}',
-                          '${item['address']}',
-                          '${item['customerType']}',
-                          12,
-                          FontWeight.w400,
-                          onLongPress: () {
-                            print('object');
-                            print(item);
-
-                            setState(() {
-                              print('???///////////');
-                              print(selectedItem);
-                              selectedItem = item;
-                              itemIndex = index;
-                            });
-                          },
-                          bgColor: '${selectedItem}' == '${item}'
-                              ? MyColors.yellow
-                              : Colors.white,
-                        );
-                      },
-                    ),
+                                      setState(() {
+                                        print('???///////////');
+                                        print(selectedItem);
+                                        selectedItem = item;
+                                        itemIndex = index;
+                                      });
+                                    },
+                                    bgColor: '${selectedItem}' == '${item}'
+                                        ? MyColors.yellow
+                                        : Colors.white,
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        )),
                   )
-                    ],
-                  )),
-                )
                 ],
               ),
             )),
     );
   }
-    actionIcon(IconData) {
+
+  actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -369,46 +383,38 @@ class _CustomerListState extends State<CustomerList> {
         padding: EdgeInsets.all(5),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Container(
+          Container(
             width: 20,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 10, right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-
-              width: 100,
-              child: Text(
-                name,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
-              ),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            width: 100,
+            child: Text(
+              name,
+              style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 5),
-
-              width: 100,
-              child: Text(contact,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            width: 100,
+            child: Text(contact,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          Expanded(
-            child: Container(
-              width: 120,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(address,
-                  style: TextStyle(fontSize: size, fontWeight: fontWeight)),
-            ),
+          Container(
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
+            child: Text(address,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Expanded(
             child: Container(
               width: 100,
-              margin: EdgeInsets.only(left: 5),
+              margin: EdgeInsets.only(right: 10),
               child: Text(customertype,
                   style: TextStyle(fontSize: size, fontWeight: fontWeight)),
             ),

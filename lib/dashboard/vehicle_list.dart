@@ -64,11 +64,11 @@ class _VehicleListState extends State<VehicleList> {
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-         "type": "Vehicle_GetAll",
-  "value": {
-    "Language": "en-US",
-    "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
-  }
+        "type": "Vehicle_GetAll",
+        "value": {
+          "Language": "en-US",
+          "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
+        }
       });
 
       request.headers.addAll(headers);
@@ -88,8 +88,7 @@ class _VehicleListState extends State<VehicleList> {
   }
 
   vehicleApiCall() async {
-    vehicleList =
-     await getVehicleList();
+    vehicleList = await getVehicleList();
     loading = false;
 
     setState(() {});
@@ -104,12 +103,16 @@ class _VehicleListState extends State<VehicleList> {
 
   @override
   Widget build(BuildContext context) {
-    double width=MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          MyNavigation().push(context, AddVehicleList(item: selectedItem,));
+          MyNavigation().push(
+              context,
+              AddVehicleList(
+                item: selectedItem,
+              ));
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -139,51 +142,58 @@ class _VehicleListState extends State<VehicleList> {
                                   actions: [
                                     Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                             InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bgred
-                                        ),
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                 
-                                          child: Text('No',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
-
-                                            TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                              context, deleteVehicle());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Container(
-                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bggreen
-                                        ),
-                                
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                         
-
-                                          child: Text(
-                                            'Yes',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context, deleteVehicle());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
-                                   
-                                 
-                                  
                                   ],
                                 );
                               });
@@ -193,8 +203,6 @@ class _VehicleListState extends State<VehicleList> {
                         )),
                     GestureDetector(
                       onTap: () {
-                       
-                      
                         MyNavigation().push(
                             context,
                             UpdateVehicle(
@@ -287,59 +295,62 @@ class _VehicleListState extends State<VehicleList> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: width +110,
-                      child: Column(
-                      children: [
-                        Container(
-                    // padding: EdgeInsets.only(left: 10),
-                    color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('#','Plate Number', 'Supplier Name',
-                        'Vehicle Type', 'Driver', 14, FontWeight.bold),
-                  ),
-                   Container(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount:
-                          isSearching ? filterList.length : vehicleList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int indexx=index+1;
-                        var item = isSearching
-                            ? filterList[index]
-                            : vehicleList[index];
-                        return vehicleListCont('$indexx',
-                          '${item['platNumber']}',
-                          '${item['vehicleSupplierName']}',
-                          '${item['vehicleTypeNameEng']}',
-                          '${item['employeeName']}',
-                          12,
-                          FontWeight.w400,
-                          onLongPress: () {
-                            print('object');
-                            print(item);
+                        width: width + 110,
+                        child: Column(
+                          children: [
+                            Container(
+                              // padding: EdgeInsets.only(left: 10),
+                              color: Color.fromARGB(255, 234, 227, 227),
+                              child: vehicleListCont(
+                                  '#',
+                                  'Plate Number',
+                                  'Supplier Name',
+                                  'Vehicle Type',
+                                  'Driver',
+                                  14,
+                                  FontWeight.bold),
+                            ),
+                            Container(
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: isSearching
+                                    ? filterList.length
+                                    : vehicleList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  int indexx = index + 1;
+                                  var item = isSearching
+                                      ? filterList[index]
+                                      : vehicleList[index];
+                                  return vehicleListCont(
+                                    '$indexx',
+                                    '${item['platNumber']}',
+                                    '${item['vehicleSupplierName']}',
+                                    '${item['vehicleTypeNameEng']}',
+                                    '${item['employeeName']}',
+                                    12,
+                                    FontWeight.w400,
+                                    onLongPress: () {
+                                      print('object');
+                                      print(item);
 
-                            setState(() {
-                              print('???///////////');
-                              print(selectedItem);
-                              selectedItem = item;
-                              itemIndex = index;
-                            });
-                          },
-                          bgColor: '${selectedItem}' == '${item}'
-                              ? MyColors.yellow
-                              : Colors.white,
-                        );
-                      },
-                    ),
+                                      setState(() {
+                                        print('???///////////');
+                                        print(selectedItem);
+                                        selectedItem = item;
+                                        itemIndex = index;
+                                      });
+                                    },
+                                    bgColor: '${selectedItem}' == '${item}'
+                                        ? MyColors.yellow
+                                        : Colors.white,
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        )),
                   )
-
-                      ],
-                    )),
-                  )
-                  
-
-                 
-                 
                 ],
               ),
             )),
@@ -376,46 +387,38 @@ class _VehicleListState extends State<VehicleList> {
             color: bgColor, borderRadius: BorderRadius.circular(10)),
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.all(5),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Container(
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 10, right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-
           Container(
             width: 110,
-margin: EdgeInsets.only(right: 10),
+            margin: EdgeInsets.only(right: 10),
             child: Text(
               platenumber,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 120,
-margin: EdgeInsets.only(right: 10),
-
-
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
             child: Text(suppliername,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
-
             margin: EdgeInsets.only(right: 10),
-
             child: Text(vehicletype,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
-
             margin: EdgeInsets.only(right: 10),
-
             child: Text(driver,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),

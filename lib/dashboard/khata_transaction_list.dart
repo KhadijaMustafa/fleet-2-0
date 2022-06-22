@@ -8,6 +8,7 @@ import 'package:xtreme_fleet/dashboard/file_attachment.dart';
 import 'package:xtreme_fleet/dashboard/update_transaction.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
+
 class KhataTransactionList extends StatefulWidget {
   KhataTransactionList({Key? key}) : super(key: key);
 
@@ -16,8 +17,8 @@ class KhataTransactionList extends StatefulWidget {
 }
 
 class _KhataTransactionListState extends State<KhataTransactionList> {
-    TextEditingController searchController = TextEditingController();
- 
+  TextEditingController searchController = TextEditingController();
+
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
@@ -33,20 +34,19 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
         "type": "Transaction_Delete",
-  "value": {
-    "Id": "${selectedItem['id']}",
-    "UserId": "f14198a1-1a9a-ec11-8327-74867ad401de",
-    "Language": "en-US"
-  }
+        "value": {
+          "Id": "${selectedItem['id']}",
+          "UserId": "f14198a1-1a9a-ec11-8327-74867ad401de",
+          "Language": "en-US"
+        }
       });
       request.headers.addAll(headers);
 
       http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
 
-    
-        print('???????????????????');
-        if(response.statusCode==200){
+      print('???????????????????');
+      if (response.statusCode == 200) {
         var decode = json.decode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: MyColors.bggreen,
@@ -58,8 +58,7 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
         });
         print('Deleted');
         print(decode);
-        }
-      
+      }
     } catch (e) {}
   }
 
@@ -69,11 +68,11 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
       var request = http.Request('POST',
           Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'));
       request.body = json.encode({
-         "type": "Transaction_GetAll",
-  "value": {
-    "Language": "en-US",
-    "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
-  }
+        "type": "Transaction_GetAll",
+        "value": {
+          "Language": "en-US",
+          "Id": "9eb1b314-64d7-ec11-9168-00155d12d305"
+        }
       });
 
       request.headers.addAll(headers);
@@ -93,8 +92,7 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
   }
 
   transactionApiCall() async {
-    transactionList =
-     await getTransactionList();
+    transactionList = await getTransactionList();
     loading = false;
 
     setState(() {});
@@ -106,12 +104,13 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-     double height=MediaQuery.of(context).size.height;
-    double width=MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           MyNavigation().push(context, AddKhataTransaction());
         },
@@ -141,47 +140,57 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   actions: [
-                                      Container(
+                                    Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                             InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context, false);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bgred
-                                        ),
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                 
-                                          child: Text('No',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)))),
-
-                                            TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                              context, deleteKhataTransaction());
-                                          setState(() => selectedItem = null);
-                                        },
-                                        child: Container(
-                                     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: MyColors.bggreen
-                                        ),
-                                
-                                      margin: EdgeInsets.only(left: 5,right: 5),
-                                         
-
-                                          child: Text(
-                                            'Yes',
-                                            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                                          ),
-                                        )),
-
+                                          InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context, false);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: MyColors.bgred),
+                                                  margin: EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: Text('No',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight
+                                                              .bold)))),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context,
+                                                    deleteKhataTransaction());
+                                                setState(
+                                                    () => selectedItem = null);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: MyColors.bggreen),
+                                                margin: EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                child: Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
@@ -194,8 +203,6 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                         )),
                     GestureDetector(
                       onTap: () {
-                       
-                      
                         MyNavigation().push(
                             context,
                             UpdateTransaction(
@@ -288,50 +295,61 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Container(
-                                           width: width +280,
-
+                      width: width + 285,
                       child: Column(
                         children: [
-                             Container(
-                    // padding: EdgeInsets.only(left: 10),
-                    color: Color.fromARGB(255, 234, 227, 227),
-                    child: vehicleListCont('#','Customer', 'Amount',
-                        'Transaction', 'Paid Date','Remarks', 14, FontWeight.bold),
-                  ),
-                     Container(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount:
-                          isSearching ? filterList.length : transactionList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int indexx=index+1;
-                        var item = isSearching
-                            ? filterList[index]
-                            : transactionList[index];
-                        return vehicleListCont('$indexx',
-                          '${item['khataCustomerName']}',
-                          '${item['amountPaid']}',
-                          '${item['transactionType']}',
-                          '${item['paidDate']}',
-                          '${item['reason']}',
-                          12,
-                          FontWeight.w400,
-                          onLongPress: () {
-                            print('object');
-                            print(item);
+                          Container(
+                            // padding: EdgeInsets.only(left: 10),
+                            color: Color.fromARGB(255, 234, 227, 227),
+                            child: vehicleListCont(
+                                '#',
+                                'Customer',
+                                'Amount',
+                                'Transaction',
+                                'Paid Date',
+                                'Remarks',
+                                14,
+                                FontWeight.bold,
+                                textwidth: 75,
+                                iconwidth: 0,
+                                attachment: 'Attachment'),
+                          ),
+                          Container(
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: isSearching
+                                  ? filterList.length
+                                  : transactionList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                int indexx = index + 1;
+                                var item = isSearching
+                                    ? filterList[index]
+                                    : transactionList[index];
+                                return vehicleListCont(
+                                    '$indexx',
+                                    '${item['khataCustomerName']}',
+                                    '${item['amountPaid']}'.split('.').first,
+                                    '${item['transactionType']}',
+                                    '${item['paidDate']}',
+                                    '${item['reason']}',
+                                    12,
+                                    FontWeight.w400,
+                                    onLongPress: () {
+                                      print('object');
+                                      print(item);
 
-                            setState(() {
-                              print('???///////////');
-                              print(selectedItem);
-                              selectedItem = item;
-                              itemIndex = index;
-                            });
-                          },
-                          bgColor: '${selectedItem}' == '${item}'
-                              ? MyColors.yellow
-                              : Colors.white,
-                                IconData: Icons.attachment,
+                                      setState(() {
+                                        print('???///////////');
+                                        print(selectedItem);
+                                        selectedItem = item;
+                                        itemIndex = index;
+                                      });
+                                    },
+                                    bgColor: '${selectedItem}' == '${item}'
+                                        ? MyColors.yellow
+                                        : Colors.white,
+                                    IconData: Icons.attachment,
                                     onTab: () {
                                       print('${item['currentFileName']}');
                                       MyNavigation().push(
@@ -339,27 +357,24 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
                                           FileAttachment(
                                             image: '${item['currentFileName']}',
                                           ));
-                                    }
-                        );
-                      },
-                    ),
-                  )
-
+                                    },
+                                    textwidth: 0,
+                                    iconwidth: 75,
+                                    attachment: '');
+                              },
+                            ),
+                          )
                         ],
                       ),
                     ),
                   )
-               
-
-                 
-               
                 ],
               ),
             )),
-
     );
   }
-    actionIcon(IconData) {
+
+  actionIcon(IconData) {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: Icon(
@@ -371,20 +386,23 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
   }
 
   vehicleListCont(
-    String serial,
-    String customer,
-    String amount,
-    String transaction,
-    String paidDate,
-    String remarks,
-    double size,
-    FontWeight fontWeight, {
-    // String? project,
-    Function? onLongPress,
-    bgColor,
+      String serial,
+      String customer,
+      String amount,
+      String transaction,
+      String paidDate,
+      String remarks,
+      double size,
+      FontWeight fontWeight,
+      {
+      // String? project,
+      Function? onLongPress,
+      bgColor,
       IconData,
-      Function? onTab
-  }) {
+      Function? onTab,
+      double? textwidth,
+      double? iconwidth,
+      String? attachment}) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
       child: Container(
@@ -392,59 +410,58 @@ class _KhataTransactionListState extends State<KhataTransactionList> {
             color: bgColor, borderRadius: BorderRadius.circular(10)),
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.all(5),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Container(
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Container(
             width: 25,
-            margin: EdgeInsets.only(left: 8,right: 8),
+            margin: EdgeInsets.only(left: 5, right: 10),
             child: Text(
               serial,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-
           Container(
-            width: 120,
+            width: 110,
+            margin: EdgeInsets.only(right: 10),
             child: Text(
               customer,
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
           Container(
-            width: 100,
-
-            margin: EdgeInsets.only(left: 10),
-
+            width: 90,
+            margin: EdgeInsets.only(right: 10),
             child: Text(amount,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 80,
-
-            margin: EdgeInsets.only(left: 5),
+            margin: EdgeInsets.only(right: 10),
             child: Text(transaction,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-            width: 100,
-
-            margin: EdgeInsets.only(left: 5),
-
+            width: 90,
+            margin: EdgeInsets.only(right: 10),
             child: Text(paidDate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
-            width: 120,
-            
-            margin: EdgeInsets.only(left: 5,right: 5),
+            width: 100,
+            margin: EdgeInsets.only(right: 10),
             child: Text(remarks,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-             GestureDetector(
+          Container(
+            width: textwidth,
+            margin: EdgeInsets.only(right: 10),
+            child: Text(attachment!,
+                style: TextStyle(fontSize: size, fontWeight: fontWeight)),
+          ),
+          GestureDetector(
             onTap: () => onTab!(),
             child: Container(
-            width: 90,
-
+              margin: EdgeInsets.only(right: 10),
+              width: iconwidth,
               child: Icon(IconData),
             ),
           ),

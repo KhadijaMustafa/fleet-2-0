@@ -9,8 +9,9 @@ import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
 
 class CompanyDocument extends StatefulWidget {
- 
-  CompanyDocument({Key? key,}) : super(key: key);
+  CompanyDocument({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CompanyDocument> createState() => _CompanyDocumentState();
@@ -36,13 +37,12 @@ class _CompanyDocumentState extends State<CompanyDocument> {
         "type": "CompanyDocument_Delete",
         "value": {"Id": "${selectedItem['id']}", "Language": "en-US"}
       });
-         print('${selectedItem['id']}');
+      print('${selectedItem['id']}');
       request.headers.addAll(headers);
 
       http.StreamedResponse streamResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamResponse);
-        print('???????????????????');
-     
+      print('???????????????????');
 
       if (response.statusCode == 200) {
         print('???????????????????');
@@ -110,7 +110,8 @@ class _CompanyDocumentState extends State<CompanyDocument> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-           MyNavigation().push(context, AddCompanyDocument(title:'Add Company Document'));
+          MyNavigation()
+              .push(context, AddCompanyDocument(title: 'Add Company Document'));
         },
         child: Icon(Icons.add),
         backgroundColor: MyColors.yellow,
@@ -205,8 +206,8 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                         MyNavigation().push(
                             context,
                             AddCompanyDocument(
-                              items: selectedItem,title:'Update Company Document'
-                            ));
+                                items: selectedItem,
+                                title: 'Update Company Document'));
                       },
                       child: actionIcon(FontAwesomeIcons.penToSquare),
                     ),
@@ -309,8 +310,10 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                 'Issue Date',
                                 'Expiry Date',
                                 14,
-                                FontWeight.bold,attachment: 'Attachment',width: 90,iconwidth: 0 ),
-                                
+                                FontWeight.bold,
+                                attachment: 'Attachment',
+                                width: 80,
+                                iconwidth: 0),
                           ),
                           Container(
                             child: ListView.builder(
@@ -338,13 +341,15 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                       print('object');
                                       print(item);
 
-                                      setState(() {
-                                        print('???///////////');
-                                       
-                                        selectedItem = item;
-                                        itemIndex = index;
-                                         print(selectedItem);
-                                      },);
+                                      setState(
+                                        () {
+                                          print('???///////////');
+
+                                          selectedItem = item;
+                                          itemIndex = index;
+                                          print(selectedItem);
+                                        },
+                                      );
                                     },
                                     bgColor: '${selectedItem}' == '${item}'
                                         ? MyColors.yellow
@@ -357,7 +362,10 @@ class _CompanyDocumentState extends State<CompanyDocument> {
                                           FileAttachment(
                                             image: '${item['currentFileName']}',
                                           ));
-                                    },attachment: '',width: 0,iconwidth: 90);
+                                    },
+                                    attachment: '',
+                                    width: 0,
+                                    iconwidth: 80);
                               },
                             ),
                           )
@@ -393,12 +401,15 @@ class _CompanyDocumentState extends State<CompanyDocument> {
       double size,
       FontWeight fontWeight,
       {
-        
+
       // String? project,
       Function? onLongPress,
       bgColor,
       IconData,
-      Function? onTab,String? attachment,double? iconwidth,double? width}) {
+      Function? onTab,
+      String? attachment,
+      double? iconwidth,
+      double? width}) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
       child: Container(
@@ -418,7 +429,6 @@ class _CompanyDocumentState extends State<CompanyDocument> {
           ),
           Container(
             margin: EdgeInsets.only(right: 10),
-
             width: 100,
             child: Text(
               name,
@@ -427,7 +437,6 @@ class _CompanyDocumentState extends State<CompanyDocument> {
           ),
           Container(
             margin: EdgeInsets.only(right: 10),
-
             width: 100,
             child: Text(
               nameurd,
@@ -436,14 +445,12 @@ class _CompanyDocumentState extends State<CompanyDocument> {
           ),
           Container(
             margin: EdgeInsets.only(right: 10),
-
             width: 110,
             child: Text(description,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             margin: EdgeInsets.only(right: 10),
-
             width: 110,
             child: Text(
               descriptionurd,
@@ -452,29 +459,26 @@ class _CompanyDocumentState extends State<CompanyDocument> {
           ),
           Container(
             width: 100,
-                     margin: EdgeInsets.only(right: 10),
-
+            margin: EdgeInsets.only(right: 10),
             child: Text(issuedate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
           Container(
             width: 100,
-                        margin: EdgeInsets.only(right: 10),
-
+            margin: EdgeInsets.only(right: 10),
             child: Text(expirydate,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-            Container(
+          Container(
             width: width,
-           // margin: EdgeInsets.only(right: 10),
+             margin: EdgeInsets.only(right: 10),
             child: Text(attachment!,
                 style: TextStyle(fontSize: size, fontWeight: fontWeight)),
           ),
-          
           GestureDetector(
             onTap: () => onTab!(),
             child: Container(
-           // margin: EdgeInsets.only(right: 10),
+               margin: EdgeInsets.only(right: 10),
 
               width: iconwidth,
               child: Icon(IconData),
