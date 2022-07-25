@@ -45,41 +45,7 @@ class _KhataReportState extends State<KhataReport> {
   List reportList = [];
   var listvalues;
 
-  // getListValues() async {
-  //   try {
-  //     var response = await http.post(
-  //         Uri.parse('https://fleet.xtremessoft.com/services/Xtreme/process'),
-  //         headers: {'Content-Type': 'application/json'},
-  //         body: json.encode({
-  //           "type": "KhataCustomer_GetById",
-  //           "value": {"Language": "en-US", "Id": '${widget.item['id']}'}
-  //         }));
-
-  //     var decode = json.decode(response.body);
-  //     print('Successssssssssssssss');
-  //     print(decode['Value']);
-  //     print(response.body);
-
-  //     listvalues = json.decode(decode['Value']);
-
-  //     khata = listvalues["khataNumber"];
-  //     contact = listvalues["contactNumber"];
-
-  //     nameeng = listvalues["nameEng"];
-  //     nameurd = listvalues["nameUrd"];
-  //     addresseng = listvalues["addressEng"];
-  //     addressurd = listvalues["addressUrd"];
-
-  //     print('//////////////////////////////////');
-  //     print(listvalues);
-
-  //     print('//////////////////////////////////');
-  //     setState(() {
-  //       listvalues;
-  //     });
-  //   } catch (e) {}
-  // }
-
+  
   getCustomerReportList() async {
     try {
       var headers = {'Content-Type': 'application/json'};
@@ -528,16 +494,6 @@ class _KhataReportState extends State<KhataReport> {
                       fontWeight: FontWeight.w500)),
             ),
 
-            // Container(
-            //   margin: EdgeInsets.only(top: 5),
-            //   child: LinearProgressIndicator(
-            //     value: valuee,
-
-            //      valueColor: AlwaysStoppedAnimation<Color>(MyColors.red),
-            //   backgroundColor: MyColors.grey,
-            //   ),
-
-            // )
           ],
         ),
       ),

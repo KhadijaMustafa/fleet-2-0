@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:xtreme_fleet/dashboard/add_project_list.dart';
+import 'package:xtreme_fleet/dashboard/project_details.dart';
 import 'package:xtreme_fleet/dashboard/update_project.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
@@ -17,7 +18,7 @@ class ProjectList extends StatefulWidget {
 
 class _ProjectListState extends State<ProjectList> {
   TextEditingController searchController = TextEditingController();
-
+  var projDetail;
   bool loading = true;
   List filterList = [];
   bool isSearching = false;
@@ -317,34 +318,42 @@ class _ProjectListState extends State<ProjectList> {
                                 var item = isSearching
                                     ? filterList[index]
                                     : projectList[index];
+                                var itemDetail = projectList[index];
                                 return vehicleListCont(
-                                  '$indexx',
-                                  '${item['code']}',
-                                  '${item['name']}',
-                                  '${item['fromSite']}',
-                                  '${item['toSite']}',
-                                  '${item['totalTrips']}',
-                                  '${item['tripRate']}'.split('.').first,
-                                  '${item['startDate']}',
-                                  '${item['endDate']}',
-                                  '${item['customerName']}',
-                                  12,
-                                  FontWeight.w400,
-                                  onLongPress: () {
-                                    print('object');
-                                    print(item);
+                                    '$indexx',
+                                    '${item['code']}',
+                                    '${item['name']}',
+                                    '${item['fromSite']}',
+                                    '${item['toSite']}',
+                                    '${item['totalTrips']}',
+                                    '${item['tripRate']}'.split('.').first,
+                                    '${item['startDate']}',
+                                    '${item['endDate']}',
+                                    '${item['customerName']}',
+                                    12,
+                                    FontWeight.w400,
+                                    onLongPress: () {
+                                      print('object');
+                                      print(item);
 
-                                    setState(() {
-                                      print('???///////////');
-                                      print(selectedItem);
-                                      selectedItem = item;
-                                      itemIndex = index;
-                                    });
-                                  },
-                                  bgColor: '${selectedItem}' == '${item}'
-                                      ? MyColors.yellow
-                                      : Colors.white,
-                                );
+                                      setState(() {
+                                        print('???///////////');
+                                        print(selectedItem);
+                                        selectedItem = item;
+                                        itemIndex = index;
+                                      });
+                                    },
+                                    bgColor: '${selectedItem}' == '${item}'
+                                        ? MyColors.yellow
+                                        : Colors.white,
+                                    onTab: () {
+                                      setState(() {
+                                        projDetail = itemDetail;
+                                      });
+                                      print(projDetail);
+                                      MyNavigation()
+                                          .push(context, ProjectDetails(details: projDetail,));
+                                    },codeColor: MyColors.red);
                               },
                             ),
                           )
@@ -385,6 +394,7 @@ class _ProjectListState extends State<ProjectList> {
     // String? project,
     Function? onLongPress,
     bgColor,
+    Function? onTab,Color? codeColor
   }) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
@@ -403,12 +413,18 @@ class _ProjectListState extends State<ProjectList> {
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-          Container(
-            width: 90,
-            margin: EdgeInsets.only(right: 10),
-            child: Text(
-              code,
-              style: TextStyle(fontSize: size, fontWeight: fontWeight),
+          InkWell(
+            onTap:()=> onTab!(),
+            child: Container(
+              width: 90,
+              margin: EdgeInsets.only(right: 10),
+              child: Text(
+                code,
+                style: TextStyle(
+                    fontSize: size,
+                    fontWeight: fontWeight,
+                    color: codeColor),
+              ),
             ),
           ),
           Container(

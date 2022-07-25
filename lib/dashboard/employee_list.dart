@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:xtreme_fleet/dashboard/add_employee_list.dart';
+import 'package:xtreme_fleet/dashboard/employee_detail.dart';
 import 'package:xtreme_fleet/dashboard/update_employee_list.dart';
 import 'package:xtreme_fleet/utilities/my_colors.dart';
 import 'package:xtreme_fleet/utilities/my_navigation.dart';
@@ -24,7 +25,7 @@ class _EmployeeListState extends State<EmployeeList> {
   var selectedItem;
   int itemIndex = 0;
   List employeeList = [];
-
+var enpdetail;
   deleteEmployee() async {
     print('Delete');
     try {
@@ -297,6 +298,7 @@ class _EmployeeListState extends State<EmployeeList> {
                           isSearching ? filterList.length : employeeList.length,
                       itemBuilder: (BuildContext context, int index) {
                         int indexx=index+1;
+                        var item2=employeeList[index];
                         var item = isSearching
                             ? filterList[index]
                             : employeeList[index];
@@ -321,7 +323,12 @@ class _EmployeeListState extends State<EmployeeList> {
                           },
                           bgColor: '${selectedItem}' == '${item}'
                               ? MyColors.yellow
-                              : Colors.white,
+                              : Colors.white,numbercolor: MyColors.blue,onTab: (){
+                                setState(() {
+                                  enpdetail=item2;
+                                });
+                              MyNavigation().push(context, EmployeeDetailo(detail:enpdetail ,));
+                              }
                         );
                       },
                     ),
@@ -359,6 +366,7 @@ class _EmployeeListState extends State<EmployeeList> {
     // String? project,
     Function? onLongPress,
     bgColor,
+    Color? numbercolor,Function?onTab
   }) {
     return GestureDetector(
       onLongPress: () => onLongPress!(),
@@ -378,13 +386,16 @@ class _EmployeeListState extends State<EmployeeList> {
               style: TextStyle(fontSize: size, fontWeight: fontWeight),
             ),
           ),
-            Container(
-            margin: EdgeInsets.only(right: 10),
-
-            width: 100,
-              child: Text(
-                empnumber,
-                style: TextStyle(fontSize: size, fontWeight: fontWeight),
+            InkWell(
+              onTap: () => onTab!(),
+              child: Container(
+              margin: EdgeInsets.only(right: 10),
+            
+              width: 100,
+                child: Text(
+                  empnumber,
+                  style: TextStyle(fontSize: size, fontWeight: fontWeight,color: numbercolor),
+                ),
               ),
             ),
         

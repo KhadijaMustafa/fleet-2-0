@@ -227,12 +227,12 @@ class _EmployeeExpenseState extends State<EmployeeExpense> {
       var parent = documentDirectory!.path;
 
       String fileName = '$parent/employeeList.xlsx';
-      excel.encode().then((onValue) {
+      var data=excel.encode();
         print(true);
         File(fileName)
           ..createSync(recursive: true)
-          ..writeAsBytesSync(onValue);
-      });
+          ..writeAsBytesSync(data!);
+   
       setState(() {
         isDownloading = false;
       });

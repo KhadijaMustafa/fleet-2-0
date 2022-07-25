@@ -349,12 +349,12 @@ class _VehicleExpenseState extends State<VehicleExpense> {
       var parent = documentDirectory!.path;
 
       String fileName = '$parent/excel.xlsx';
-      excel.encode().then((onValue) {
+     var data= excel.encode();
         print(true);
         File(fileName)
           ..createSync(recursive: true)
-          ..writeAsBytesSync(onValue);
-      });
+          ..writeAsBytesSync(data!);
+     
       setState(() {
         isDownloading = false;
       });
